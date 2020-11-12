@@ -1,0 +1,32 @@
+{
+  "error": "xato",
+  "cancel": "Yopish",
+  "next": "Keyingi",
+  "no_internet_connect": "Internetga ulanmagan",
+  "unknown": "noma`lum",
+
+  "hour": "%1s soat",
+  "minute": "%1s minut",
+  "hour_minute": "%1s soat %2s minut",
+
+
+  "presentation:next": "Keyingisi",
+  "presentation:done": "Tugatish",
+
+  "lang:select_language":"Tilni tanlang",
+
+  "main:medicine": "Dorilar",
+  "main:setting": "Sozlash",
+
+  "setting:change_lang":"Tilni o'zgartirish",
+  "setting:help":"Yordam",
+  "setting:interface":"Interfeys",
+  "setting:settings":"Sozlamalar",
+  "setting:about":"Haqida",
+
+  "search_index:search": "Qidirish",
+  "search_index:search_text": "Bu yerda dori nomini yozing",
+  "setting:tutorial": "Qo'llanma",
+
+  "z": "z"
+}

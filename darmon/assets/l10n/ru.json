@@ -1,0 +1,31 @@
+{
+  "error": "ошибка",
+  "cancel": "Закрыть",
+  "next": "Далее",
+  "no_internet_connect": "Нет соединения с интернетом",
+  "unknown": "неизвестно",
+
+  "hour": "%1s ч",
+  "minute": "%1s мин",
+  "hour_minute": "%1s ч %2s мин",
+
+  "presentation:next": "Далее",
+  "presentation:done": "Готово",
+
+  "lang:select_language":"Выбрать язык",
+
+  "main:medicine": "Лекарства",
+  "main:setting": "Настройка",
+
+  "setting:change_lang":"Изменить язык",
+  "setting:help":"Помощь",
+  "setting:interface":"Интерфейс",
+  "setting:settings":"Настройки",
+  "setting:about":"О программе",
+
+  "search_index:search": "Поиск",
+  "search_index:search_text": "Место напишите здесь название лекарства здесь",
+  "setting:tutorial": "Руководство",
+
+  "z": "z"
+}

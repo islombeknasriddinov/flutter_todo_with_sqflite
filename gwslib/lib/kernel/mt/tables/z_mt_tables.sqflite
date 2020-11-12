@@ -1,0 +1,8 @@
+create table mt_translates (
+  project_code                     text not null,
+  translate_code                   text not null,
+  text_ru                          text not null,
+  text_en                          text,
+  text_uz                          text,
+  constraint mt_translates_pk primary key (translate_code)
+);
