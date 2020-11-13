@@ -27,5 +27,10 @@
   "search_index:search_text": "Место напишите здесь название лекарства здесь",
   "setting:tutorial": "Руководство",
 
+  "search_fragment:search": "Поиск..",
+  "search_fragment:search_by": "Искали по:",
+  "search_fragment:search_by_name": "Название",
+  "search_fragment:search_by_mnn": "МНН",
+
   "z": "z"
 }

@@ -28,5 +28,10 @@
   "search_index:search_text": "Bu yerda dori nomini yozing",
   "setting:tutorial": "Qo'llanma",
 
+  "search_fragment:search": "Qidirish...",
+  "search_fragment:search_by": "Qidirsh :",
+  "search_fragment:search_by_name": "Ism",
+  "search_fragment:search_by_mnn": "MNN",
+
   "z": "z"
 }

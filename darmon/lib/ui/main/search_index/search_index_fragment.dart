@@ -1,5 +1,7 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
+import 'package:darmon/custom/fade_on_scroll.dart';
+import 'package:darmon/custom/fade_out_scroll.dart';
 import 'package:darmon/ui/main/search_index/search_index_viewmodel.dart';
 import 'package:darmon/ui/search/search_fragment.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,10 +13,12 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
   @override
   SearchIndexViewModel onCreateViewModel(BuildContext buildContext) => SearchIndexViewModel();
 
+  final ScrollController scrollController = ScrollController();
+
   @override
   Widget onCreateWidget(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(slivers: [
+        body: CustomScrollView(controller: scrollController, slivers: [
       _searchAppBar(),
       SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -69,11 +73,6 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                 Icons.search,
                 size: 18,
                 color: Colors.black,
-                /*  onTap: () async {
-                  String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                      "#ff6666", null, true, ScanMode.DEFAULT);
-                  print(barcodeScanRes);
-                },*/
               ),
             ),
             MyText(

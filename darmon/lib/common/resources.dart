@@ -29,6 +29,7 @@ class ResourceStrings {
   final MainStrings main = MainStrings();
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
+  final SearchFragmentStrings search_fragment = new SearchFragmentStrings();
 }
 
 class PresentationStrings {
@@ -57,4 +58,11 @@ class SettingStrings {
 class SearchIndexStrings {
   final String search = "search_index:search";
   final String search_text = "search_index:search_text";
+}
+
+class SearchFragmentStrings {
+  final String search = "search_fragment:search";
+  final String search_by = "search_fragment:search_by";
+  final String search_by_name = "search_fragment:search_by_name";
+  final String search_by_mnn = "search_fragment:search_by_mnn";
 }
