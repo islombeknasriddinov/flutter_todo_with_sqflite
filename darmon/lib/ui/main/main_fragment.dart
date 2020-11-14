@@ -2,9 +2,7 @@ import 'package:darmon/common/resources.dart';
 import 'package:darmon/ui/main/main_viewmodel.dart';
 import 'package:darmon/ui/main/search_index/search_index_fragment.dart';
 import 'package:darmon/ui/main/setting_index/setting_index_fragment.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:gwslib/localization/pref.dart';
 
@@ -27,18 +25,18 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
             return Scaffold(
               body: getIndexFragment(snapshot.data),
               bottomNavigationBar: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
+                items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(Icons.format_list_bulleted_rounded),
-                    label: "Лекарства",
+                    label: R.strings.main.medicine.translate(),
                   ),
-                  BottomNavigationBarItem(
+                  /*    BottomNavigationBarItem(
                     icon: Icon(Icons.comment),
                     label: 'Жалоба',
-                  ),
+                  ),*/
                   BottomNavigationBarItem(
                     icon: Icon(Icons.settings),
-                    label: 'Настройка',
+                    label: R.strings.main.setting.translate(),
                   ),
                 ],
                 currentIndex: snapshot.data,
@@ -60,7 +58,7 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
     switch (index) {
       case 0:
         return SearchIndexFragment().toFragment();
-      case 2:
+      case 1:
         return SettingIndexFragment().toFragment();
     }
     return Container(child: Center(child: CircularProgressIndicator()));

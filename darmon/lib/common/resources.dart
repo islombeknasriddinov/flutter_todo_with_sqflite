@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gwslib/gwslib.dart';
+import 'package:gwslib/localization/util.dart';
 
 class R {
   static ResourceAssert asserts = ResourceAssert();
@@ -14,13 +16,34 @@ class ResourceAssert {
 }
 
 class ResourceColors {
-  final Color app_color = Color(0xFF007BCF);
-  final Color green_light = Color(0xFF63C832);
   final Color status_success = Color(0xFF63C832);
   final Color status_error = Color(0xFFE93558);
   final Color status_attention = Color(0xFFF79B26);
   final Color server_hint = Color(0xFF9AA4A8);
-  final Color background = Color(0xFFF1F5F8);
+
+  Color get app_color => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
+
+  Color get background => AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
+
+  Color get statusError => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFE93558);
+
+  Color get cardColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().cardColor : ThemeData.light().cardColor;
+
+  Color get dividerColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().dividerColor : ThemeData.light().dividerColor;
+
+  Color get textColorOpposite => AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
+
+  Color get iconColors => AppLang.instance.isDarkMode
+      ? ThemeData.dark().iconTheme.color
+      : ThemeData.light().iconTheme.color;
+
+  Color get textColor => AppLang.instance.isDarkMode ? Colors.white : Colors.black87;
+
+  Color get hintTextColor => AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
+
+  Color get switchColor => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 }
 
 class ResourceStrings {
@@ -53,6 +76,7 @@ class SettingStrings {
   final String settings = "setting:settings";
   final String about = "setting:about";
   final String tutorial = "setting:tutorial";
+  final String dark_mode = "setting:dark_mode";
 }
 
 class SearchIndexStrings {

@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
 import 'package:gwslib/common/tuple.dart';
 import 'package:gwslib/localization/pref.dart';
 import 'package:gwslib/localization/util.dart';
 import 'package:gwslib/log/logger.dart';
+import 'package:gwslib/theme/theme.dart';
 
-class AppLang extends ChangeNotifier {
+class AppLang extends AppStateNotifier {
   static final AppLang instance = AppLang._();
 
   final Map<String, String> _supportLangs = {};
@@ -18,7 +18,9 @@ class AppLang extends ChangeNotifier {
 
   AppLang._();
 
+  @override
   Future<bool> init() async {
+    await super.init();
     Tuple<String, Map<String, String>> supportLangs = await AppLangUtil.loadSupportLang();
     _defaultLangCode = supportLangs.first;
     _supportLangs.clear();

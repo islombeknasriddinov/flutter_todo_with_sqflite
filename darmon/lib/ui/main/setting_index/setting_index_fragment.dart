@@ -4,7 +4,6 @@ import 'package:darmon/ui/main/setting_index/setting_index_viewmodel.dart';
 import 'package:darmon/ui/presentation/presentation_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:gwslib/gwslib.dart';
 
 class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
@@ -41,6 +40,7 @@ class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
         _buildMenuItem(R.strings.setting.tutorial, () {
           PresentationFragment.open(getContext());
         }),
+        _buildChangeThemeMenuItem()
       ]),
     );
   }
@@ -49,18 +49,18 @@ class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
     return MyTable.vertical([
       MyText(
         title,
-        style: TS_Overline(textColor: Colors.black38),
+        style: TS_Overline(textColor: R.colors.hintTextColor),
         padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
         upperCase: true,
       ),
-      Divider(height: 1, color: Colors.grey[300]),
+      Divider(height: 1, color: R.colors.dividerColor),
     ], width: double.infinity, padding: EdgeInsets.fromLTRB(8, 0, 8, 0));
   }
 
   Widget _buildMenuItem(String title, Function clickAction) {
     return MyTable.vertical([
-      MyText(title, style: TS_Body_1(Colors.black87), padding: EdgeInsets.all(16)),
-      Divider(height: 1, color: Colors.grey[300]),
+      MyText(title, style: TS_Body_1(R.colors.textColor), padding: EdgeInsets.all(16)),
+      Divider(height: 1, color: R.colors.dividerColor),
     ],
         width: double.infinity,
         padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -72,7 +72,7 @@ class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
         .getSupportLangText()
         .map(
           (lang) => DropdownMenuItem(
-              value: lang.first, child: MyText(lang.second, style: TS_Body_1(Colors.black87))),
+              value: lang.first, child: MyText(lang.second, style: TS_Body_1(R.colors.textColor))),
         )
         .toList();
 
@@ -84,7 +84,7 @@ class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
           MyText(
             R.strings.setting.change_lang,
             flex: 1,
-            style: TS_Body_1(Colors.black87),
+            style: TS_Body_1(R.colors.textColor),
           ),
           DropdownButton(
             value: lang,
@@ -101,7 +101,34 @@ class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
-      Divider(height: 1, color: Colors.grey[300]),
+      Divider(height: 1, color: R.colors.dividerColor),
     ], width: double.infinity, padding: EdgeInsets.fromLTRB(8, 0, 8, 0));
+  }
+
+  Widget _buildChangeThemeMenuItem() {
+    return MyTable.vertical([
+      MyTable.horizontal([
+        MyText(R.strings.setting.dark_mode,
+            style: TS_Body_1(R.colors.textColor), padding: EdgeInsets.all(16), flex: 1),
+        Switch(
+          activeColor: R.colors.switchColor,
+          value: AppLang.instance.isDarkMode,
+          onChanged: (boolVal) {
+            if (AppLang.instance.isDarkMode) {
+              AppLang.instance.setLightTheme();
+            } else {
+              AppLang.instance.setDarkTheme();
+            }
+          },
+        )
+      ]),
+      Divider(height: 1, color: R.colors.dividerColor),
+    ], width: double.infinity, padding: EdgeInsets.fromLTRB(8, 0, 8, 0), onTapCallback: () {
+      if (AppLang.instance.isDarkMode) {
+        AppLang.instance.setLightTheme();
+      } else {
+        AppLang.instance.setDarkTheme();
+      }
+    });
   }
 }

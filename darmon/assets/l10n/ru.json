@@ -22,6 +22,7 @@
   "setting:interface":"Интерфейс",
   "setting:settings":"Настройки",
   "setting:about":"О программе",
+  "setting:dark_mode": "Темный режим",
 
   "search_index:search": "Поиск",
   "search_index:search_text": "Место напишите здесь название лекарства здесь",
