@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
-import 'package:gwslib/localization/util.dart';
 
 class R {
   static ResourceAssert asserts = ResourceAssert();
@@ -53,6 +52,7 @@ class ResourceStrings {
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
   final SearchFragmentStrings search_fragment = new SearchFragmentStrings();
+  final FilterStrings filter = FilterStrings();
 }
 
 class PresentationStrings {
@@ -82,6 +82,8 @@ class SettingStrings {
 class SearchIndexStrings {
   final String search = "search_index:search";
   final String search_text = "search_index:search_text";
+  final String list_is_empty = "search_index:list_is_empty";
+  final String filter = "search_index:filter";
 }
 
 class SearchFragmentStrings {
@@ -89,4 +91,13 @@ class SearchFragmentStrings {
   final String search_by = "search_fragment:search_by";
   final String search_by_name = "search_fragment:search_by_name";
   final String search_by_mnn = "search_fragment:search_by_mnn";
+}
+
+class FilterStrings {
+  final String integer_text_field_hint = "filter:integer_text_field_hint";
+  final String string_text_field_hint = "filter:string_text_field_hint";
+  final String integer_range_from_hint = "filter:integer_range_from_hint";
+  final String integer_range_to_hint = "filter:integer_range_to_hint";
+  final String clear_btn = "filter:clear_btn";
+  final String apply_btn = "filter:apply_btn";
 }

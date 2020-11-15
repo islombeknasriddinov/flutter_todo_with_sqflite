@@ -1,9 +1,20 @@
+import 'package:darmon/filter/main/filter.dart';
+import 'package:darmon/filter/main/filter_viewmodel.dart';
 import 'package:gwslib/gwslib.dart';
 
-class SearchIndexViewModel extends ViewModel {
+import 'file:///D:/projects/darmon/smartup5x_darmon_mobile/darmon/lib/kernel/uis/ui_search_index_dao.dart';
+
+class SearchIndexViewModel extends FilterViewModel<dynamic, UISearchIndexDao> {
+  UISearchIndexDao dao;
+
+  SearchIndexViewModel(this.dao);
+
   LazyStream<bool> _isClearActive = LazyStream(() => true);
   LazyStream<String> _searchText = LazyStream();
   LazyStream<List<String>> _items = LazyStream();
+  LazyStream<List<Filter>> _filters = LazyStream();
+
+  Stream<List<Filter>> get filters => _filters.stream;
 
   Stream<List<String>> get items => _items.stream;
 
@@ -11,6 +22,9 @@ class SearchIndexViewModel extends ViewModel {
 
   Stream<bool> get isClearActive => _isClearActive.stream;
   List<String> list = [];
+
+  @override
+  UISearchIndexDao createDao() => dao;
 
   @override
   void onCreate() {
@@ -25,7 +39,7 @@ class SearchIndexViewModel extends ViewModel {
     });
 
     for (int i = 0; i < 100; i++) {
-      list.add("Item ${i}");
+      list.add("Item $i");
     }
     _items.add(list);
 
@@ -36,10 +50,27 @@ class SearchIndexViewModel extends ViewModel {
     _searchText.add(txt);
   }
 
-  List<String> lastItems = [];
-
   void _search(String text) {
-    lastItems = _items.value;
     if (text != null) _items.add(list.where((element) => element.contains(text)).toList());
+  }
+
+  @override
+  void reload() {
+    super.reload();
+    reloadFilters();
+  }
+
+  void reloadFilters() async {
+    List<Filter> filters = await dao
+        .getFilters()
+        .then((value) => value.where((element) => element?.value != null).toList());
+    _filters.add(filters);
+  }
+
+  void clearFilterValue(Filter item) {
+    item.value = null;
+    if (_filters.value != null) {
+      _filters.add(_filters.value.where((element) => element?.value != null).toList());
+    }
   }
 }

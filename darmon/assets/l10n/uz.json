@@ -26,6 +26,10 @@
 
   "search_index:search": "Qidirish",
   "search_index:search_text": "Bu yerda dori nomini yozing",
+  "search_index:list_is_empty": "Ro'yxat bo'sh",
+  "search_index:filter": "Filter",
+
+
   "setting:tutorial": "Qo'llanma",
   "setting:dark_mode": "Qorong'i rejim",
 
@@ -34,5 +38,11 @@
   "search_fragment:search_by_name": "Ism",
   "search_fragment:search_by_mnn": "MNN",
 
+  "filter:integer_text_field_hint": "Iltimos, raqamni kiriting",
+  "filter:string_text_field_hint":"Iltimos, matnni kiriting",
+  "filter:integer_range_from_hint": "dan",
+  "filter:integer_range_to_hint":"gacha",
+  "filter:clear_btn": "Bekor qilish",
+  "filter:apply_btn":"Qabo`l qilish",
   "z": "z"
 }

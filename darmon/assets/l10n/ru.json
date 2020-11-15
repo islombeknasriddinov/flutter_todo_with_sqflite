@@ -26,12 +26,22 @@
 
   "search_index:search": "Поиск",
   "search_index:search_text": "Место напишите здесь название лекарства здесь",
+  "search_index:list_is_empty": "Список пуст",
+  "search_index:filter": "Фильтр",
+
   "setting:tutorial": "Руководство",
 
   "search_fragment:search": "Поиск..",
   "search_fragment:search_by": "Искали по:",
   "search_fragment:search_by_name": "Название",
   "search_fragment:search_by_mnn": "МНН",
+
+  "filter:integer_text_field_hint": "Пожалуйста, введите номер",
+  "filter:string_text_field_hint":"Пожалуйста, введите текст",
+  "filter:integer_range_from_hint": "от",
+  "filter:integer_range_to_hint":"до",
+  "filter:clear_btn": "Чисто",
+  "filter:apply_btn":"Применять",
 
   "z": "z"
 }

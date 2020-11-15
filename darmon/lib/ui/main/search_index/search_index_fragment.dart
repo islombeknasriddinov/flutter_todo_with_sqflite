@@ -1,30 +1,27 @@
+import 'dart:math';
+
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
-import 'package:darmon/custom/animation_list/item_diff_utill.dart';
-import 'package:darmon/custom/animation_list/list_model.dart';
-import 'package:darmon/custom/fade_on_scroll.dart';
-import 'package:darmon/custom/fade_out_scroll.dart';
+import 'package:darmon/filter/main/filter.dart';
+import 'package:darmon/filter/main/ui/filter_bottom_sheet_container.dart';
+import 'package:darmon/main.dart';
 import 'package:darmon/ui/main/search_index/search_index_viewmodel.dart';
-import 'package:darmon/ui/main/search_index/search_item.dart';
-import 'package:darmon/ui/main/search_index/search_item_widget.dart';
-import 'package:darmon/ui/search/search_fragment.dart';
+import 'package:darmon/ui/medicine/medicine_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:gwslib/gwslib.dart';
 
 class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
   @override
-  SearchIndexViewModel onCreateViewModel(BuildContext buildContext) => SearchIndexViewModel();
+  SearchIndexViewModel onCreateViewModel(BuildContext buildContext) =>
+      SearchIndexViewModel(DarmonApp.instance.darmonServiceLocator.searchIndexDao);
 
   final ScrollController scrollController = ScrollController();
-  final GlobalKey<SliverAnimatedListState> _listKey = GlobalKey<SliverAnimatedListState>();
 
   double expandedHeight = 250;
   double collapsedHeight = 0;
   bool isExpanded = true;
-  ListModel<String> _listController;
   TextEditingController _searchQuery;
 
   @override
@@ -33,11 +30,6 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
 
     _searchQuery = new TextEditingController();
 
-    _listController = ListModel<String>(
-      listKey: _listKey,
-      removedItemBuilder: _buildRemovedItem,
-    );
-
     scrollController.addListener(() {
       if (scrollController.offset <= expandedHeight) {
         isExpanded = true;
@@ -45,45 +37,56 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
         isExpanded = false;
       }
     });
-
-    viewmodel.items.listen((newList) {
-      DiffUtil.calculate(_listController, viewmodel.lastItems.map((e) => MedisineDiff(e)).toList(),
-          newList.map((e) => MedisineDiff(e)).toList());
-    });
   }
 
   @override
   Widget onCreateWidget(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomPadding: true,
         body: CustomScrollView(controller: scrollController, slivers: [
-      _searchAppBar(),
-      SliverAnimatedList(
-        key: _listKey,
-        initialItemCount: _listController.length,
-        itemBuilder: _buildItem,
-      )
-    ]));
-  }
-
-  // Used to build list items that haven't been removed.
-  Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
-    return CardItem(
-      animation: animation,
-      item: _listController[index],
-      onTap: () {},
-    );
-  }
-
-  Widget _buildRemovedItem(String item, BuildContext context, Animation<double> animation) {
-    return CardItem(
-      animation: animation,
-      item: item,
-      selected: false,
-    );
+          _searchAppBar(),
+          filterContainer(),
+          StreamBuilder<List<String>>(
+              stream: viewmodel.items,
+              builder: (_, snapshot) {
+                if (snapshot?.data?.isNotEmpty == true) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                      String medicine = snapshot?.data[index];
+                      return MyTable.vertical(
+                          [MyText(medicine, style: TS_Body_1(R.colors.textColor))],
+                          onTapCallback: () {
+                        openMedicineItemFragment(medicine);
+                      },
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          background: R.colors.cardColor,
+                          height: 100.0,
+                          elevation: 2,
+                          margin: EdgeInsets.all(8));
+                    }, childCount: snapshot.data.length),
+                  );
+                } else {
+                  return SliverFillRemaining(
+                    child: Center(
+                        child: MyTable.vertical(
+                      [
+                        MyIcon.icon(Icons.list, color: R.colors.iconColors, size: 48),
+                        MyText(
+                          R.strings.search_index.list_is_empty,
+                          style: TS_Body_1(R.colors.textColor),
+                        ),
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    )),
+                  );
+                }
+              })
+        ]));
   }
 
   void editTextOnFocusChange() {
-
     if (isExpanded)
       scrollController
           .animateTo((expandedHeight) - collapsedHeight,
@@ -144,7 +147,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                   } else {
                     return MyIcon.icon(
                       Icons.qr_code,
-                      color: Colors.black87,
+                      color: R.colors.iconColors,
                       onTap: () async {
                         String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                             "#ff6666", null, true, ScanMode.DEFAULT);
@@ -186,5 +189,95 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
     print("close search box");
     _searchQuery.clear();
     viewmodel.setSearchText("");
+  }
+
+  Widget filterContainer() {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: _SliverAppBarDelegate(
+          minHeight: 45,
+          maxHeight: 45,
+          child: StreamBuilder<List<Filter>>(
+            stream: viewmodel.filters,
+            builder: (_, snapshot) {
+              return Container(
+                color: R.colors.background,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: (snapshot?.data?.length ?? 0) + 1,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return MyTable.horizontal(
+                        [
+                          MyText(R.strings.search_index.filter,
+                              style: TS_Body_1(R.colors.textColor)),
+                          MyIcon.icon(Icons.filter_alt_rounded,
+                              size: 18, color: R.colors.iconColors)
+                        ],
+                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        onTapCallback: showFilterBottomSheetDialog,
+                        elevation: 2,
+                        borderRadius: BorderRadius.circular(6),
+                        background: R.colors.cardColor,
+                      );
+                    } else {
+                      Filter item = snapshot?.data[index - 1];
+                      if (item == null) return Container();
+                      return Chip(
+                        elevation: 2,
+                        backgroundColor: R.colors.cardColor,
+                        label: MyText(item.value.toString(), style: TS_Body_2(R.colors.textColor)),
+                        onDeleted: () {
+                          viewmodel.clearFilterValue(item);
+                        },
+                      );
+                    }
+                  },
+                ),
+              );
+            },
+          )),
+    );
+  }
+
+  void showFilterBottomSheetDialog() {
+    FilterBottomSheetDialog.show(getContext(), viewmodel.filterProtocol);
+  }
+
+  void openMedicineItemFragment(String medicine) {
+    MedicineFragment.open(getContext());
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => max(maxHeight, minHeight);
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
