@@ -1,6 +1,7 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/ui/lang/lang_fragment.dart';
+import 'package:darmon/ui/main/main_fragment.dart';
 import 'package:darmon/ui/presentation/presentation_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +12,17 @@ import 'package:gwslib/widgets/table.dart';
 class PresentationFragment extends ViewModelFragment<PresentationViewModel> {
   static final String ROUTE_NAME = "/p/presentation";
 
-  static void open(BuildContext context, {bool openSelectLang = false}) {
-    Mold.openContent(context, ROUTE_NAME, arguments: openSelectLang);
+  static void open(BuildContext context, {bool openMainFragment = false}) {
+    Mold.openContent(context, ROUTE_NAME, arguments: openMainFragment);
   }
 
-  static void replace(BuildContext context, {bool openSelectLang = false}) {
-    Mold.replaceContent(context, ROUTE_NAME, arguments: openSelectLang);
+  static void replace(BuildContext context, {bool openMainFragment = false}) {
+    Mold.replaceContent(context, ROUTE_NAME, arguments: openMainFragment);
   }
 
   PageController controller = PageController();
 
-  bool get openSelectLang => argument ?? false;
+  bool get openMainFragment => argument ?? false;
 
   @override
   PresentationViewModel onCreateViewModel(BuildContext buildContext) => PresentationViewModel();
@@ -147,8 +148,8 @@ class PresentationFragment extends ViewModelFragment<PresentationViewModel> {
 
   void donePresentation() {
     viewmodel.presentationShowed().then((value) {
-      if (openSelectLang) {
-        LangContentFragment.replace(getContext());
+      if (openMainFragment) {
+        MainFragment.open(getContext());
       } else {
         Mold.onContextBackPressed(getContext());
       }

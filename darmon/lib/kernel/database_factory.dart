@@ -1,4 +1,5 @@
 import 'package:darmon/filter/kernel/database.dart';
+import 'package:darmon/kernel/database.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,21 +25,23 @@ class DarmonDatabaseFactory {
 
   // init database
   Future<void> init() async {
-    if (!FilterDatabase.isOpen()) {
-      await FilterDatabase.init("darmon");
-    }
+    await FilterDatabase.init("darmon_filter");
+    await FilterDatabase.instance().close();
+    await DarmonDatabase.init();
   }
 
   // check is open database
-  bool isOpen() => _isOpenAccountDatabase();
+  bool isOpen() => DarmonDatabase.isOpen();
 
   // getting connected database
-  Database getDatabase() => FilterDatabase.instance();
+  Database getDatabase() => DarmonDatabase.instance();
 
   // close database
-  Future<void> close() => FilterDatabase.close();
+  Future<void> close() async {
+    await FilterDatabase.close();
+    await DarmonDatabase.close();
+  }
 
-  //------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 
-  bool _isOpenAccountDatabase() => FilterDatabase.isOpen();
 }

@@ -44,10 +44,9 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
       return;
     }
 
-    if (!(await viewmodel.isSelectedSystemLanguage())) {
+    if (!(await viewmodel.isSelectedSystemLanguage()) ||
+        !(await viewmodel.isShowedPresentation())) {
       LangContentFragment.replace(getContext());
-    } else if (!(await viewmodel.isShowedPresentation())) {
-      PresentationFragment.replace(getContext(), openSelectLang: true);
     } else {
       MainFragment.open(getContext());
     }

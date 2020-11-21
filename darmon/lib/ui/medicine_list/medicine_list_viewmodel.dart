@@ -1,8 +1,8 @@
 import 'package:darmon/common/resources.dart';
-import 'package:darmon/ui/search/search_modules.dart';
+import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:gwslib/gwslib.dart';
 
-class SearchViewModel extends ViewModel {
+class MedicineListViewModel extends ViewModel {
   LazyStream<bool> _isClearActive = LazyStream(() => true);
   LazyStream<String> _searchText = LazyStream();
 

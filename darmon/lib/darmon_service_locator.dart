@@ -1,4 +1,6 @@
 import 'file:///D:/projects/darmon/smartup5x_darmon_mobile/darmon/lib/kernel/uis/ui_search_index_dao.dart';
+import 'package:darmon/kernel/uis/ui_damon_dao.dart';
+import 'package:darmon/repository/darmon_repository.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DarmonServiceLocator {
@@ -13,5 +15,23 @@ class DarmonServiceLocator {
       _uiSearchIndexDao = UISearchIndexDao(database.call());
     }
     return _uiSearchIndexDao;
+  }
+
+  UIDarmonDao _darmonDao;
+
+  UIDarmonDao get darmonDao {
+    if (_darmonDao == null || _darmonDao?.db?.isOpen != true) {
+      _darmonDao = UIDarmonDao(database.call());
+    }
+    return _darmonDao;
+  }
+
+  DarmonRepository _darmonRepository;
+
+  DarmonRepository get darmonRepository {
+    if (_darmonRepository == null) {
+      _darmonRepository = DarmonRepository(darmonDao);
+    }
+    return _darmonRepository;
   }
 }

@@ -1,46 +1,49 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
-import 'package:darmon/ui/search/search_modules.dart';
-import 'package:darmon/ui/search/search_viewmodel.dart';
+import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
+import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:gwslib/gwslib.dart';
 
-class SearchFragment extends ViewModelFragment<SearchViewModel> {
-  static final String ROUTE_NAME = "/search_fragment";
+class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
+  static final String ROUTE_NAME = "/medicine_list_fragment";
 
-  static void open(BuildContext context) {
-    Mold.openContent(context, ROUTE_NAME);
+  static void open(BuildContext context, String medicineName) {
+    Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
+
+  String get medicineName => argument as String;
 
   TextEditingController _searchQuery;
 
   @override
   void onCreate(BuildContext context) {
     super.onCreate(context);
-    _searchQuery = new TextEditingController();
+    _searchQuery =
+        new TextEditingController(text: medicineName?.isNotEmpty == true ? medicineName : "");
   }
 
   @override
-  SearchViewModel onCreateViewModel(BuildContext buildContext) => SearchViewModel();
+  MedicineListViewModel onCreateViewModel(BuildContext buildContext) => MedicineListViewModel();
 
   @override
   Widget onCreateWidget(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
           leading: BackButton(
-            color: Colors.black87,
+            color: R.colors.iconColors,
           ),
           elevation: 1,
           title: _buildSearchField(),
           actions: _buildActions(),
-          backgroundColor: Colors.white,
+          backgroundColor: R.colors.background,
         ),
         body: MyTable.vertical([
           _searchIFieldsListWidget(),
-          Divider(height: 1, color: Colors.grey),
+          Divider(height: 1, color: R.colors.dividerColor),
         ]));
   }
 
@@ -52,7 +55,7 @@ class SearchFragment extends ViewModelFragment<SearchViewModel> {
             if (snapshot?.data == true) {
               return MyIcon.icon(
                 Icons.clear,
-                color: Colors.black87,
+                color: R.colors.iconColors,
                 onTap: () {
                   if (_searchQuery == null || _searchQuery.text.isEmpty) {
                     Mold.onBackPressed(this);
@@ -64,7 +67,7 @@ class SearchFragment extends ViewModelFragment<SearchViewModel> {
             } else {
               return MyIcon.icon(
                 Icons.qr_code,
-                color: Colors.black87,
+                color: R.colors.iconColors,
                 onTap: () async {
                   String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                       "#ff6666", null, true, ScanMode.DEFAULT);
@@ -89,13 +92,13 @@ class SearchFragment extends ViewModelFragment<SearchViewModel> {
   Widget _buildSearchField() {
     return new TextField(
       controller: _searchQuery,
-      autofocus: true,
+      autofocus: false,
       decoration: InputDecoration(
         hintText: R.strings.search_fragment.search.translate(),
         border: InputBorder.none,
-        hintStyle: const TextStyle(color: Colors.black54),
+        hintStyle: TextStyle(color: R.colors.textColor),
       ),
-      style: const TextStyle(color: Colors.black, fontSize: 16.0),
+      style: TextStyle(color: R.colors.textColor, fontSize: 16.0),
       onChanged: updateSearchQuery,
     );
   }
@@ -107,10 +110,10 @@ class SearchFragment extends ViewModelFragment<SearchViewModel> {
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.search_fragment.search_by, style: TS_Body_1()),
+        MyText(R.strings.search_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
-      background: Colors.white,
+      background: R.colors.background,
       crossAxisAlignment: CrossAxisAlignment.center,
       padding: EdgeInsets.only(left: 16, right: 16),
       width: double.infinity,
