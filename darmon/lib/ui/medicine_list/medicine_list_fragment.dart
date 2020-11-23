@@ -1,5 +1,7 @@
 import 'package:darmon/common/resources.dart';
+import 'package:darmon/common/result.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
+import 'package:darmon/main.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +29,8 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
   }
 
   @override
-  MedicineListViewModel onCreateViewModel(BuildContext buildContext) => MedicineListViewModel();
+  MedicineListViewModel onCreateViewModel(BuildContext buildContext) =>
+      MedicineListViewModel(DarmonApp.instance.darmonServiceLocator.medicineListRepository);
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -44,6 +47,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
         body: MyTable.vertical([
           _searchIFieldsListWidget(),
           Divider(height: 1, color: R.colors.dividerColor),
+          Expanded(child: _buildListWidget())
         ]));
   }
 
@@ -94,7 +98,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
       controller: _searchQuery,
       autofocus: false,
       decoration: InputDecoration(
-        hintText: R.strings.search_fragment.search.translate(),
+        hintText: R.strings.medicine_list_fragment.search.translate(),
         border: InputBorder.none,
         hintStyle: TextStyle(color: R.colors.textColor),
       ),
@@ -110,7 +114,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.search_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
+        MyText(R.strings.medicine_list_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
       background: R.colors.background,
@@ -146,5 +150,90 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
             ),
           );
         });
+  }
+
+  Widget _buildListWidget() {
+    return MyTable.vertical([
+      Expanded(
+        child: NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                viewmodel.loadPage();
+              }
+              return true;
+            },
+            child: StreamBuilder<List<MedicineListItem>>(
+              stream: viewmodel.items,
+              builder: (_, snapshot) {
+                print("snapshot?.data=${snapshot?.data}");
+
+                if (snapshot?.data?.isNotEmpty == true) {
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: MyText(
+                          '${snapshot.data[index].medicineName}',
+                          style: TS_Body_2(R.colors.textColor),
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            )),
+      ),
+      StreamBuilder<MyResultStatus>(
+          stream: viewmodel.statuse,
+          builder: (_, snapshot) {
+            if (snapshot?.data != null) {
+              if (snapshot.data == MyResultStatus.ERROR) {
+                return MyTable.vertical(
+                  [
+                    MyText(
+                      viewmodel?.errorMessageValue?.message ?? "",
+                      style: TS_ErrorText(),
+                    ),
+                    Padding(
+                      child: ContainerElevation(
+                        MyText(
+                          R.strings.medicine_list_fragment.reload,
+                          style: TS_Button(R.colors.app_color),
+                          upperCase: true,
+                        ),
+                        padding: EdgeInsets.only(top: 11, bottom: 11, left: 16, right: 16),
+                        elevation: 0,
+                        borderColor: Color(0x1F000000),
+                        borderRadius: BorderRadius.circular(4),
+                        onClick: () {
+                          viewmodel.reload();
+                        },
+                      ),
+                      padding: EdgeInsets.only(left: 6, right: 16, top: 16, bottom: 16),
+                    )
+                  ],
+                  width: double.infinity,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  background: Colors.transparent,
+                );
+              } else if (snapshot.data == MyResultStatus.LOADING) {
+                return Container(
+                  height: 50.0,
+                  color: Colors.transparent,
+                  child: Center(
+                    child: new CircularProgressIndicator(),
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            } else {
+              return Container();
+            }
+          })
+    ]);
   }
 }

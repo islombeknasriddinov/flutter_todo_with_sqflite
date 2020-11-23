@@ -1,6 +1,7 @@
 import 'file:///D:/projects/darmon/smartup5x_darmon_mobile/darmon/lib/kernel/uis/ui_search_index_dao.dart';
 import 'package:darmon/kernel/uis/ui_damon_dao.dart';
 import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DarmonServiceLocator {
@@ -33,5 +34,14 @@ class DarmonServiceLocator {
       _darmonRepository = DarmonRepository(darmonDao);
     }
     return _darmonRepository;
+  }
+
+  MedicineListRepository _medicineListRepository;
+
+  MedicineListRepository get medicineListRepository {
+    if (_medicineListRepository == null) {
+      _medicineListRepository = MedicineListRepository();
+    }
+    return _medicineListRepository;
   }
 }

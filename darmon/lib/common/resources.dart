@@ -51,7 +51,7 @@ class ResourceStrings {
   final MainStrings main = MainStrings();
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
-  final SearchFragmentStrings search_fragment = new SearchFragmentStrings();
+  final MedicineListFragmentStrings medicine_list_fragment = new MedicineListFragmentStrings();
   final FilterStrings filter = FilterStrings();
 }
 
@@ -86,11 +86,12 @@ class SearchIndexStrings {
   final String filter = "search_index:filter";
 }
 
-class SearchFragmentStrings {
-  final String search = "search_fragment:search";
-  final String search_by = "search_fragment:search_by";
-  final String search_by_name = "search_fragment:search_by_name";
-  final String search_by_mnn = "search_fragment:search_by_mnn";
+class MedicineListFragmentStrings {
+  final String search = "medicine_list_fragment:search";
+  final String search_by = "medicine_list_fragment:search_by";
+  final String search_by_name = "medicine_list_fragment:search_by_name";
+  final String search_by_mnn = "medicine_list_fragment:search_by_mnn";
+  final String reload = "medicine_list_fragment:reload";
 }
 
 class FilterStrings {

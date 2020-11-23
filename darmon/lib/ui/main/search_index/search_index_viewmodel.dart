@@ -44,7 +44,7 @@ class SearchIndexViewModel extends ViewModel {
     for (int i = 0; i < 10; i++) {
       list.add("Menu Itme $i");
     }
-    _menuItems.add(list);
+    //  _menuItems.add(list);
 
     _menuItems.get().listen((value) async {});
     checkSync();

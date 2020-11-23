@@ -33,10 +33,11 @@
   "setting:tutorial": "Qo'llanma",
   "setting:dark_mode": "Qorong'i rejim",
 
-  "search_fragment:search": "Qidirish...",
-  "search_fragment:search_by": "Qidirsh :",
-  "search_fragment:search_by_name": "Ism",
-  "search_fragment:search_by_mnn": "MNN",
+  "medicine_list_fragment:search": "Qidirish...",
+  "medicine_list_fragment:search_by": "Qidirsh :",
+  "medicine_list_fragment:search_by_name": "Ism",
+  "medicine_list_fragment:search_by_mnn": "MNN",
+  "medicine_list_fragment:reload": "Qayta yuklash",
 
   "filter:integer_text_field_hint": "Iltimos, raqamni kiriting",
   "filter:string_text_field_hint":"Iltimos, matnni kiriting",
