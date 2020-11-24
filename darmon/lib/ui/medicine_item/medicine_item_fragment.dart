@@ -1,3 +1,4 @@
+import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,7 +14,9 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
   static final String ROUTE_NAME = "/medicine";
 
   static void open(BuildContext context, ArgMedicineItem argMedicineItem) {
-    Mold.openContent(context, ROUTE_NAME, arguments: argMedicineItem);
+    Navigator.push<dynamic>(context,
+        SlideLeftRoute(page: Mold.newInstance(MedicineItemFragment()..argument = argMedicineItem)));
+    //  Mold.openContent(context, ROUTE_NAME, arguments: argMedicineItem);
   }
 
   ArgMedicineItem get argMedicineItem => argument;

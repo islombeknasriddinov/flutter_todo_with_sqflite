@@ -1,7 +1,9 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/result.dart';
+import 'package:darmon/common/routes/size_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/main.dart';
+import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +16,9 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
   static final String ROUTE_NAME = "/medicine_list_fragment";
 
   static void open(BuildContext context, String medicineName) {
-    Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
+    Navigator.push<dynamic>(context,
+        SizeRoute(page: Mold.newInstance(MedicineListFragment()..argument = medicineName)));
+    // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
   String get medicineName => argument as String;
@@ -171,12 +175,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        title: MyText(
-                          '${snapshot.data[index].medicineName}',
-                          style: TS_Body_2(R.colors.textColor),
-                        ),
-                      );
+                      return populateListItem(snapshot.data[index]);
                     },
                   );
                 } else {
@@ -235,5 +234,25 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
             }
           })
     ]);
+  }
+
+  Widget populateListItem(MedicineListItem medicine) {
+    return MyTable.vertical(
+      [
+        MyText(
+          '${medicine.medicineName}',
+          style: TS_HeadLine6(R.colors.textColor),
+          padding: EdgeInsets.symmetric(vertical: 12),
+        ),
+      ],
+      onTapCallback: () {
+        MedicineItemFragment.open(getContext(), ArgMedicineItem(medicine.medicineId));
+      },
+      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      background: R.colors.cardColor,
+      borderRadius: BorderRadius.circular(4),
+      elevation: 2,
+    );
   }
 }
