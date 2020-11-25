@@ -4,7 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-const double _kLeadingWidth = kToolbarHeight; // So the leading button is square.
+const double _kLeadingWidth =
+    kToolbarHeight; // So the leading button is square.
 
 // Bottom justify the kToolbarHeight child which may overflow the top.
 class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
@@ -183,7 +184,8 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
         assert(titleSpacing != null),
         assert(toolbarOpacity != null),
         assert(bottomOpacity != null),
-        preferredSize = Size.fromHeight(kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0)),
+        preferredSize = Size.fromHeight(
+            kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0)),
         super(key: key);
 
   /// A widget to display before the [title].
@@ -487,18 +489,20 @@ class _AppBarState extends State<MyAppBar> {
     assert(debugCheckHasMaterialLocalizations(context));
     final ThemeData theme = Theme.of(context);
     final AppBarTheme appBarTheme = AppBarTheme.of(context);
-    final ScaffoldState scaffold = Scaffold.of(context, nullOk: true);
+    final ScaffoldState scaffold = Scaffold.of(context);
     final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
 
     final bool hasDrawer = scaffold?.hasDrawer ?? false;
     final bool hasEndDrawer = scaffold?.hasEndDrawer ?? false;
     final bool canPop = parentRoute?.canPop ?? false;
-    final bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final bool useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
     IconThemeData overallIconTheme =
         widget.iconTheme ?? appBarTheme.iconTheme ?? theme.primaryIconTheme;
-    IconThemeData actionsIconTheme =
-        widget.actionsIconTheme ?? appBarTheme.actionsIconTheme ?? overallIconTheme;
+    IconThemeData actionsIconTheme = widget.actionsIconTheme ??
+        appBarTheme.actionsIconTheme ??
+        overallIconTheme;
     TextStyle centerStyle = widget.textTheme?.headline6 ??
         appBarTheme.textTheme?.headline6 ??
         theme.primaryTextTheme.headline6;
@@ -508,15 +512,18 @@ class _AppBarState extends State<MyAppBar> {
 
     if (widget.toolbarOpacity != 1.0) {
       final double opacity =
-          const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(widget.toolbarOpacity);
+          const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
+              .transform(widget.toolbarOpacity);
       if (centerStyle?.color != null)
-        centerStyle = centerStyle.copyWith(color: centerStyle.color.withOpacity(opacity));
+        centerStyle =
+            centerStyle.copyWith(color: centerStyle.color.withOpacity(opacity));
       if (sideStyle?.color != null)
-        sideStyle = sideStyle.copyWith(color: sideStyle.color.withOpacity(opacity));
-      overallIconTheme =
-          overallIconTheme.copyWith(opacity: opacity * (overallIconTheme.opacity ?? 1.0));
-      actionsIconTheme =
-          actionsIconTheme.copyWith(opacity: opacity * (actionsIconTheme.opacity ?? 1.0));
+        sideStyle =
+            sideStyle.copyWith(color: sideStyle.color.withOpacity(opacity));
+      overallIconTheme = overallIconTheme.copyWith(
+          opacity: opacity * (overallIconTheme.opacity ?? 1.0));
+      actionsIconTheme = actionsIconTheme.copyWith(
+          opacity: opacity * (actionsIconTheme.opacity ?? 1.0));
     }
 
     Widget leading = widget.leading;
@@ -528,7 +535,8 @@ class _AppBarState extends State<MyAppBar> {
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         );
       } else {
-        if (canPop) leading = useCloseButton ? const CloseButton() : const BackButton();
+        if (canPop)
+          leading = useCloseButton ? const CloseButton() : const BackButton();
       }
     }
     if (leading != null) {
@@ -622,8 +630,9 @@ class _AppBarState extends State<MyAppBar> {
           widget.bottomOpacity == 1.0
               ? widget.bottom
               : Opacity(
-                  opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
-                      .transform(widget.bottomOpacity),
+                  opacity:
+                      const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
+                          .transform(widget.bottomOpacity),
                   child: widget.bottom,
                 ),
         ],
@@ -653,18 +662,22 @@ class _AppBarState extends State<MyAppBar> {
         ],
       );
     }
-    final Brightness brightness =
-        widget.brightness ?? appBarTheme.brightness ?? theme.primaryColorBrightness;
-    final SystemUiOverlayStyle overlayStyle =
-        brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
+    final Brightness brightness = widget.brightness ??
+        appBarTheme.brightness ??
+        theme.primaryColorBrightness;
+    final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
 
     return Semantics(
       container: true,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: overlayStyle,
         child: Material(
-          color: widget.backgroundColor ?? appBarTheme.color ?? theme.primaryColor,
-          elevation: widget.elevation ?? appBarTheme.elevation ?? _defaultElevation,
+          color:
+              widget.backgroundColor ?? appBarTheme.color ?? theme.primaryColor,
+          elevation:
+              widget.elevation ?? appBarTheme.elevation ?? _defaultElevation,
           shape: widget.shape,
           child: Semantics(
             explicitChildNodes: true,
@@ -692,7 +705,8 @@ class _AppBarTitleBox extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, _RenderAppBarTitleBox renderObject) {
+  void updateRenderObject(
+      BuildContext context, _RenderAppBarTitleBox renderObject) {
     renderObject.textDirection = Directionality.of(context);
   }
 }
@@ -701,12 +715,16 @@ class _RenderAppBarTitleBox extends RenderAligningShiftedBox {
   _RenderAppBarTitleBox({
     RenderBox child,
     TextDirection textDirection,
-  }) : super(child: child, alignment: Alignment.center, textDirection: textDirection);
+  }) : super(
+            child: child,
+            alignment: Alignment.center,
+            textDirection: textDirection);
 
   @override
   void performLayout() {
     final BoxConstraints constraints = this.constraints;
-    final BoxConstraints innerConstraints = constraints.copyWith(maxHeight: double.infinity);
+    final BoxConstraints innerConstraints =
+        constraints.copyWith(maxHeight: double.infinity);
     child.layout(innerConstraints, parentUsesSize: true);
     size = constraints.constrain(child.size);
     alignChild();

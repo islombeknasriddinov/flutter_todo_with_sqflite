@@ -7,7 +7,6 @@ class SearchIndexViewModel extends ViewModel {
 
   SearchIndexViewModel(this.repository);
 
-  LazyStream<bool> _isClearActive = LazyStream(() => true);
   LazyStream<String> _searchText = LazyStream();
   LazyStream<List<String>> _menuItems = LazyStream();
   LazyStream<List<UIMedicineMark>> _medicines = LazyStream();
@@ -17,8 +16,6 @@ class SearchIndexViewModel extends ViewModel {
   Stream<List<String>> get menuItems => _menuItems.stream;
 
   Stream<String> get searchText => _searchText.stream;
-
-  Stream<bool> get isClearActive => _isClearActive.stream;
 
   Future<List<UIMedicineMark>> getLocationSuggestionsList(String text) async {
     return repository.searchMedicineMark(text);
@@ -32,11 +29,6 @@ class SearchIndexViewModel extends ViewModel {
 
   void initObjects() {
     _searchText.get().listen((value) {
-      if (value?.isNotEmpty == true) {
-        if (_isClearActive.value != true) _isClearActive.add(true);
-      } else {
-        if (_isClearActive.value != false) _isClearActive.add(false);
-      }
       _search(value);
     });
 
@@ -64,7 +56,6 @@ class SearchIndexViewModel extends ViewModel {
 
   @override
   void onDestroy() {
-    _isClearActive.close();
     _searchText.close();
     _menuItems.close();
     _medicines.close();

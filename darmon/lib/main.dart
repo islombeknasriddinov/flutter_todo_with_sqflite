@@ -6,6 +6,7 @@ import 'package:darmon/ui/lang/lang_fragment.dart';
 import 'package:darmon/ui/main/main_fragment.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
+import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
 import 'package:darmon/ui/presentation/presentation_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
@@ -23,12 +24,18 @@ class DarmonApp extends MoldApplication {
   @override
   Map<String, WidgetBuilder> getRoutes() => {
         IntroFragment.ROUTE_NAME: (context) => IntroFragment().toFragment(),
-        LangContentFragment.ROUTE_NAME: (context) => LangContentFragment().toFragment(),
-        PresentationFragment.ROUTE_NAME: (context) => PresentationFragment().toFragment(),
+        LangContentFragment.ROUTE_NAME: (context) =>
+            LangContentFragment().toFragment(),
+        PresentationFragment.ROUTE_NAME: (context) =>
+            PresentationFragment().toFragment(),
         MainFragment.ROUTE_NAME: (context) => MainFragment().toFragment(),
         BarcodeFragment.ROUTE_NAME: (context) => BarcodeFragment().toFragment(),
-        MedicineListFragment.ROUTE_NAME: (context) => MedicineListFragment().toFragment(),
-        MedicineItemFragment.ROUTE_NAME: (context) => MedicineItemFragment().toFragment()
+        MedicineListFragment.ROUTE_NAME: (context) =>
+            MedicineListFragment().toFragment(),
+        MedicineMarkListFragment.ROUTE_NAME: (context) =>
+            MedicineMarkListFragment().toFragment(),
+        MedicineItemFragment.ROUTE_NAME: (context) =>
+            MedicineItemFragment().toFragment()
       };
 
   DarmonServiceLocator _darmonServiceLocator;

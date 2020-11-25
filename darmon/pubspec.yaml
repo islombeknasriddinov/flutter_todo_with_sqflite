@@ -50,6 +50,8 @@ dependencies:
   gwslib:
     path: ../gwslib/
 
+  flutter_sticky_header:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

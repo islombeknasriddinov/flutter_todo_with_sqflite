@@ -8,6 +8,7 @@
   "hour": "%1s ч",
   "minute": "%1s мин",
   "hour_minute": "%1s ч %2s мин",
+  "more": "еще",
 
   "presentation:next": "Далее",
   "presentation:done": "Готово",
@@ -34,7 +35,7 @@
   "medicine_list_fragment:search": "Поиск..",
   "medicine_list_fragment:search_by": "Искали по:",
   "medicine_list_fragment:search_by_name": "Название",
-  "medicine_list_fragment:search_by_mnn": "МНН",
+  "medicine_list_fragment:search_by_inn": "МНН",
   "medicine_list_fragment:reload": "Перезагрузить",
 
   "filter:integer_text_field_hint": "Пожалуйста, введите номер",
@@ -43,6 +44,11 @@
   "filter:integer_range_to_hint":"до",
   "filter:clear_btn": "Чисто",
   "filter:apply_btn":"Применять",
+
+  "medicine_mark_list_fragment:mark_name":"Название",
+  "medicine_mark_list_fragment:mark_inn":"МНН",
+
+
 
   "z": "z"
 }

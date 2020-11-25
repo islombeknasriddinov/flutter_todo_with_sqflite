@@ -16,7 +16,7 @@ class ZMedicineMarkInn {
 	static final String TABLE = """
 	create table z_medicine_mark_inn (
 	  inn                               text not null,
-	  constraint z_medicine_mark_inn_pk primary key (name_inn)
+	  constraint z_medicine_mark_inn_pk primary key (inn)
 	);
 	""";
 

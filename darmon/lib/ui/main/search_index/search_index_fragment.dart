@@ -6,18 +6,17 @@ import 'package:darmon/custom/auto_complete_text_view.dart';
 import 'package:darmon/main.dart';
 import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/main/search_index/search_index_viewmodel.dart';
-import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
 import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:gwslib/gwslib.dart';
 
 class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
   @override
   SearchIndexViewModel onCreateViewModel(BuildContext buildContext) =>
-      SearchIndexViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
+      SearchIndexViewModel(
+          DarmonApp.instance.darmonServiceLocator.darmonRepository);
 
   final ScrollController scrollController = ScrollController();
 
@@ -66,10 +65,12 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                         return Center(
                           child: MyTable.vertical(
                             [
-                              MyIcon.icon(Icons.menu, color: R.colors.iconColors),
+                              MyIcon.icon(Icons.menu,
+                                  color: R.colors.iconColors),
                               MyText(menu, style: TS_Body_1(R.colors.textColor))
                             ],
-                            padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
+                            padding: EdgeInsets.only(
+                                left: 12, right: 12, top: 8, bottom: 8),
                             width: double.infinity,
                             height: double.infinity,
                             borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -88,7 +89,8 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                     child: Center(
                         child: MyTable.vertical(
                       [
-                        MyIcon.icon(Icons.list, color: R.colors.iconColors, size: 48),
+                        MyIcon.icon(Icons.list,
+                            color: R.colors.iconColors, size: 48),
                         MyText(
                           R.strings.search_index.list_is_empty,
                           style: TS_Body_1(R.colors.textColor),
@@ -110,8 +112,9 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
       pinned: true,
       snap: false,
       shape: ContinuousRectangleBorder(
-          borderRadius:
-              BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30))),
       flexibleSpace: FlexibleSpaceBar(
         title: MyTable.horizontal([
           Expanded(
@@ -128,7 +131,8 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
               );
             },
             prefix: Padding(
-              padding: EdgeInsets.only(left: 5.0, top: 5.0, right: 0.0, bottom: 5.0),
+              padding:
+                  EdgeInsets.only(left: 5.0, top: 5.0, right: 0.0, bottom: 5.0),
               child: MyIcon.icon(
                 Icons.search,
                 size: 18,
@@ -148,41 +152,14 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
             placeholder: R.strings.search_index.search.translate(),
             cursorColor: R.colors.app_color,
             placeholderStyle: TS_Body_2(Color(0xffC4C6CC)),
-            suffix: StreamBuilder<bool>(
-                stream: viewmodel.isClearActive,
-                builder: (_, snapshot) {
-                  if (snapshot?.data == true) {
-                    return MyIcon.icon(
-                      Icons.clear,
-                      color: R.colors.iconColors,
-                      onTap: () {
-                        if (_searchQuery == null || _searchQuery.text.isEmpty) {
-                          Mold.onBackPressed(this);
-                          return;
-                        }
-                        _clearSearchQuery();
-                      },
-                    );
-                  } else {
-                    return MyIcon.icon(
-                      Icons.qr_code,
-                      color: R.colors.iconColors,
-                      onTap: () async {
-                        String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                            "#ff6666", null, true, ScanMode.DEFAULT);
-                        print(barcodeScanRes);
-                        if (barcodeScanRes?.isNotEmpty == true && barcodeScanRes != "-1") {
-                          openMedicineMarkListFragment(barcodeScanRes);
-                        }
-                      },
-                    );
-                  }
-                }),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               color: R.colors.cardColor,
             ),
             controller: _searchQuery,
+            moreBtnOnTapCallback: () {
+              openMedicineMarkListFragment(_searchQuery.text ?? "");
+            },
             getSuggestionsMethod: viewmodel.getLocationSuggestionsList,
             style: TS_Body_1(R.colors.textColor),
           ))
@@ -206,12 +183,6 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
     viewmodel.setSearchText(newQuery);
   }
 
-  void _clearSearchQuery() {
-    print("close search box");
-    _searchQuery.clear();
-    viewmodel.setSearchText("");
-  }
-
   Widget progressContainer() {
     return SliverPersistentHeader(
       pinned: true,
@@ -221,7 +192,9 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
           child: StreamBuilder<Map<int, bool>>(
             stream: viewmodel.progressStream,
             builder: (_, snapshot) {
-              if ((snapshot.data?.values?.where((element) => element)?.length ?? -1) > 0) {
+              if ((snapshot.data?.values?.where((element) => element)?.length ??
+                      -1) >
+                  0) {
                 return MyTable.vertical(
                   [
                     LinearProgressIndicator(),
@@ -241,7 +214,8 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
   void openMedicineListFragment(UIMedicineMark medicine) {
     hideKeyboard();
     _searchQuery?.clear();
-    MedicineListFragment.open(getContext(), ArgMedicineList(medicine.title, medicine.type));
+    MedicineListFragment.open(
+        getContext(), ArgMedicineList(medicine.title, medicine.type));
   }
 
   void openMedicineMarkListFragment(String text) {
@@ -277,7 +251,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => max(maxHeight, minHeight);
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return new SizedBox.expand(child: child);
   }
 

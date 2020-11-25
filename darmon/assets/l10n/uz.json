@@ -8,7 +8,7 @@
   "hour": "%1s soat",
   "minute": "%1s minut",
   "hour_minute": "%1s soat %2s minut",
-
+  "more": "Ko`proq",
 
   "presentation:next": "Keyingisi",
   "presentation:done": "Tugatish",
@@ -36,7 +36,7 @@
   "medicine_list_fragment:search": "Qidirish...",
   "medicine_list_fragment:search_by": "Qidirsh :",
   "medicine_list_fragment:search_by_name": "Ism",
-  "medicine_list_fragment:search_by_mnn": "MNN",
+  "medicine_list_fragment:search_by_inn": "MNN",
   "medicine_list_fragment:reload": "Qayta yuklash",
 
   "filter:integer_text_field_hint": "Iltimos, raqamni kiriting",
@@ -45,5 +45,9 @@
   "filter:integer_range_to_hint":"gacha",
   "filter:clear_btn": "Bekor qilish",
   "filter:apply_btn":"Qabo`l qilish",
+
+
+  "medicine_mark_list_fragment:mark_name":"Ism",
+  "medicine_mark_list_fragment:mark_inn":"MNN",
   "z": "z"
 }

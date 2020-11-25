@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:gwslib/gwslib.dart';
 
 class ArgMedicineMarkList {
@@ -18,12 +19,16 @@ class ArgMedicineMarkList {
   ArgMedicineMarkList(this.query);
 }
 
-class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewModel> {
-  static final String ROUTE_NAME = "/medicine_list_fragment";
+class MedicineMarkListFragment
+    extends ViewModelFragment<MedicineMarkListViewModel> {
+  static final String ROUTE_NAME = "/medicine_mark_list_fragment";
 
   static void open(BuildContext context, ArgMedicineMarkList arg) {
     Navigator.push<dynamic>(
-        context, SizeRoute(page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
+        context,
+        SizeRoute(
+            page:
+                Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
@@ -34,12 +39,14 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   @override
   void onCreate(BuildContext context) {
     super.onCreate(context);
-    _searchQuery = new TextEditingController(text: arg.query?.isNotEmpty == true ? arg.query : "");
+    _searchQuery = new TextEditingController(
+        text: arg.query?.isNotEmpty == true ? arg.query : "");
   }
 
   @override
   MedicineMarkListViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineMarkListViewModel();
+      MedicineMarkListViewModel(
+          DarmonApp.instance.darmonServiceLocator.darmonRepository);
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -78,19 +85,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
                 },
               );
             } else {
-              return MyIcon.icon(
-                Icons.qr_code,
-                color: R.colors.iconColors,
-                onTap: () async {
-                  String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-                      "#ff6666", null, true, ScanMode.DEFAULT);
-                  print(barcodeScanRes);
-                  if (barcodeScanRes?.isNotEmpty == true && barcodeScanRes != "-1") {
-                    _searchQuery.text = barcodeScanRes;
-                    viewmodel.setSearchText(barcodeScanRes);
-                  }
-                },
-              );
+              return Container();
             }
           })
     ];
@@ -123,7 +118,8 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.medicine_list_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
+        MyText(R.strings.medicine_list_fragment.search_by,
+            style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
       background: R.colors.background,
@@ -148,6 +144,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
               label: MyText(field.title),
               onSelected: (bool value) {
                 field.setOnSelected(value);
+                viewmodel.onSelectFilter();
               },
               checkmarkColor: Colors.white,
               selected: snapshot?.data == true,
@@ -161,6 +158,28 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         });
   }
 
+  Widget _buildListWidget() {
+    return StreamBuilder<void>(
+        stream: viewmodel.reload,
+        builder: (_, snapshot) {
+          if (viewmodel.medicineMarkInnListIsNotEmpty ||
+              viewmodel.medicineMarkNameListIsNotEmpty) {
+            return CustomScrollView(
+              slivers: [
+                if (viewmodel.medicineMarkNameListIsNotEmpty)
+                  _buildMedicineMarkNameList(),
+                if (viewmodel.medicineMarkInnListIsNotEmpty)
+                  _buildMedicineMarkInnList(),
+              ],
+              reverse: false,
+            );
+          } else {
+            return Container();
+          }
+        });
+  }
+
+/*
   Widget _buildListWidget() {
     return StreamBuilder<List<UIMedicineMark>>(
       stream: viewmodel.items,
@@ -178,32 +197,94 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         }
       },
     );
+  }*/
+
+  Widget _buildMedicineMarkNameList() {
+    List<UIMedicineMark> names = viewmodel.medicineMarkNameList;
+    return SliverStickyHeader(
+      header: Container(
+        height: 30.0,
+        color: R.colors.stickHeaderColor,
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        alignment: Alignment.centerLeft,
+        child: MyText(
+          R.strings.medicine_mark_list_fragment.mark_name,
+          style: TS_Caption(R.colors.hintTextColor),
+        ),
+      ),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, i) {
+            UIMedicineMark name = names[i];
+            return populateListItem(name.title, () {
+              openMedicineListFragment(name);
+            });
+          },
+          childCount: names.length,
+        ),
+      ),
+    );
   }
 
-  Widget populateListItem(UIMedicineMark mark) {
+  Widget _buildMedicineMarkInnList() {
+    List<UIMedicineMark> inns = viewmodel.medicineMarkInnList;
+    return SliverStickyHeader(
+      header: Container(
+        height: 30.0,
+        color: R.colors.stickHeaderColor,
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        alignment: Alignment.centerLeft,
+        child: MyText(
+          R.strings.medicine_mark_list_fragment.mark_inn,
+          style: TS_Caption(R.colors.hintTextColor),
+        ),
+      ),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, i) {
+            UIMedicineMark inn = inns[i];
+            return populateListItem(inn.title, () {
+              openMedicineListFragment(inn);
+            });
+          },
+          childCount: inns.length,
+        ),
+      ),
+    );
+  }
+
+  Widget populateListItem(String title, Function onTapCallback) {
     return MyTable.vertical(
       [
-        MyText(
-          mark.title,
-          style: TS_HeadLine6(R.colors.textColor),
-          padding: EdgeInsets.symmetric(vertical: 12),
+        MyTable.horizontal(
+          [
+            MyText(
+              title,
+              flex: 1,
+              style: TS_Body_1(R.colors.textColor),
+              padding: EdgeInsets.symmetric(vertical: 8),
+            ),
+            MyIcon.icon(
+              Icons.arrow_forward_ios_rounded,
+              color: R.colors.iconColors,
+              size: 18,
+            )
+          ],
+          crossAxisAlignment: CrossAxisAlignment.center,
+          padding: EdgeInsets.only(right: 12, top: 6, bottom: 6),
         ),
+        Divider(color: R.colors.dividerColor, height: 1)
       ],
-      onTapCallback: () {
-        openMedicineListFragment(mark);
-      },
-      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      background: R.colors.cardColor,
-      borderRadius: BorderRadius.circular(4),
-      elevation: 2,
+      padding: EdgeInsets.only(left: 12),
+      onTapCallback: onTapCallback,
     );
   }
 
   void openMedicineListFragment(UIMedicineMark medicine) {
     hideKeyboard();
     _searchQuery?.clear();
-    MedicineListFragment.open(getContext(), ArgMedicineList(medicine.title, medicine.type));
+    MedicineListFragment.open(
+        getContext(), ArgMedicineList(medicine.title, medicine.type));
   }
 
   void hideKeyboard() {
