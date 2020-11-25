@@ -1,48 +1,45 @@
 import 'package:darmon/common/resources.dart';
-import 'package:darmon/common/result.dart';
 import 'package:darmon/common/routes/size_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/main.dart';
 import 'package:darmon/repository/darmon_repository.dart';
-import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
+import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
-import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
+import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:gwslib/gwslib.dart';
 
-class ArgMedicineList {
-  final String medicineMark;
-  final UIMedicineMarkSearchResultType type;
+class ArgMedicineMarkList {
+  final String query;
 
-  ArgMedicineList(this.medicineMark, this.type);
+  ArgMedicineMarkList(this.query);
 }
 
-class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
+class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewModel> {
   static final String ROUTE_NAME = "/medicine_list_fragment";
 
-  static void open(BuildContext context, ArgMedicineList arg) {
+  static void open(BuildContext context, ArgMedicineMarkList arg) {
     Navigator.push<dynamic>(
-        context, SizeRoute(page: Mold.newInstance(MedicineListFragment()..argument = arg)));
+        context, SizeRoute(page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
-  ArgMedicineList get arg => argument as ArgMedicineList;
+  ArgMedicineMarkList get arg => argument as ArgMedicineMarkList;
 
   TextEditingController _searchQuery;
 
   @override
   void onCreate(BuildContext context) {
     super.onCreate(context);
-    _searchQuery = new TextEditingController(
-        text: arg.medicineMark?.isNotEmpty == true ? arg.medicineMark : "");
+    _searchQuery = new TextEditingController(text: arg.query?.isNotEmpty == true ? arg.query : "");
   }
 
   @override
-  MedicineListViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineListViewModel(DarmonApp.instance.darmonServiceLocator.medicineListRepository);
+  MedicineMarkListViewModel onCreateViewModel(BuildContext buildContext) =>
+      MedicineMarkListViewModel();
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -165,96 +162,35 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
   }
 
   Widget _buildListWidget() {
-    return MyTable.vertical([
-      Expanded(
-        child: NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification scrollInfo) {
-              if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                viewmodel.loadPage();
-              }
-              return true;
+    return StreamBuilder<List<UIMedicineMark>>(
+      stream: viewmodel.items,
+      builder: (_, snapshot) {
+        print("snapshot?.data=${snapshot?.data}");
+        if (snapshot?.data?.isNotEmpty == true) {
+          return ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              return populateListItem(snapshot.data[index]);
             },
-            child: StreamBuilder<List<MedicineListItem>>(
-              stream: viewmodel.items,
-              builder: (_, snapshot) {
-                print("snapshot?.data=${snapshot?.data}");
-
-                if (snapshot?.data?.isNotEmpty == true) {
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return populateListItem(snapshot.data[index]);
-                    },
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            )),
-      ),
-      StreamBuilder<MyResultStatus>(
-          stream: viewmodel.statuse,
-          builder: (_, snapshot) {
-            if (snapshot?.data != null) {
-              if (snapshot.data == MyResultStatus.ERROR) {
-                return MyTable.vertical(
-                  [
-                    MyText(
-                      viewmodel?.errorMessageValue?.message ?? "",
-                      style: TS_ErrorText(),
-                    ),
-                    Padding(
-                      child: ContainerElevation(
-                        MyText(
-                          R.strings.medicine_list_fragment.reload,
-                          style: TS_Button(R.colors.app_color),
-                          upperCase: true,
-                        ),
-                        padding: EdgeInsets.only(top: 11, bottom: 11, left: 16, right: 16),
-                        elevation: 0,
-                        borderColor: Color(0x1F000000),
-                        borderRadius: BorderRadius.circular(4),
-                        onClick: () {
-                          viewmodel.reload();
-                        },
-                      ),
-                      padding: EdgeInsets.only(left: 6, right: 16, top: 16, bottom: 16),
-                    )
-                  ],
-                  width: double.infinity,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  background: Colors.transparent,
-                );
-              } else if (snapshot.data == MyResultStatus.LOADING) {
-                return Container(
-                  height: 50.0,
-                  color: Colors.transparent,
-                  child: Center(
-                    child: new CircularProgressIndicator(),
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            } else {
-              return Container();
-            }
-          })
-    ]);
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 
-  Widget populateListItem(MedicineListItem medicine) {
+  Widget populateListItem(UIMedicineMark mark) {
     return MyTable.vertical(
       [
         MyText(
-          '${medicine.medicineName}',
+          mark.title,
           style: TS_HeadLine6(R.colors.textColor),
           padding: EdgeInsets.symmetric(vertical: 12),
         ),
       ],
       onTapCallback: () {
-        MedicineItemFragment.open(getContext(), ArgMedicineItem(medicine.medicineId));
+        openMedicineListFragment(mark);
       },
       margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -262,5 +198,19 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
       borderRadius: BorderRadius.circular(4),
       elevation: 2,
     );
+  }
+
+  void openMedicineListFragment(UIMedicineMark medicine) {
+    hideKeyboard();
+    _searchQuery?.clear();
+    MedicineListFragment.open(getContext(), ArgMedicineList(medicine.title, medicine.type));
+  }
+
+  void hideKeyboard() {
+    try {
+      Mold.hideKeyboard(getContext());
+    } catch (error, st) {
+      Log.error("Error($error)\n$st");
+    }
   }
 }

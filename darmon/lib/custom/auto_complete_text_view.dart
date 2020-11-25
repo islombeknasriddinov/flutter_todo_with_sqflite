@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 typedef void OnTapCallback(String value);
 
-typedef ItemWidgetBuilder = Widget Function(BuildContext context, UIMedicine item);
+typedef ItemWidgetBuilder = Widget Function(BuildContext context, UIMedicineMark item);
 
 class AutoCompleteTextView extends StatefulWidget with AutoCompleteTextInterface {
   ItemWidgetBuilder itemBuilder;
@@ -30,7 +30,7 @@ class AutoCompleteTextView extends StatefulWidget with AutoCompleteTextInterface
   //Suggestiondrop Down properties
   final Color suggestionBackground;
   final suggestionTextAlign;
-  final Future<List<UIMedicine>> Function(String) getSuggestionsMethod;
+  final Future<List<UIMedicineMark>> Function(String) getSuggestionsMethod;
   final Function focusGained;
   final Function focusLost;
   final int suggestionsApiFetchDelay;
@@ -74,9 +74,9 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
   FocusNode _focusNode = FocusNode();
   OverlayEntry _overlayEntry;
   LayerLink _layerLink = LayerLink();
-  BehaviorSubject<List<UIMedicine>> suggestionsStreamController =
-      new BehaviorSubject<List<UIMedicine>>();
-  List<UIMedicine> suggestionShowList = List<UIMedicine>();
+  BehaviorSubject<List<UIMedicineMark>> suggestionsStreamController =
+      new BehaviorSubject<List<UIMedicineMark>>();
+  List<UIMedicineMark> suggestionShowList = List<UIMedicineMark>();
   Timer _debounce;
   bool isSearching = true;
 
@@ -107,7 +107,7 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
 
   _getSuggestions(String data) async {
     if (data.length > 0 && data != null) {
-      List<UIMedicine> list = await widget.getSuggestionsMethod(data);
+      List<UIMedicineMark> list = await widget.getSuggestionsMethod(data);
       suggestionsStreamController.sink.add(list);
     }
   }
@@ -127,7 +127,7 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
                       ? Theme.of(context).cardColor
                       : widget.suggestionBackground,
                   elevation: 4.0,
-                  child: StreamBuilder<List<UIMedicine>>(
+                  child: StreamBuilder<List<UIMedicineMark>>(
                       stream: suggestionsStreamController.stream,
                       builder: (context, suggestionData) {
                         if (suggestionData.hasData && widget.controller.text.isNotEmpty) {
@@ -142,7 +142,7 @@ class _AutoCompleteTextViewState extends State<AutoCompleteTextView> {
                                 shrinkWrap: true,
                                 itemCount: suggestionShowList.length,
                                 itemBuilder: (context, index) {
-                                  UIMedicine item = suggestionShowList[index];
+                                  UIMedicineMark item = suggestionShowList[index];
                                   return widget.itemBuilder.call(context, item);
                                 }),
                           );

@@ -1,9 +1,11 @@
-create table z_medicine (
-  medicine_id                           int not null,
+create table z_medicine_mark_name (
   name_ru                               text not null,
   name_uz                               text not null,
   name_en                               text not null,
-  producer_id                           int not null,
-  producer_name                         text not null,
-  constraint z_medicine_pk primary key (medicine_id)
+  constraint z_medicine_mark_name_pk primary key (name_ru)
+);
+
+create table z_medicine_mark_inn (
+  inn                               text not null,
+  constraint z_medicine_mark_inn_pk primary key (name_inn)
 );

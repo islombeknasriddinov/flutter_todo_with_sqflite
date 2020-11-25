@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:darmon/filter/kernel/database.dart';
 import 'package:darmon/kernel/medicine/medicine_sync.dart';
-import 'package:darmon/kernel/medicine/tables/medicine.dart';
+import 'package:darmon/kernel/medicine/tables/medicine_mark_inn.dart';
+import 'package:darmon/kernel/medicine/tables/medicine_mark_name.dart';
 import 'package:gwslib/common/tuple.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:path/path.dart';
@@ -77,12 +78,14 @@ class DarmonDatabase {
 
   static Future<void> onCreate(Database db) async {
     Log.debug("########## Execute ZMedicine Tables ##########");
-    await db.execute(ZMedicine.TABLE);
+    await db.execute(ZMedicineMarkName.TABLE);
+    await db.execute(ZMedicineMarkInn.TABLE);
   }
 
   static Future<void> onDowngrade(Database db) async {
     Log.debug("########## Execute ZMedicine Tables ##########");
-    await db.execute(ZMedicine.TABLE);
+    await db.execute(ZMedicineMarkInn.TABLE);
+    await db.execute(ZMedicineMarkName.TABLE);
 
     await onCreate(db);
   }

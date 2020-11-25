@@ -8,6 +8,7 @@ import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/main/search_index/search_index_viewmodel.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
+import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -116,13 +117,13 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
           Expanded(
               child: AutoCompleteTextView(
             suggestionsApiFetchDelay: 200,
-            itemBuilder: (BuildContext _, UIMedicine item) {
+            itemBuilder: (BuildContext _, UIMedicineMark item) {
               return MyText(
-                "${item.nameRu}/${item.producerName}",
+                item.title,
                 style: TS_Body_2(R.colors.textColor),
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 onTapListener: () {
-                  openMedicineItemFragment(item);
+                  openMedicineListFragment(item);
                 },
               );
             },
@@ -141,7 +142,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
               viewmodel.setSearchText(text);
             },
             onSubmitted: (medicineName) {
-              openMedicineListFragment(medicineName);
+              openMedicineMarkListFragment(medicineName);
             },
             suggestionBackground: R.colors.cardColor,
             placeholder: R.strings.search_index.search.translate(),
@@ -171,7 +172,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                             "#ff6666", null, true, ScanMode.DEFAULT);
                         print(barcodeScanRes);
                         if (barcodeScanRes?.isNotEmpty == true && barcodeScanRes != "-1") {
-                          openMedicineListFragment(barcodeScanRes);
+                          openMedicineMarkListFragment(barcodeScanRes);
                         }
                       },
                     );
@@ -237,10 +238,16 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
     );
   }
 
-  void openMedicineItemFragment(UIMedicine medicine) {
+  void openMedicineListFragment(UIMedicineMark medicine) {
     hideKeyboard();
     _searchQuery?.clear();
-    MedicineItemFragment.open(getContext(), ArgMedicineItem(medicine.medicineId));
+    MedicineListFragment.open(getContext(), ArgMedicineList(medicine.title, medicine.type));
+  }
+
+  void openMedicineMarkListFragment(String text) {
+    hideKeyboard();
+    _searchQuery?.clear();
+    MedicineMarkListFragment.open(getContext(), ArgMedicineMarkList(text));
   }
 
   void hideKeyboard() {
@@ -249,12 +256,6 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
     } catch (error, st) {
       Log.error("Error($error)\n$st");
     }
-  }
-
-  void openMedicineListFragment(String medicineName) {
-    _searchQuery?.clear();
-    hideKeyboard();
-    MedicineListFragment.open(getContext(), medicineName);
   }
 }
 
