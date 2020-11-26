@@ -15,8 +15,7 @@ import 'package:gwslib/gwslib.dart';
 class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
   @override
   SearchIndexViewModel onCreateViewModel(BuildContext buildContext) =>
-      SearchIndexViewModel(
-          DarmonApp.instance.darmonServiceLocator.darmonRepository);
+      SearchIndexViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
 
   final ScrollController scrollController = ScrollController();
 
@@ -65,12 +64,10 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                         return Center(
                           child: MyTable.vertical(
                             [
-                              MyIcon.icon(Icons.menu,
-                                  color: R.colors.iconColors),
+                              MyIcon.icon(Icons.menu, color: R.colors.iconColors),
                               MyText(menu, style: TS_Body_1(R.colors.textColor))
                             ],
-                            padding: EdgeInsets.only(
-                                left: 12, right: 12, top: 8, bottom: 8),
+                            padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
                             width: double.infinity,
                             height: double.infinity,
                             borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -89,8 +86,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                     child: Center(
                         child: MyTable.vertical(
                       [
-                        MyIcon.icon(Icons.list,
-                            color: R.colors.iconColors, size: 48),
+                        MyIcon.icon(Icons.list, color: R.colors.iconColors, size: 48),
                         MyText(
                           R.strings.search_index.list_is_empty,
                           style: TS_Body_1(R.colors.textColor),
@@ -104,6 +100,8 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
               })
         ]));
   }
+
+/*
 
   Widget _searchAppBar() {
     return SliverAppBar(
@@ -178,6 +176,57 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
       ),
     );
   }
+*/
+
+  Widget _searchAppBar() {
+    return SliverAppBar(
+      expandedHeight: 250,
+      floating: false,
+      pinned: true,
+      snap: false,
+      shape: ContinuousRectangleBorder(
+          borderRadius:
+              BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+      flexibleSpace: FlexibleSpaceBar(
+        title: MyTable.horizontal(
+          [
+            Padding(
+              padding: EdgeInsets.only(left: 5.0, top: 5.0, right: 0.0, bottom: 5.0),
+              child: MyIcon.icon(
+                Icons.search,
+                size: 18,
+                color: R.colors.iconColors,
+              ),
+            ),
+            MyText(
+              R.strings.search_index.search.translate(),
+              style: TS_Body_2(R.colors.textColor),
+            )
+          ],
+          onTapCallback: () {
+            MedicineMarkListFragment.open(getContext(), ArgMedicineMarkList(""));
+          },
+          borderRadius: BorderRadius.circular(8),
+          background: R.colors.background,
+          width: double.infinity,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          height: 40,
+        ),
+        background: Center(
+          child: MyText(
+            R.strings.search_index.search_text,
+            style: TS_HeadLine6(Colors.white),
+            padding: EdgeInsets.all(16),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        centerTitle: true,
+        collapseMode: CollapseMode.parallax,
+        titlePadding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8),
+      ),
+    );
+  }
 
   void updateSearchQuery(String newQuery) {
     viewmodel.setSearchText(newQuery);
@@ -192,9 +241,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
           child: StreamBuilder<Map<int, bool>>(
             stream: viewmodel.progressStream,
             builder: (_, snapshot) {
-              if ((snapshot.data?.values?.where((element) => element)?.length ??
-                      -1) >
-                  0) {
+              if ((snapshot.data?.values?.where((element) => element)?.length ?? -1) > 0) {
                 return MyTable.vertical(
                   [
                     LinearProgressIndicator(),
@@ -215,7 +262,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
     hideKeyboard();
     _searchQuery?.clear();
     MedicineListFragment.open(
-        getContext(), ArgMedicineList(medicine.title, medicine.type));
+        getContext(), ArgMedicineList(medicine.title, medicine.sendServerText, medicine.type));
   }
 
   void openMedicineMarkListFragment(String text) {
@@ -251,8 +298,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => max(maxHeight, minHeight);
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return new SizedBox.expand(child: child);
   }
 

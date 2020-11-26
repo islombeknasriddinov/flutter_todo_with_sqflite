@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:gwslib/gwslib.dart';
 
 class ArgMedicineItem {
-  int medicineId;
+  String medicineId;
 
   ArgMedicineItem(this.medicineId);
 }

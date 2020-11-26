@@ -9,7 +9,6 @@ import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:gwslib/gwslib.dart';
 
@@ -19,16 +18,12 @@ class ArgMedicineMarkList {
   ArgMedicineMarkList(this.query);
 }
 
-class MedicineMarkListFragment
-    extends ViewModelFragment<MedicineMarkListViewModel> {
+class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewModel> {
   static final String ROUTE_NAME = "/medicine_mark_list_fragment";
 
   static void open(BuildContext context, ArgMedicineMarkList arg) {
     Navigator.push<dynamic>(
-        context,
-        SizeRoute(
-            page:
-                Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
+        context, SizeRoute(page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
@@ -39,14 +34,12 @@ class MedicineMarkListFragment
   @override
   void onCreate(BuildContext context) {
     super.onCreate(context);
-    _searchQuery = new TextEditingController(
-        text: arg.query?.isNotEmpty == true ? arg.query : "");
+    _searchQuery = new TextEditingController(text: arg.query?.isNotEmpty == true ? arg.query : "");
   }
 
   @override
   MedicineMarkListViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineMarkListViewModel(
-          DarmonApp.instance.darmonServiceLocator.darmonRepository);
+      MedicineMarkListViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -104,9 +97,9 @@ class MedicineMarkListFragment
       decoration: InputDecoration(
         hintText: R.strings.medicine_list_fragment.search.translate(),
         border: InputBorder.none,
-        hintStyle: TextStyle(color: R.colors.textColor),
+        hintStyle: TextStyle(color: R.colors.hintTextColor),
       ),
-      style: TextStyle(color: R.colors.textColor, fontSize: 16.0),
+      style: TextStyle(color: R.colors.textColor),
       onChanged: updateSearchQuery,
     );
   }
@@ -118,8 +111,7 @@ class MedicineMarkListFragment
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.medicine_list_fragment.search_by,
-            style: TS_Body_1(R.colors.textColor)),
+        MyText(R.strings.medicine_list_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
       background: R.colors.background,
@@ -162,13 +154,13 @@ class MedicineMarkListFragment
     return StreamBuilder<void>(
         stream: viewmodel.reload,
         builder: (_, snapshot) {
-          if (viewmodel.medicineMarkInnListIsNotEmpty ||
-              viewmodel.medicineMarkNameListIsNotEmpty) {
+          if ((viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive) ||
+              (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)) {
             return CustomScrollView(
               slivers: [
-                if (viewmodel.medicineMarkNameListIsNotEmpty)
+                if (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)
                   _buildMedicineMarkNameList(),
-                if (viewmodel.medicineMarkInnListIsNotEmpty)
+                if (viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive)
                   _buildMedicineMarkInnList(),
               ],
               reverse: false,
@@ -284,7 +276,7 @@ class MedicineMarkListFragment
     hideKeyboard();
     _searchQuery?.clear();
     MedicineListFragment.open(
-        getContext(), ArgMedicineList(medicine.title, medicine.type));
+        getContext(), ArgMedicineList(medicine.title, medicine.sendServerText, medicine.type));
   }
 
   void hideKeyboard() {

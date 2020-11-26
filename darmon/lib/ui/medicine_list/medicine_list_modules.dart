@@ -26,33 +26,33 @@ class SearchField {
 }
 
 class MedicineListItem {
-  int medicineId;
-  String medicineName;
+  String medicineMarkId;
   String medicineNameRU;
   String medicineNameUZ;
   String medicineNameEN;
-  String medicineGenerationName;
-  int medicineMNN;
+  String langCode;
 
-  MedicineListItem(
-    this.medicineId,
-    this.medicineName,
-    this.medicineNameRU,
-    this.medicineNameUZ,
-    this.medicineNameEN,
-    this.medicineGenerationName,
-    this.medicineMNN,
-  );
+  String medicineName() {
+    if (langCode == "uz")
+      return medicineNameUZ;
+    else if (langCode == "en") return medicineNameEN;
+    return medicineNameRU;
+  }
 
-  factory MedicineListItem.fromJson(Map<String, dynamic> data) {
+  MedicineListItem(this.medicineMarkId, this.medicineNameRU, this.medicineNameUZ,
+      this.medicineNameEN, this.langCode);
+
+  /* factory MedicineListItem.fromJson(Map<String, dynamic> data) {
     return MedicineListItem(
       nvlTryInt(data["medicine_id"]),
       nvl(data["medicine_name"]),
       nvl(data["medicine_name_ru"]),
       nvl(data["medicine_name_uz"]),
       nvl(data["medicine_name_en"]),
-      nvl(data["medicine_generation_name"]),
-      nvlTryInt(data["medicine_mnn"]),
     );
+  }*/
+
+  factory MedicineListItem.parseObjects(List<dynamic> data, String langCode) {
+    return MedicineListItem(nvl(data[3]), nvl(data[1]), nvl(data[0]), nvl(data[2]), langCode);
   }
 }

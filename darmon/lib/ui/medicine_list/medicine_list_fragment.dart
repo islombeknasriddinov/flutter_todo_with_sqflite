@@ -1,9 +1,7 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/result.dart';
-import 'package:darmon/common/routes/size_route.dart';
 import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
-import 'package:darmon/main.dart';
 import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
@@ -11,14 +9,14 @@ import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:gwslib/gwslib.dart';
 
 class ArgMedicineList {
   final String medicineMark;
+  final String sendServerText;
   final UIMedicineMarkSearchResultType type;
 
-  ArgMedicineList(this.medicineMark, this.type);
+  ArgMedicineList(this.medicineMark, this.sendServerText, this.type);
 }
 
 class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
@@ -26,18 +24,14 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
 
   static void open(BuildContext context, ArgMedicineList arg) {
     Navigator.push<dynamic>(
-        context,
-        SlideLeftRoute(
-            page: Mold.newInstance(MedicineListFragment()..argument = arg)));
+        context, SlideLeftRoute(page: Mold.newInstance(MedicineListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
   ArgMedicineList get arg => argument as ArgMedicineList;
 
   @override
-  MedicineListViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineListViewModel(
-          DarmonApp.instance.darmonServiceLocator.medicineListRepository);
+  MedicineListViewModel onCreateViewModel(BuildContext buildContext) => MedicineListViewModel();
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -62,8 +56,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
       Expanded(
         child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              if (scrollInfo.metrics.pixels ==
-                  scrollInfo.metrics.maxScrollExtent) {
+              if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
                 viewmodel.loadPage();
               }
               return true;
@@ -104,8 +97,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                           style: TS_Button(R.colors.app_color),
                           upperCase: true,
                         ),
-                        padding: EdgeInsets.only(
-                            top: 11, bottom: 11, left: 16, right: 16),
+                        padding: EdgeInsets.only(top: 11, bottom: 11, left: 16, right: 16),
                         elevation: 0,
                         borderColor: Color(0x1F000000),
                         borderRadius: BorderRadius.circular(4),
@@ -113,8 +105,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                           viewmodel.reload();
                         },
                       ),
-                      padding: EdgeInsets.only(
-                          left: 6, right: 16, top: 16, bottom: 16),
+                      padding: EdgeInsets.only(left: 6, right: 16, top: 16, bottom: 16),
                     )
                   ],
                   width: double.infinity,
@@ -144,14 +135,13 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
     return MyTable.vertical(
       [
         MyText(
-          '${medicine.medicineName}',
+          medicine.medicineName(),
           style: TS_HeadLine6(R.colors.textColor),
           padding: EdgeInsets.symmetric(vertical: 12),
         ),
       ],
       onTapCallback: () {
-        MedicineItemFragment.open(
-            getContext(), ArgMedicineItem(medicine.medicineId));
+        MedicineItemFragment.open(getContext(), ArgMedicineItem(medicine.medicineMarkId));
       },
       margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
