@@ -9,7 +9,8 @@ class UIDarmonDao {
 
   UIDarmonDao(this.db);
 
-  Future<List<ZMedicineMarkName>> searchMedicineMarkName(String query, {int limit = 5}) async {
+  Future<List<ZMedicineMarkName>> searchMedicineMarkName(String query,
+      {int limit}) async {
     if (query == null || query.isEmpty) return [];
     String querySoundex = Soundex.soundex(query);
 
@@ -25,15 +26,15 @@ class UIDarmonDao {
           OR t.${ZMedicineMarkName.C_NAME_RU} LIKE '%$query%'
           OR t.${ZMedicineMarkName.C_NAME_UZ} LIKE '%$latinQuery%'
        ORDER BY t.${ZMedicineMarkName.C_NAME_EN} ASC
-       LIMIT $limit;
+       LIMIT ${limit ?? 5}
     """;
 
-    return db
-        .rawQuery(sql)
-        .then((value) => value.map((e) => ZMedicineMarkName.fromData(e)).toList());
+    return db.rawQuery(sql).then(
+        (value) => value.map((e) => ZMedicineMarkName.fromData(e)).toList());
   }
 
-  Future<List<ZMedicineMarkInn>> searchMedicineMarkInn(String query, {int limit = 5}) async {
+  Future<List<ZMedicineMarkInn>> searchMedicineMarkInn(String query,
+      {int limit}) async {
     if (query == null || query.isEmpty) return [];
     String querySoundex = Soundex.soundex(query);
 
@@ -47,10 +48,9 @@ class UIDarmonDao {
           OR t.${ZMedicineMarkInn.C_INN_EN_SOUNDEX} = '$latinSoundex'
           OR t.${ZMedicineMarkInn.C_INN_RU} LIKE '%$query%'
           OR t.${ZMedicineMarkInn.C_INN_EN} LIKE '%$query%'
-          LIMIT $limit;
+          LIMIT ${limit ?? 5}
     """;
-    return db
-        .rawQuery(sql)
-        .then((value) => value.map((e) => ZMedicineMarkInn.fromData(e)).toList());
+    return db.rawQuery(sql).then(
+        (value) => value.map((e) => ZMedicineMarkInn.fromData(e)).toList());
   }
 }

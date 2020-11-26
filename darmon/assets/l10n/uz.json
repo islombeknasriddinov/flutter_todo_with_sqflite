@@ -49,5 +49,8 @@
 
   "medicine_mark_list_fragment:mark_name":"Ism",
   "medicine_mark_list_fragment:mark_inn":"MNN",
+  "medicine_mark_list_fragment:search_history":"Qidiruv tarixi",
+  "medicine_mark_list_fragment:show_more":"Ko'proq ko'rsatish",
+
   "z": "z"
 }

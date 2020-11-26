@@ -10,13 +10,15 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   MedicineMarkListViewModel(this._repository);
 
-  LazyStream<bool> _isClearActive = LazyStream(() => true);
   LazyStream<String> _searchText = LazyStream();
 
   LazyStream<void> _reload = LazyStream();
 
   LazyStream<List<UIMedicineMark>> _medicineMarkInnList = LazyStream();
   LazyStream<List<UIMedicineMark>> _medicineMarkNameList = LazyStream();
+  LazyStream<List<UIMedicineMark>> _searchHistory = LazyStream();
+
+  Stream<List<UIMedicineMark>> get searchHistory => _searchHistory.stream;
 
   List<UIMedicineMark> get medicineMarkNameList =>
       _medicineMarkNameList.value ?? [];
@@ -26,8 +28,6 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
   Stream<void> get reload => _reload.stream;
 
   Stream<String> get searchText => _searchText.stream;
-
-  Stream<bool> get isClearActive => _isClearActive.stream;
 
   bool get medicineMarkInnListIsNotEmpty =>
       (_medicineMarkInnList?.value?.length ?? -1) > 0;
@@ -41,29 +41,41 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
         "by_inn", R.strings.medicine_list_fragment.search_by_inn.translate()),
   ];
 
-  bool innIsActive=true;
-  bool nameIsActive=true;
+  bool innIsActive = true;
+  bool nameIsActive = true;
+
+  String get getSearchText => _searchText.value;
+
+  List<UIMedicineMark> get searchHistoryList => _searchHistory.value ?? [];
 
   @override
   void onCreate() {
     super.onCreate();
-    _searchText.get().listen((value) {
-      if (value?.isNotEmpty == true) {
-        if (_isClearActive.value != true) _isClearActive.add(true);
-      } else {
-        if (_isClearActive.value != false) _isClearActive.add(false);
-      }
+    loadSearchHistory();
+    _searchText.get()?.listen((value) {
+      if (value == null || value.isEmpty) loadSearchHistory();
     });
-    setSearchText(argument.query);
+  }
+
+  void loadSearchHistory() async {
+    try {
+      final result = await _repository.loadMedicineMarkSearchHistory();
+      _searchHistory.add(result);
+      _reload.add(() {});
+    } catch (error, st) {
+      Log.error("Error($error)\n$st");
+    }
   }
 
   void setSearchText(String txt) async {
+    if (_searchText.value == txt) return;
     _searchText.add(txt);
     try {
       final names = await _repository.searchMedicineMarkNames(txt);
       _medicineMarkNameList.add(names);
 
       final inns = await _repository.searchMedicineMarkInns(txt);
+      Log.debug("inn.lenght=${inns.length}");
       _medicineMarkInnList.add(inns);
 
       _reload.add(() {});
@@ -71,16 +83,6 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
       Log.error("Error($error)\n$st");
       setError(error);
     }
-  }
-
-  @override
-  void onDestroy() {
-    _isClearActive.close();
-    _searchText.close();
-    _reload.close();
-    _medicineMarkInnList.close();
-    _medicineMarkNameList.close();
-    super.onDestroy();
   }
 
   void onSelectFilter() async {
@@ -105,6 +107,44 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
         }
       }
     }
+    _reload.add(() {});
+  }
+
+  void saveMedicineMarkSearchHistory(UIMedicineMark medicine) {
+    _repository.saveMedicineMarkSearchHistory(medicine);
+  }
+
+  @override
+  void onDestroy() {
+    _searchText.close();
+    _reload.close();
+    _medicineMarkInnList.close();
+    _medicineMarkNameList.close();
+    super.onDestroy();
+  }
+
+  void deleteSearchHistory(UIMedicineMark mark) async {
+    try {
+      await _repository.deleteMedicineMarkSearchHistory(mark);
+      loadSearchHistory();
+    } catch (error, st) {
+      Log.error("Error($error)\n$st");
+    }
+  }
+
+  void loadMedicineMarkInnMore() async {
+    int length = (_medicineMarkInnList.value?.length ?? 0) + 10;
+    final inns = await _repository
+        .searchMedicineMarkInns(_searchText.value ?? "", limit: length);
+    _medicineMarkInnList.add(inns);
+    _reload.add(() {});
+  }
+
+  void loadMedicineMarkNameMore() async {
+    int length = (_medicineMarkNameList.value?.length ?? 0) + 10;
+    final names = await _repository
+        .searchMedicineMarkNames(_searchText.value ?? "", limit: length);
+    _medicineMarkNameList.add(names);
     _reload.add(() {});
   }
 }

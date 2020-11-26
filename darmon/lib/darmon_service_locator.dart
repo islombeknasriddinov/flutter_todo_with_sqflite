@@ -31,7 +31,7 @@ class DarmonServiceLocator {
 
   DarmonRepository get darmonRepository {
     if (_darmonRepository == null) {
-      _darmonRepository = DarmonRepository(darmonDao);
+      _darmonRepository = DarmonRepository(database.call(), darmonDao);
     }
     return _darmonRepository;
   }

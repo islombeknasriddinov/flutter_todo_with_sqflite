@@ -114,6 +114,8 @@ class MedicineListFragmentStrings {
 class MedicineMarkListFragmentStrings {
   final String mark_name = "medicine_mark_list_fragment:mark_name";
   final String mark_inn = "medicine_mark_list_fragment:mark_inn";
+  final String search_history = "medicine_mark_list_fragment:search_history";
+  final String  show_more ="medicine_mark_list_fragment:show_more";
 }
 
 class FilterStrings {

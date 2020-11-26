@@ -18,12 +18,16 @@ class ArgMedicineMarkList {
   ArgMedicineMarkList(this.query);
 }
 
-class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewModel> {
+class MedicineMarkListFragment
+    extends ViewModelFragment<MedicineMarkListViewModel> {
   static final String ROUTE_NAME = "/medicine_mark_list_fragment";
 
   static void open(BuildContext context, ArgMedicineMarkList arg) {
     Navigator.push<dynamic>(
-        context, SizeRoute(page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
+        context,
+        SizeRoute(
+            page:
+                Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
@@ -34,12 +38,14 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   @override
   void onCreate(BuildContext context) {
     super.onCreate(context);
-    _searchQuery = new TextEditingController(text: arg.query?.isNotEmpty == true ? arg.query : "");
+    _searchQuery = new TextEditingController(
+        text: arg.query?.isNotEmpty == true ? arg.query : "");
   }
 
   @override
   MedicineMarkListViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineMarkListViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
+      MedicineMarkListViewModel(
+          DarmonApp.instance.darmonServiceLocator.darmonRepository);
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -62,10 +68,10 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
 
   List<Widget> _buildActions() {
     return <Widget>[
-      StreamBuilder<bool>(
-          stream: viewmodel.isClearActive,
+      StreamBuilder<String>(
+          stream: viewmodel.searchText,
           builder: (_, snapshot) {
-            if (snapshot?.data == true) {
+            if (snapshot?.data?.isNotEmpty == true) {
               return MyIcon.icon(
                 Icons.clear,
                 color: R.colors.iconColors,
@@ -93,7 +99,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   Widget _buildSearchField() {
     return new TextField(
       controller: _searchQuery,
-      autofocus: false,
+      autofocus: true,
       decoration: InputDecoration(
         hintText: R.strings.medicine_list_fragment.search.translate(),
         border: InputBorder.none,
@@ -111,7 +117,8 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.medicine_list_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
+        MyText(R.strings.medicine_list_fragment.search_by,
+            style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
       background: R.colors.background,
@@ -154,13 +161,27 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     return StreamBuilder<void>(
         stream: viewmodel.reload,
         builder: (_, snapshot) {
-          if ((viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive) ||
-              (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)) {
+          if ((viewmodel.getSearchText == null ||
+                  viewmodel.getSearchText.isEmpty) &&
+              viewmodel.searchHistoryList?.isNotEmpty == true)
             return CustomScrollView(
               slivers: [
-                if (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)
+                _buildSearchHistory(),
+              ],
+              reverse: false,
+            );
+
+          if ((viewmodel.medicineMarkInnListIsNotEmpty &&
+                  viewmodel.innIsActive) ||
+              (viewmodel.medicineMarkNameListIsNotEmpty &&
+                  viewmodel.nameIsActive)) {
+            return CustomScrollView(
+              slivers: [
+                if (viewmodel.medicineMarkNameListIsNotEmpty &&
+                    viewmodel.nameIsActive)
                   _buildMedicineMarkNameList(),
-                if (viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive)
+                if (viewmodel.medicineMarkInnListIsNotEmpty &&
+                    viewmodel.innIsActive)
                   _buildMedicineMarkInnList(),
               ],
               reverse: false,
@@ -191,6 +212,67 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     );
   }*/
 
+  Widget _buildSearchHistory() {
+    List<UIMedicineMark> histories = viewmodel.searchHistoryList;
+    return SliverStickyHeader(
+      header: Container(
+        height: 30.0,
+        color: R.colors.stickHeaderColor,
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        alignment: Alignment.centerLeft,
+        child: MyText(
+          R.strings.medicine_mark_list_fragment.search_history,
+          style: TS_Caption(R.colors.hintTextColor),
+        ),
+      ),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, i) {
+            UIMedicineMark mark = histories[i];
+            return populateSearchHistoryItem(mark.title, () {
+              openMedicineListFragment(mark);
+            }, () {
+              viewmodel.deleteSearchHistory(mark);
+            });
+          },
+          childCount: histories.length,
+        ),
+      ),
+    );
+  }
+
+  Widget populateSearchHistoryItem(
+      String title, Function onTapCallback, Function onDeleteSearchHistory) {
+    return MyTable.vertical(
+      [
+        MyTable.horizontal(
+          [
+            MyIcon.icon(
+              Icons.access_time_outlined,
+              color: R.colors.iconColors,
+              size: 18,
+            ),
+            MyText(
+              title,
+              flex: 1,
+              style: TS_Body_1(R.colors.textColor),
+              padding: EdgeInsets.symmetric(vertical: 8),
+            ),
+            MyIcon.icon(Icons.delete_forever,
+                color: R.colors.iconColors,
+                size: 18,
+                onTap: onDeleteSearchHistory)
+          ],
+          crossAxisAlignment: CrossAxisAlignment.center,
+          padding: EdgeInsets.only(right: 12, top: 6, bottom: 6),
+        ),
+        Divider(color: R.colors.dividerColor, height: 1)
+      ],
+      padding: EdgeInsets.only(left: 12),
+      onTapCallback: onTapCallback,
+    );
+  }
+
   Widget _buildMedicineMarkNameList() {
     List<UIMedicineMark> names = viewmodel.medicineMarkNameList;
     return SliverStickyHeader(
@@ -207,6 +289,12 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, i) {
+            if (i == names.length - 1 && names.length % 5 == 0) {
+              return buildMoreButtonWidget(() {
+                viewmodel.loadMedicineMarkNameMore();
+              });
+            }
+
             UIMedicineMark name = names[i];
             return populateListItem(name.title, () {
               openMedicineListFragment(name);
@@ -220,6 +308,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
 
   Widget _buildMedicineMarkInnList() {
     List<UIMedicineMark> inns = viewmodel.medicineMarkInnList;
+    Log.debug("inns.length=${inns.length}");
     return SliverStickyHeader(
       header: Container(
         height: 30.0,
@@ -234,6 +323,11 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, i) {
+            if (i == inns.length - 1 && inns.length % 5 == 0) {
+              return buildMoreButtonWidget(() {
+                viewmodel.loadMedicineMarkInnMore();
+              });
+            }
             UIMedicineMark inn = inns[i];
             return populateListItem(inn.title, () {
               openMedicineListFragment(inn);
@@ -273,10 +367,12 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   }
 
   void openMedicineListFragment(UIMedicineMark medicine) {
+    viewmodel.saveMedicineMarkSearchHistory(medicine);
     hideKeyboard();
-    _searchQuery?.clear();
     MedicineListFragment.open(
-        getContext(), ArgMedicineList(medicine.title, medicine.sendServerText, medicine.type));
+        getContext(),
+        ArgMedicineList(
+            medicine.title, medicine.sendServerText, medicine.type));
   }
 
   void hideKeyboard() {
@@ -285,5 +381,27 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     } catch (error, st) {
       Log.error("Error($error)\n$st");
     }
+  }
+
+  Widget buildMoreButtonWidget(Function onTapCallback) {
+    return MyTable.vertical(
+      [
+        MyTable.horizontal(
+          [
+            MyText(
+              R.strings.medicine_mark_list_fragment.show_more,
+              flex: 1,
+              style: TS_Body_1(R.colors.textColor),
+              padding: EdgeInsets.symmetric(vertical: 8),
+            )
+          ],
+          crossAxisAlignment: CrossAxisAlignment.center,
+          padding: EdgeInsets.only(right: 12, top: 6, bottom: 6),
+        ),
+        Divider(color: R.colors.dividerColor, height: 1)
+      ],
+      padding: EdgeInsets.only(left: 12),
+      onTapCallback: onTapCallback,
+    );
   }
 }

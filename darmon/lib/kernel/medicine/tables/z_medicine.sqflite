@@ -16,3 +16,11 @@ create table z_medicine_mark_inn (
   inn_ids                              text not null,
   constraint z_medicine_mark_inn_pk primary key (inn_ru)
 );
+
+create table z_medicine_mark_search_history (
+  title                                text not null,
+  send_server_text                     text not null,
+  type                                 int not null,
+  order_no                             int not null,
+  constraint z_medicine_mark_search_history_pk primary key (title,type)
+);
