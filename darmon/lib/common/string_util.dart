@@ -243,12 +243,17 @@ class StringUtil {
       "Z"
     ];
     String builder = "";
+    bool isAdded = false;
     for (int i = 0; i < message.length; i++) {
+      isAdded = false;
       for (int x = 0; x < abcCyr.length; x++) {
         if (message[i] == abcCyr[x]) {
           builder = builder + abcLat[x];
+          isAdded = true;
+          break;
         }
       }
+      if (!isAdded) builder = builder + message[i];
     }
     return builder.toString();
   }
