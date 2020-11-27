@@ -14,8 +14,10 @@ class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
   Widget onCreateWidget(BuildContext context) {
     Log.debug("context:${context.runtimeType.hashCode}");
     return Scaffold(
+      backgroundColor: R.colors.background,
       appBar: AppBar(
         title: MyText(R.strings.setting.settings),
+        backgroundColor: R.colors.appBarColor,
       ),
       body: Container(
         width: double.infinity,

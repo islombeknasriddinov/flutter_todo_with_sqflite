@@ -23,8 +23,10 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
         builder: (_, snapshot) {
           if (snapshot?.data != null) {
             return Scaffold(
+              backgroundColor: R.colors.background,
               body: getIndexFragment(snapshot.data),
               bottomNavigationBar: BottomNavigationBar(
+                backgroundColor: R.colors.background,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(Icons.format_list_bulleted_rounded),
@@ -41,6 +43,7 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                 ],
                 currentIndex: snapshot.data,
                 selectedItemColor: R.colors.app_color,
+                unselectedItemColor: R.colors.unselectedItemColor,
                 onTap: _onItemTapped,
               ),
             );

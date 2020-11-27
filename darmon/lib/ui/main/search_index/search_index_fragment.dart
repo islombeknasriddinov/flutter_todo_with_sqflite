@@ -42,6 +42,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
   @override
   Widget onCreateWidget(BuildContext context) {
     return Scaffold(
+        backgroundColor: R.colors.background,
         resizeToAvoidBottomPadding: true,
         body: CustomScrollView(controller: scrollController, slivers: [
           _searchAppBar(),
@@ -83,18 +84,20 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                   );
                 } else {
                   return SliverFillRemaining(
-                    child: Center(
-                        child: MyTable.vertical(
-                      [
-                        MyIcon.icon(Icons.list, color: R.colors.iconColors, size: 48),
-                        MyText(
-                          R.strings.search_index.list_is_empty,
-                          style: TS_Body_1(R.colors.textColor),
-                        ),
-                      ],
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    )),
+                    child: Container(
+                      child: Center(
+                          child: MyTable.vertical(
+                        [
+                          MyIcon.icon(Icons.list, color: R.colors.iconColors, size: 48),
+                          MyText(
+                            R.strings.search_index.list_is_empty,
+                            style: TS_Body_1(R.colors.textColor),
+                          ),
+                        ],
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      )),
+                    ),
                   );
                 }
               })
@@ -182,6 +185,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
     return SliverAppBar(
       expandedHeight: 250,
       floating: false,
+      backgroundColor: R.colors.appBarColor,
       pinned: true,
       snap: false,
       shape: ContinuousRectangleBorder(
@@ -251,7 +255,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                   mainAxisAlignment: MainAxisAlignment.center,
                 );
               } else {
-                return Container();
+                return Container(color: R.colors.background);
               }
             },
           )),

@@ -52,83 +52,86 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
   }
 
   Widget _buildListWidget() {
-    return MyTable.vertical([
-      Expanded(
-        child: NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification scrollInfo) {
-              if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                viewmodel.loadPage();
-              }
-              return true;
-            },
-            child: StreamBuilder<List<MedicineListItem>>(
-              stream: viewmodel.items,
-              builder: (_, snapshot) {
-                print("snapshot?.data=${snapshot?.data}");
+    return MyTable.vertical(
+      [
+        Expanded(
+          child: NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification scrollInfo) {
+                if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                  viewmodel.loadPage();
+                }
+                return true;
+              },
+              child: StreamBuilder<List<MedicineListItem>>(
+                stream: viewmodel.items,
+                builder: (_, snapshot) {
+                  print("snapshot?.data=${snapshot?.data}");
 
-                if (snapshot?.data?.isNotEmpty == true) {
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return populateListItem(snapshot.data[index]);
-                    },
+                  if (snapshot?.data?.isNotEmpty == true) {
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return populateListItem(snapshot.data[index]);
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              )),
+        ),
+        StreamBuilder<MyResultStatus>(
+            stream: viewmodel.statuse,
+            builder: (_, snapshot) {
+              if (snapshot?.data != null) {
+                if (snapshot.data == MyResultStatus.ERROR) {
+                  return MyTable.vertical(
+                    [
+                      MyText(
+                        viewmodel?.errorMessageValue?.message ?? "",
+                        style: TS_ErrorText(),
+                      ),
+                      Padding(
+                        child: ContainerElevation(
+                          MyText(
+                            R.strings.medicine_list_fragment.reload,
+                            style: TS_Button(R.colors.app_color),
+                            upperCase: true,
+                          ),
+                          backgroundColor: R.colors.cardColor,
+                          padding: EdgeInsets.only(top: 11, bottom: 11, left: 16, right: 16),
+                          elevation: 2,
+                          borderRadius: BorderRadius.circular(4),
+                          onClick: () {
+                            viewmodel.reload();
+                          },
+                        ),
+                        padding: EdgeInsets.only(left: 6, right: 16, top: 16, bottom: 16),
+                      )
+                    ],
+                    width: double.infinity,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    background: Colors.transparent,
+                  );
+                } else if (snapshot.data == MyResultStatus.LOADING) {
+                  return Container(
+                    height: 50.0,
+                    color: Colors.transparent,
+                    child: Center(
+                      child: new CircularProgressIndicator(),
+                    ),
                   );
                 } else {
                   return Container();
                 }
-              },
-            )),
-      ),
-      StreamBuilder<MyResultStatus>(
-          stream: viewmodel.statuse,
-          builder: (_, snapshot) {
-            if (snapshot?.data != null) {
-              if (snapshot.data == MyResultStatus.ERROR) {
-                return MyTable.vertical(
-                  [
-                    MyText(
-                      viewmodel?.errorMessageValue?.message ?? "",
-                      style: TS_ErrorText(),
-                    ),
-                    Padding(
-                      child: ContainerElevation(
-                        MyText(
-                          R.strings.medicine_list_fragment.reload,
-                          style: TS_Button(R.colors.app_color),
-                          upperCase: true,
-                        ),
-                        padding: EdgeInsets.only(top: 11, bottom: 11, left: 16, right: 16),
-                        elevation: 0,
-                        borderColor: Color(0x1F000000),
-                        borderRadius: BorderRadius.circular(4),
-                        onClick: () {
-                          viewmodel.reload();
-                        },
-                      ),
-                      padding: EdgeInsets.only(left: 6, right: 16, top: 16, bottom: 16),
-                    )
-                  ],
-                  width: double.infinity,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  background: Colors.transparent,
-                );
-              } else if (snapshot.data == MyResultStatus.LOADING) {
-                return Container(
-                  height: 50.0,
-                  color: Colors.transparent,
-                  child: Center(
-                    child: new CircularProgressIndicator(),
-                  ),
-                );
               } else {
                 return Container();
               }
-            } else {
-              return Container();
-            }
-          })
-    ]);
+            })
+      ],
+      background: R.colors.background,
+    );
   }
 
   Widget populateListItem(MedicineListItem medicine) {

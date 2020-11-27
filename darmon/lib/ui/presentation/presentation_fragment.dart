@@ -30,6 +30,7 @@ class PresentationFragment extends ViewModelFragment<PresentationViewModel> {
   @override
   Widget onCreateWidget(BuildContext context) {
     return Scaffold(
+      backgroundColor: R.colors.background,
       body: SafeArea(
         child: Stack(children: [
           MyTable.vertical(

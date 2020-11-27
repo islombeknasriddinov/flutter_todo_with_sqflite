@@ -20,41 +20,42 @@ class ResourceColors {
   final Color status_attention = Color(0xFFF79B26);
   final Color server_hint = Color(0xFF9AA4A8);
 
-  Color get app_color =>
-      AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
+  Color get app_color => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 
-  Color get background =>
-      AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
+  Color get appBarColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().appBarTheme.color : Color(0xFF007BCF);
 
-  Color get statusError =>
-      AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFE93558);
+  Color get background => AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
 
-  Color get cardColor => AppLang.instance.isDarkMode
-      ? ThemeData.dark().cardColor
-      : ThemeData.light().cardColor;
+  Color get backgroundColor => AppLang.instance.isDarkMode
+      ? ThemeData.dark().backgroundColor
+      : ThemeData.light().backgroundColor;
 
-  Color get dividerColor => AppLang.instance.isDarkMode
-      ? ThemeData.dark().dividerColor
-      : ThemeData.light().dividerColor;
+  Color get statusError => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFE93558);
 
-  Color get textColorOpposite =>
-      AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
+  Color get cardColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().cardColor : ThemeData.light().cardColor;
+
+  Color get dividerColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().dividerColor : ThemeData.light().dividerColor;
+
+  Color get textColorOpposite => AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
 
   Color get iconColors => AppLang.instance.isDarkMode
       ? ThemeData.dark().iconTheme.color
       : ThemeData.light().iconTheme.color;
 
-  Color get textColor =>
-      AppLang.instance.isDarkMode ? Colors.white : Colors.black87;
+  Color get unselectedItemColor => AppLang.instance.isDarkMode
+      ? ThemeData.dark().unselectedWidgetColor
+      : ThemeData.light().unselectedWidgetColor;
 
-  Color get hintTextColor =>
-      AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
+  Color get textColor => AppLang.instance.isDarkMode ? Colors.white : Colors.black87;
 
-  Color get switchColor =>
-      AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
+  Color get hintTextColor => AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
 
-  Color get stickHeaderColor =>
-      AppLang.instance.isDarkMode ? Colors.grey[700] : Colors.grey[300];
+  Color get switchColor => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
+
+  Color get stickHeaderColor => AppLang.instance.isDarkMode ? Colors.grey[700] : Colors.grey[300];
 }
 
 class ResourceStrings {
@@ -63,8 +64,7 @@ class ResourceStrings {
   final MainStrings main = MainStrings();
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
-  final MedicineListFragmentStrings medicine_list_fragment =
-      new MedicineListFragmentStrings();
+  final MedicineListFragmentStrings medicine_list_fragment = new MedicineListFragmentStrings();
 
   final MedicineMarkListFragmentStrings medicine_mark_list_fragment =
       new MedicineMarkListFragmentStrings();
@@ -115,7 +115,7 @@ class MedicineMarkListFragmentStrings {
   final String mark_name = "medicine_mark_list_fragment:mark_name";
   final String mark_inn = "medicine_mark_list_fragment:mark_inn";
   final String search_history = "medicine_mark_list_fragment:search_history";
-  final String  show_more ="medicine_mark_list_fragment:show_more";
+  final String show_more = "medicine_mark_list_fragment:show_more";
 }
 
 class FilterStrings {

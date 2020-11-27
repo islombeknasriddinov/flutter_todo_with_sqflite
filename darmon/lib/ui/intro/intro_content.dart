@@ -63,6 +63,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
   @override
   Widget onCreateWidget(BuildContext context) {
     return Scaffold(
+      backgroundColor: R.colors.background,
       body: Stack(
         children: <Widget>[
           Center(child: Image.asset(R.asserts.intro_logo, width: 200)),
