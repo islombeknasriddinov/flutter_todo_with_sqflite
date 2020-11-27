@@ -8,7 +8,7 @@ class R {
 }
 
 class ResourceAssert {
-  final String intro_logo = "assets/images/intro_logo.png";
+  final String intro_logo = "assets/images/uzpharminfo.png";
   final String drawer_menu = "assets/libs/accounts/svg/drawer_menu.svg";
   final String edit_24 = "assets/libs/accounts/svg/edit_24.svg";
   final String leading_back = "assets/libs/accounts/svg/leading_back.svg";
