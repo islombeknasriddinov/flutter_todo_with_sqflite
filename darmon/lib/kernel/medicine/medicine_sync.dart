@@ -1,3 +1,8 @@
+import 'package:darmon/common/phonex.dart';
+import 'package:darmon/common/phonex.dart';
+import 'package:darmon/common/phonex.dart';
+import 'package:darmon/common/phonex.dart';
+import 'package:darmon/common/phonex.dart';
 import 'package:darmon/common/soundex.dart';
 import 'package:darmon/kernel/medicine/medicine_pref.dart';
 import 'package:darmon/kernel/medicine/tables/medicine_mark_inn.dart';
@@ -9,11 +14,11 @@ class MedicineSync {
     if (values.containsKey(MedicinePref.SYNC_MEDICINE_MARK_NAME)) {
       for (List<dynamic> row in values[MedicinePref.SYNC_MEDICINE_MARK_NAME] as List<dynamic>) {
         dynamic nameRu = row[0];
-        dynamic nameRuSoundex = Soundex.soundex(nameRu);
+        dynamic nameRuSoundex = Phonex.calculate(nameRu);
         dynamic nameUz = row[1];
-        dynamic nameUzSoundex = Soundex.soundex(nameUz);
+        dynamic nameUzSoundex = Phonex.calculate(nameUz);
         dynamic nameEn = row[2];
-        dynamic nameEnSoundex = Soundex.soundex(nameEn);
+        dynamic nameEnSoundex = Phonex.calculate(nameEn);
 
         await Z_ZMedicineMarkName.saveOne(db,
             nameRu: nameRu,
@@ -28,12 +33,16 @@ class MedicineSync {
     if (values.containsKey(MedicinePref.SYNC_MEDICINE_MARK_INN)) {
       for (List<dynamic> row in values[MedicinePref.SYNC_MEDICINE_MARK_INN] as List<dynamic>) {
         String innRu = row[0];
-        String innRuSoundex = Soundex.soundex(innRu);
+        String innRuSoundex = Phonex.calculate(innRu);
         String innEn = row[1];
-        String innEnSoundex = Soundex.soundex(innEn);
-
+        String innEnSoundex = Phonex.calculate(innEn);
+        String innIds = row[2];
         await Z_ZMedicineMarkInn.saveOne(db,
-            innRu: innRu, innRuSoundex: innRuSoundex, innEn: innEn, innEnSoundex: innEnSoundex);
+            innRu: innRu,
+            innRuSoundex: innRuSoundex,
+            innEn: innEn,
+            innEnSoundex: innEnSoundex,
+            innIds: innIds);
       }
     }
   }

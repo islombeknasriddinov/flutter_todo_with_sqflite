@@ -138,13 +138,13 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
     return MyTable.vertical(
       [
         MyText(
-          medicine.medicineName(),
+          medicine.medicine_mark_name,
           style: TS_HeadLine6(R.colors.textColor),
           padding: EdgeInsets.symmetric(vertical: 12),
         ),
       ],
       onTapCallback: () {
-        MedicineItemFragment.open(getContext(), ArgMedicineItem(medicine.medicineMarkId));
+        MedicineItemFragment.open(getContext(), ArgMedicineItem(medicine.box_group_id));
       },
       margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),

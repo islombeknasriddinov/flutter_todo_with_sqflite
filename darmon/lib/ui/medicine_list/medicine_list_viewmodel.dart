@@ -98,10 +98,15 @@ class MedicineListRepository {
 
   Future<List<MedicineListItem>> loadMedicine(
       UIMedicineMarkSearchResultType type, String query, int page) async {
+    String langCode = await LocalizationPref.getLanguage();
     final body = {
-      "d": {"type": type == UIMedicineMarkSearchResultType.INN ? "I" : "N", "query": query},
+      "d": {
+        "type": type == UIMedicineMarkSearchResultType.INN ? "I" : "N",
+        "query": query,
+        "lang": langCode
+      },
       "p": {
-        "column": ["name_uz", "name_ru", "name_en", "medicine_mark_id"],
+        "column": MedicineListItem.getKeys(),
         "filter": [],
         "sort": [],
         "offset": page,
@@ -117,9 +122,8 @@ class MedicineListRepository {
 
   Future<List<MedicineListItem>> parseObjects(List<dynamic> datas) async {
     List<MedicineListItem> result = [];
-    String langCode = await LocalizationPref.getLanguage();
     for (var data in datas) {
-      result.add(MedicineListItem.parseObjects(data, langCode));
+      result.add(MedicineListItem.parseObjects(data));
     }
     return result;
   }

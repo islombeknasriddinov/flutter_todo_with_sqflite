@@ -26,21 +26,21 @@ class SearchField {
 }
 
 class MedicineListItem {
-  String medicineMarkId;
-  String medicineNameRU;
-  String medicineNameUZ;
-  String medicineNameEN;
-  String langCode;
+  String medicine_mark_name;
+  String producer_gen_name;
+  String spread_kind;
+  String box_group_id;
+  String box_gen_name;
+  String retail_base_price;
 
-  String medicineName() {
-    if (langCode == "uz")
-      return medicineNameUZ;
-    else if (langCode == "en") return medicineNameEN;
-    return medicineNameRU;
-  }
-
-  MedicineListItem(this.medicineMarkId, this.medicineNameRU, this.medicineNameUZ,
-      this.medicineNameEN, this.langCode);
+  MedicineListItem(
+    this.medicine_mark_name,
+    this.producer_gen_name,
+    this.spread_kind,
+    this.box_group_id,
+    this.box_gen_name,
+    this.retail_base_price,
+  );
 
   /* factory MedicineListItem.fromJson(Map<String, dynamic> data) {
     return MedicineListItem(
@@ -52,7 +52,23 @@ class MedicineListItem {
     );
   }*/
 
-  factory MedicineListItem.parseObjects(List<dynamic> data, String langCode) {
-    return MedicineListItem(nvl(data[3]), nvl(data[1]), nvl(data[0]), nvl(data[2]), langCode);
+  factory MedicineListItem.parseObjects(List<dynamic> data) {
+    return MedicineListItem(
+      nvl(data[0]),
+      nvl(data[1]),
+      nvl(data[2]),
+      nvl(data[3]),
+      nvl(data[4]),
+      nvl(data[5]),
+    );
   }
+
+  static List<String> getKeys() => [
+        "medicine_mark_name",
+        "producer_gen_name",
+        "spread_kind",
+        "box_group_id",
+        "box_gen_name",
+        "retail_base_price"
+      ];
 }

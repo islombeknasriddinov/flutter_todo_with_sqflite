@@ -30,7 +30,7 @@ class Soundex {
     }
   }
 
-  static String soundex(String s) {
+/*  static String soundex(String s) {
     String code, previous, soundex;
     code = s.toUpperCase()[0] + "";
     previous = "7";
@@ -43,5 +43,5 @@ class Soundex {
     }
     soundex = (code + "0000").substring(0, 4);
     return soundex;
-  }
+  }*/
 }
