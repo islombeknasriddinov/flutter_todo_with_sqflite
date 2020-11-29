@@ -29,9 +29,7 @@ class Mold {
                   locale: model.getLocale(),
                   darkTheme: ThemeData.dark(),
                   theme: ThemeData.light(),
-                  themeMode: model.isSystemMode
-                      ? ThemeMode.system
-                      : (model.isDarkMode ? ThemeMode.dark : ThemeMode.light),
+                  themeMode: model.isDarkMode ? ThemeMode.dark : ThemeMode.light,
                   supportedLocales: model.getSupportLangs(),
                   navigatorObservers: navigatorObservers,
                   localizationsDelegates: [

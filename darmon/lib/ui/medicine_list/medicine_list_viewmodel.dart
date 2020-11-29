@@ -11,12 +11,12 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
 
   MedicineListViewModel();
 
-  LazyStream<List<MedicineListItem>> _items = LazyStream();
+  LazyStream<List<ProducerListItem>> _items = LazyStream();
   LazyStream<MyResultStatus> _statuse = LazyStream(() => null);
 
   Stream<MyResultStatus> get statuse => _statuse.stream;
 
-  Stream<List<MedicineListItem>> get items => _items.stream;
+  Stream<List<ProducerListItem>> get items => _items.stream;
 
   @override
   void onCreate() {
@@ -42,10 +42,10 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
     if (_statuse.value == MyResultStatus.SUCCESS && _repository.hasNextPage) {
       try {
         _statuse.add(MyResultStatus.LOADING);
-        List<MedicineListItem> result =
+        List<ProducerListItem> result =
             await _repository.loadList(argument.type, argument.sendServerText);
 
-        List<MedicineListItem> list = _items.value ?? [];
+        List<ProducerListItem> list = _items.value ?? [];
         list.addAll(result);
         if (result != null) _items.add(list);
 
@@ -61,9 +61,9 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
   void loadFirstPage(UIMedicineMarkSearchResultType type, String sendServerText) async {
     try {
       _statuse.add(MyResultStatus.LOADING);
-      List<MedicineListItem> result = await _repository.loadFirstList(type, sendServerText);
+      List<ProducerListItem> result = await _repository.loadFirstList(type, sendServerText);
 
-      List<MedicineListItem> list = _items.value ?? [];
+      List<ProducerListItem> list = _items.value ?? [];
       list.addAll(result);
       if (result != null) _items.add(list);
 
@@ -78,25 +78,29 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
 
 class MedicineListRepository {
   int FIRST_PAGE = 0;
-  int LIMIT = 10;
+  int LIMIT = 50;
   int page;
   bool hasNextPage = true;
 
-  Future<List<MedicineListItem>> loadFirstList(
+  Future<List<ProducerListItem>> loadFirstList(
       UIMedicineMarkSearchResultType type, String sendServerText) async {
-    List<MedicineListItem> result = await loadMedicine(type, sendServerText, FIRST_PAGE);
+    List<ProducerListItem> result = await loadMedicine(type, sendServerText, FIRST_PAGE);
+
     page = FIRST_PAGE + 1;
+
     return result;
   }
 
-  Future<List<MedicineListItem>> loadList(
+  Future<List<ProducerListItem>> loadList(
       UIMedicineMarkSearchResultType type, String sendServerText) async {
-    List<MedicineListItem> result = await loadMedicine(type, sendServerText, page);
+    List<ProducerListItem> result = await loadMedicine(type, sendServerText, page);
+
     page = page + 1;
+
     return result;
   }
 
-  Future<List<MedicineListItem>> loadMedicine(
+  Future<List<ProducerListItem>> loadMedicine(
       UIMedicineMarkSearchResultType type, String query, int page) async {
     String langCode = await LocalizationPref.getLanguage();
     final body = {
@@ -117,7 +121,8 @@ class MedicineListRepository {
     int resultCount = result["count"];
     List<dynamic> data = result["data"];
     hasNextPage = resultCount == LIMIT;
-    return parseObjects(data);
+    List<MedicineListItem> list = await parseObjects(data);
+    return toProducerMedicineListItem(list);
   }
 
   Future<List<MedicineListItem>> parseObjects(List<dynamic> datas) async {
@@ -125,6 +130,29 @@ class MedicineListRepository {
     for (var data in datas) {
       result.add(MedicineListItem.parseObjects(data));
     }
+    return result;
+  }
+
+  List<ProducerListItem> toProducerMedicineListItem(List<MedicineListItem> items) {
+    List<ProducerListItem> result = [];
+    for (var medicine in items) {
+      ProducerMedicineListItem producerMedicineListItem = ProducerMedicineListItem(
+          medicine.spread_kind,
+          medicine.box_group_id,
+          medicine.box_gen_name,
+          medicine.retail_base_price);
+
+      ProducerListItem producerListItem = result.firstWhere(
+          (element) => element.producerGenName == medicine.producer_gen_name,
+          orElse: () => null);
+      if (producerListItem != null) {
+        producerListItem.medicines.add(producerMedicineListItem);
+      } else {
+        result.add(ProducerListItem(
+            medicine.medicine_mark_name, medicine.producer_gen_name, [producerMedicineListItem]));
+      }
+    }
+
     return result;
   }
 }

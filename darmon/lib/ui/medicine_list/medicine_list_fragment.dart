@@ -3,7 +3,6 @@ import 'package:darmon/common/result.dart';
 import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/repository/darmon_repository.dart';
-import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,7 +61,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                 }
                 return true;
               },
-              child: StreamBuilder<List<MedicineListItem>>(
+              child: StreamBuilder<List<ProducerListItem>>(
                 stream: viewmodel.items,
                 builder: (_, snapshot) {
                   print("snapshot?.data=${snapshot?.data}");
@@ -134,23 +133,67 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
     );
   }
 
-  Widget populateListItem(MedicineListItem medicine) {
+  Widget populateListItem(ProducerListItem medicine) {
     return MyTable.vertical(
       [
         MyText(
-          medicine.medicine_mark_name,
-          style: TS_HeadLine6(R.colors.textColor),
-          padding: EdgeInsets.symmetric(vertical: 12),
+          medicine.medicineMarkName,
+          style: TS_Body_1(R.colors.textColorOpposite),
+          padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 4),
+        ),
+        MyText(
+          medicine.producerGenName,
+          style: TS_Subtitle_2(textColor: R.colors.textColorOpposite),
+          padding: EdgeInsets.only(left: 12, right: 12, bottom: 10),
+        ),
+        MyTable.vertical(
+          _buildMedicineProductsList(medicine.medicines),
+          borderRadius: BorderRadius.circular(8),
+          background: R.colors.cardColor,
+          width: double.infinity,
         ),
       ],
-      onTapCallback: () {
-        MedicineItemFragment.open(getContext(), ArgMedicineItem(medicine.box_group_id));
-      },
-      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      background: R.colors.cardColor,
-      borderRadius: BorderRadius.circular(4),
+      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+      background: R.colors.app_color,
+      borderRadius: BorderRadius.circular(8),
       elevation: 2,
+    );
+  }
+
+  List<Widget> _buildMedicineProductsList(List<ProducerMedicineListItem> medicines) {
+    List<Widget> result = [];
+    int medLength = medicines.length;
+    for (int i = 0; i < medLength; i++) {
+      result.add(_buildMedicineProduct(medicines[i], i == medLength - 1));
+    }
+    return result.isNotEmpty ? result : [Container()];
+  }
+
+  Widget _buildMedicineProduct(ProducerMedicineListItem item, bool isLast) {
+    return MyTable.vertical(
+      [
+        MyText(
+          item.boxGenName,
+          style: TS_Body_1(R.colors.textColor),
+          padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 4),
+        ),
+        MyText(
+          item.spreadKindTitle,
+          style: TS_Subtitle_2(textColor: item.spreadKindColor),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        ),
+        if (item?.retailBasePrice?.isNotEmpty == true)
+          MyText(
+            R.strings.medicine_list_fragment.price.translate(args: [item.retailBasePrice]),
+            style: TS_Body_1(R.colors.app_color),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          ),
+        isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)
+      ],
+      onTapCallback: () {
+        //MedicineItemFragment.open(getContext(), ArgMedicineItem(item.boxGroupId));
+      },
+      width: double.infinity,
     );
   }
 }

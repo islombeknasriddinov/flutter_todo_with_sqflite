@@ -1,3 +1,5 @@
+import 'package:darmon/common/resources.dart';
+import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
 
 class SearchField {
@@ -87,6 +89,25 @@ class ProducerMedicineListItem {
   String boxGenName;
   String retailBasePrice;
 
-  ProducerMedicineListItem(
-      this.spreadKind, this.boxGroupId, this.boxGenName, this.retailBasePrice);
+  ProducerMedicineListItem(this.spreadKind, this.boxGroupId, this.boxGenName, this.retailBasePrice);
+
+  String get spreadKindTitle {
+    if (spreadKind == "W")
+      return R.strings.medicine_list_fragment.with_recipe;
+    else if (spreadKind == "O") {
+      return R.strings.medicine_list_fragment.with_out_recipe;
+    } else {
+      return R.strings.medicine_list_fragment.no_data_found;
+    }
+  }
+
+  Color get spreadKindColor {
+    if (spreadKind == "W")
+      return R.colors.status_success;
+    else if (spreadKind == "O") {
+      return R.colors.status_error;
+    } else {
+      return R.colors.textColor;
+    }
+  }
 }

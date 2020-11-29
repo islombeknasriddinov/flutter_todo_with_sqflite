@@ -38,6 +38,10 @@
   "medicine_list_fragment:search_by_name": "Название",
   "medicine_list_fragment:search_by_inn": "МНН",
   "medicine_list_fragment:reload": "Перезагрузить",
+  "medicine_list_fragment:with_recipe": "по  рецепту",
+  "medicine_list_fragment:with_out_recipe": "без рецепта",
+  "medicine_list_fragment:no_data_found": "Данные не найдены",
+  "medicine_list_fragment:price": "Цена: %1s",
 
   "filter:integer_text_field_hint": "Пожалуйста, введите номер",
   "filter:string_text_field_hint":"Пожалуйста, введите текст",

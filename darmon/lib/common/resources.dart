@@ -101,7 +101,7 @@ class SearchIndexStrings {
   final String search_text = "search_index:search_text";
   final String list_is_empty = "search_index:list_is_empty";
   final String filter = "search_index:filter";
-  final String syncing ="search_index:syncing";
+  final String syncing = "search_index:syncing";
 }
 
 class MedicineListFragmentStrings {
@@ -110,6 +110,11 @@ class MedicineListFragmentStrings {
   final String search_by_name = "medicine_list_fragment:search_by_name";
   final String search_by_inn = "medicine_list_fragment:search_by_inn";
   final String reload = "medicine_list_fragment:reload";
+  final String with_recipe = "medicine_list_fragment:with_recipe";
+  final String with_out_recipe = "medicine_list_fragment:with_out_recipe";
+  final String no_data_found = "medicine_list_fragment:no_data_found";
+
+  final String  price = "medicine_list_fragment:price";
 }
 
 class MedicineMarkListFragmentStrings {

@@ -39,6 +39,10 @@
   "medicine_list_fragment:search_by_name": "Ism",
   "medicine_list_fragment:search_by_inn": "MNN",
   "medicine_list_fragment:reload": "Qayta yuklash",
+  "medicine_list_fragment:with_recipe": "retsept bo'yicha",
+  "medicine_list_fragment:with_out_recipe": "retseptisiz",
+  "medicine_list_fragment:no_data_found": "Ma'lumot topilmadi",
+  "medicine_list_fragment:price": "Narxi: %1s",
 
   "filter:integer_text_field_hint": "Iltimos, raqamni kiriting",
   "filter:string_text_field_hint":"Iltimos, matnni kiriting",
