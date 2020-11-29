@@ -49,7 +49,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
           //filterContainer(),
           progressContainer(),
 
-          StreamBuilder<List<String>>(
+        /*  StreamBuilder<List<String>>(
               stream: viewmodel.menuItems,
               builder: (_, snapshot) {
                 if (snapshot?.data?.isNotEmpty == true) {
@@ -100,7 +100,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                     ),
                   );
                 }
-              })
+              })*/
         ]));
   }
 
