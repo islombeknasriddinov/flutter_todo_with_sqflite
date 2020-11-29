@@ -101,6 +101,7 @@ class SearchIndexStrings {
   final String search_text = "search_index:search_text";
   final String list_is_empty = "search_index:list_is_empty";
   final String filter = "search_index:filter";
+  final String syncing ="search_index:syncing";
 }
 
 class MedicineListFragmentStrings {

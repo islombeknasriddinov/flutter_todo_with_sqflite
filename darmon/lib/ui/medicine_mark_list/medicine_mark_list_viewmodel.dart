@@ -1,5 +1,6 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/kernel/uis/ui_damon_dao.dart';
+import 'package:darmon/kernel/uis/ui_search_history_dao.dart';
 import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
@@ -7,8 +8,9 @@ import 'package:gwslib/gwslib.dart';
 
 class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
   DarmonRepository _repository;
+  UISearchHistoryDao _searchHistoryDao;
 
-  MedicineMarkListViewModel(this._repository);
+  MedicineMarkListViewModel(this._repository, this._searchHistoryDao);
 
   LazyStream<String> _searchText = LazyStream();
 
@@ -59,7 +61,7 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   void loadSearchHistory() async {
     try {
-      final result = await _repository.loadMedicineMarkSearchHistory();
+      final result = await _searchHistoryDao.loadMedicineMarkSearchHistory();
       _searchHistory.add(result);
       _reload.add(() {});
     } catch (error, st) {
@@ -111,7 +113,7 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
   }
 
   void saveMedicineMarkSearchHistory(UIMedicineMark medicine) {
-    _repository.saveMedicineMarkSearchHistory(medicine);
+    _searchHistoryDao.saveMedicineMarkSearchHistory(medicine);
   }
 
   @override
@@ -125,7 +127,7 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   void deleteSearchHistory(UIMedicineMark mark) async {
     try {
-      await _repository.deleteMedicineMarkSearchHistory(mark);
+      await _searchHistoryDao.deleteMedicineMarkSearchHistory(mark);
       loadSearchHistory();
     } catch (error, st) {
       Log.error("Error($error)\n$st");

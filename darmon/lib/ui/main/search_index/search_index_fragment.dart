@@ -249,7 +249,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
                 return MyTable.vertical(
                   [
                     LinearProgressIndicator(),
-                    MyText("syncing", style: TS_Body_1(R.colors.textColor))
+                    MyText(R.strings.search_index.syncing, style: TS_Body_1(R.colors.textColor))
                   ],
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

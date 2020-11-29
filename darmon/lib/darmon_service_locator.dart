@@ -1,4 +1,5 @@
 import 'package:darmon/kernel/uis/ui_damon_dao.dart';
+import 'package:darmon/kernel/uis/ui_search_history_dao.dart';
 import 'package:darmon/kernel/uis/ui_search_index_dao.dart';
 import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
@@ -43,5 +44,14 @@ class DarmonServiceLocator {
       _medicineListRepository = MedicineListRepository();
     }
     return _medicineListRepository;
+  }
+
+  UISearchHistoryDao _searchHistoryDao;
+
+  UISearchHistoryDao get searchHistoryDao {
+    if (_searchHistoryDao == null) {
+      _searchHistoryDao = UISearchHistoryDao(database.call());
+    }
+    return _searchHistoryDao;
   }
 }

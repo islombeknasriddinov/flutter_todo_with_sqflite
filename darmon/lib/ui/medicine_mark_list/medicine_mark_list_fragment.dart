@@ -18,12 +18,16 @@ class ArgMedicineMarkList {
   ArgMedicineMarkList(this.query);
 }
 
-class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewModel> {
+class MedicineMarkListFragment
+    extends ViewModelFragment<MedicineMarkListViewModel> {
   static final String ROUTE_NAME = "/medicine_mark_list_fragment";
 
   static void open(BuildContext context, ArgMedicineMarkList arg) {
     Navigator.push<dynamic>(
-        context, SizeRoute(page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
+        context,
+        SizeRoute(
+            page:
+                Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
@@ -34,12 +38,15 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   @override
   void onCreate(BuildContext context) {
     super.onCreate(context);
-    _searchQuery = new TextEditingController(text: arg.query?.isNotEmpty == true ? arg.query : "");
+    _searchQuery = new TextEditingController(
+        text: arg.query?.isNotEmpty == true ? arg.query : "");
   }
 
   @override
   MedicineMarkListViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineMarkListViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
+      MedicineMarkListViewModel(
+          DarmonApp.instance.darmonServiceLocator.darmonRepository,
+          DarmonApp.instance.darmonServiceLocator.searchHistoryDao);
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -114,7 +121,8 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.medicine_list_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
+        MyText(R.strings.medicine_list_fragment.search_by,
+            style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
       background: R.colors.background,
@@ -157,7 +165,8 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     return StreamBuilder<void>(
         stream: viewmodel.reload,
         builder: (_, snapshot) {
-          if ((viewmodel.getSearchText == null || viewmodel.getSearchText.isEmpty) &&
+          if ((viewmodel.getSearchText == null ||
+                  viewmodel.getSearchText.isEmpty) &&
               viewmodel.searchHistoryList?.isNotEmpty == true)
             return CustomScrollView(
               slivers: [
@@ -166,13 +175,17 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
               reverse: false,
             );
 
-          if ((viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive) ||
-              (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)) {
+          if ((viewmodel.medicineMarkInnListIsNotEmpty &&
+                  viewmodel.innIsActive) ||
+              (viewmodel.medicineMarkNameListIsNotEmpty &&
+                  viewmodel.nameIsActive)) {
             return CustomScrollView(
               slivers: [
-                if (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)
+                if (viewmodel.medicineMarkNameListIsNotEmpty &&
+                    viewmodel.nameIsActive)
                   _buildMedicineMarkNameList(),
-                if (viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive)
+                if (viewmodel.medicineMarkInnListIsNotEmpty &&
+                    viewmodel.innIsActive)
                   _buildMedicineMarkInnList(),
               ],
               reverse: false,
@@ -250,7 +263,9 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
               padding: EdgeInsets.symmetric(vertical: 8),
             ),
             MyIcon.icon(Icons.delete_forever,
-                color: R.colors.iconColors, size: 18, onTap: onDeleteSearchHistory)
+                color: R.colors.iconColors,
+                size: 18,
+                onTap: onDeleteSearchHistory)
           ],
           crossAxisAlignment: CrossAxisAlignment.center,
           padding: EdgeInsets.only(right: 12, top: 6, bottom: 6),
@@ -359,7 +374,9 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     viewmodel.saveMedicineMarkSearchHistory(medicine);
     hideKeyboard();
     MedicineListFragment.open(
-        getContext(), ArgMedicineList(medicine.title, medicine.sendServerText, medicine.type));
+        getContext(),
+        ArgMedicineList(
+            medicine.title, medicine.sendServerText, medicine.type));
   }
 
   void hideKeyboard() {

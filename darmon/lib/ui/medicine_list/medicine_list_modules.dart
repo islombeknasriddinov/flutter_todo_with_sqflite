@@ -72,3 +72,21 @@ class MedicineListItem {
         "retail_base_price"
       ];
 }
+
+class ProducerListItem {
+  String medicineMarkName;
+  String producerGenName;
+  List<ProducerMedicineListItem> medicines;
+
+  ProducerListItem(this.medicineMarkName, this.producerGenName, this.medicines);
+}
+
+class ProducerMedicineListItem {
+  String spreadKind;
+  String boxGroupId;
+  String boxGenName;
+  String retailBasePrice;
+
+  ProducerMedicineListItem(
+      this.spreadKind, this.boxGroupId, this.boxGenName, this.retailBasePrice);
+}
