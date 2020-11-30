@@ -45,7 +45,7 @@ class UIDarmonDao {
        WHERE t.${ZMedicineMarkInn.C_INN_RU_SOUNDEX} LIKE '%$querySoundex%'
           OR t.${ZMedicineMarkInn.C_INN_EN_SOUNDEX} LIKE '%$querySoundex%'
           OR t.${ZMedicineMarkInn.C_INN_RU} LIKE '%$query%'
-          OR t.${ZMedicineMarkInn.C_INN_EN} LIKE '%$query%'
+          OR t.${ZMedicineMarkInn.C_INN_EN} LIKE '%$latinQuery%'
           LIMIT ${limit ?? 5}
     """;
     return db

@@ -31,7 +31,7 @@ class Phonex {
     String word;
 
     List<String> texts = [];
-    RegExp exp = new RegExp(r"(\w+)");
+    RegExp exp = new RegExp(r"[А-я0-9]+|\w+");
     Iterable<Match> matches = exp.allMatches(text);
     for (var i in matches) {
       final matchedText = i.group(0);
@@ -49,8 +49,7 @@ class Phonex {
 
         String lowerWord = word.toLowerCase();
         vChar = lowerWord.substring(i, i + 1);
-        vDouble =
-            lowerWord.length > i + 1 ? lowerWord.substring(i, i + 2) : null;
+        vDouble = lowerWord.length > i + 1 ? lowerWord.substring(i, i + 2) : null;
 
         if (vDoubles.contains(vDouble)) {
           if (i == 0) {
