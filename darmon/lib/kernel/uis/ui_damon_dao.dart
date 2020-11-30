@@ -18,12 +18,12 @@ class UIDarmonDao {
     final sql = """
     SELECT t.* 
           FROM ${ZMedicineMarkName.TABLE_NAME} t
-       WHERE t.${ZMedicineMarkName.C_NAME_RU_SOUNDEX} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkName.C_NAME_EN_SOUNDEX} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkName.C_NAME_UZ_SOUNDEX} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkName.C_NAME_EN} LIKE '%$latinQuery%'
+       WHERE t.${ZMedicineMarkName.C_NAME_EN} LIKE '%$latinQuery%'
           OR t.${ZMedicineMarkName.C_NAME_RU} LIKE '%$query%'
           OR t.${ZMedicineMarkName.C_NAME_UZ} LIKE '%$latinQuery%'
+          OR t.${ZMedicineMarkName.C_NAME_RU_PHONEX_CODE} LIKE '%$querySoundex%'
+          OR t.${ZMedicineMarkName.C_NAME_EN_PHONEX_CODE} LIKE '%$querySoundex%'
+          OR t.${ZMedicineMarkName.C_NAME_UZ_PHONEX_CODE} LIKE '%$querySoundex%'
        ORDER BY t.${ZMedicineMarkName.C_NAME_EN} ASC
        LIMIT ${limit ?? 5}
     """;
@@ -42,10 +42,10 @@ class UIDarmonDao {
     final sql = """
     SELECT t.* 
           FROM ${ZMedicineMarkInn.TABLE_NAME} t
-       WHERE t.${ZMedicineMarkInn.C_INN_RU_SOUNDEX} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkInn.C_INN_EN_SOUNDEX} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkInn.C_INN_RU} LIKE '%$query%'
+       WHERE  t.${ZMedicineMarkInn.C_INN_RU} LIKE '%$query%'
           OR t.${ZMedicineMarkInn.C_INN_EN} LIKE '%$latinQuery%'
+          OR t.${ZMedicineMarkInn.C_INN_RU_PHONEX_CODE} LIKE '%$querySoundex%'
+          OR t.${ZMedicineMarkInn.C_INN_EN_PHONEX_CODE} LIKE '%$querySoundex%'
           LIMIT ${limit ?? 5}
     """;
     return db

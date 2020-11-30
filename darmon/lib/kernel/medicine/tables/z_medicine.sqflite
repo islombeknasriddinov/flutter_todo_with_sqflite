@@ -1,18 +1,18 @@
 create table z_medicine_mark_name (
   name_ru                               text not null,
-  name_ru_soundex                       text not null,
   name_uz                               text not null,
-  name_uz_soundex                       text not null,
   name_en                               text not null,
-  name_en_soundex                       text not null,
+  name_ru_phonex_code                   text not null,
+  name_uz_phonex_code                   text not null,
+  name_en_phonex_code                   text not null,
   constraint z_medicine_mark_name_pk primary key (name_ru)
 );
 
 create table z_medicine_mark_inn (
   inn_ru                               text not null,
-  inn_ru_soundex                       text not null,
   inn_en                               text not null,
-  inn_en_soundex                       text not null,
+  inn_ru_phonex_code                   text not null,
+  inn_en_phonex_code                   text not null,
   inn_ids                              text not null,
   constraint z_medicine_mark_inn_pk primary key (inn_ru)
 );

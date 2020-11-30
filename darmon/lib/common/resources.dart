@@ -115,6 +115,7 @@ class MedicineListFragmentStrings {
   final String no_data_found = "medicine_list_fragment:no_data_found";
 
   final String  price = "medicine_list_fragment:price";
+  final String  not_found_price = "medicine_list_fragment:not_found_price";
 }
 
 class MedicineMarkListFragmentStrings {

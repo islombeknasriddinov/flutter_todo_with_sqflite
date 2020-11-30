@@ -182,12 +182,13 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
           style: TS_Subtitle_2(textColor: item.spreadKindColor),
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         ),
-        if (item?.retailBasePrice?.isNotEmpty == true)
-          MyText(
-            R.strings.medicine_list_fragment.price.translate(args: [item.retailBasePrice]),
-            style: TS_Body_1(R.colors.app_color),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          ),
+        MyText(
+          getMedicinePrice(item),
+          style: TS_Body_1(item.retailBasePrice?.isNotEmpty == true
+              ? R.colors.app_color
+              : R.colors.status_error),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        ),
         isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)
       ],
       onTapCallback: () {
@@ -195,5 +196,13 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
       },
       width: double.infinity,
     );
+  }
+
+  String getMedicinePrice(ProducerMedicineListItem item) {
+    if (item.retailBasePrice?.isNotEmpty == true) {
+      return R.strings.medicine_list_fragment.price.translate(args: [item.retailBasePrice]);
+    } else {
+      return R.strings.medicine_list_fragment.not_found_price;
+    }
   }
 }

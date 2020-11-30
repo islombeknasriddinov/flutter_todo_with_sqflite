@@ -46,6 +46,16 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
             await _repository.loadList(argument.type, argument.sendServerText);
 
         List<ProducerListItem> list = _items.value ?? [];
+        ProducerListItem last = list?.isNotEmpty == true ? list?.last : null;
+        ProducerListItem resultFirst = result?.isNotEmpty == true ? result?.first : null;
+
+        if (last != null &&
+            resultFirst != null &&
+            last?.producerGenName == resultFirst?.producerGenName &&
+            last?.producerGenName == resultFirst?.producerGenName) {
+          last.medicines.addAll(resultFirst.medicines);
+          result.remove(resultFirst);
+        }
         list.addAll(result);
         if (result != null) _items.add(list);
 
@@ -78,7 +88,7 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
 
 class MedicineListRepository {
   int FIRST_PAGE = 0;
-  int LIMIT = 50;
+  int LIMIT = 10;
   int page;
   bool hasNextPage = true;
 
@@ -113,14 +123,14 @@ class MedicineListRepository {
         "column": MedicineListItem.getKeys(),
         "filter": [],
         "sort": [],
-        "offset": page,
+        "offset": page * LIMIT,
         "limit": LIMIT
       }
     };
     Map<String, dynamic> result = await NetworkManager.medicineList(body);
     int resultCount = result["count"];
     List<dynamic> data = result["data"];
-    hasNextPage = resultCount == LIMIT;
+    hasNextPage = resultCount > ((page + 1) * LIMIT);
     List<MedicineListItem> list = await parseObjects(data);
     return toProducerMedicineListItem(list);
   }

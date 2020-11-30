@@ -30,8 +30,10 @@ class DarmonRepository {
       }
     }
     Map<String, dynamic> result = await NetworkManager.sync();
-    print(result.toString());
+    Timer timer =Timer();
+    timer.start();
     await DarmonDatabase.sync(result);
+    timer.stop("sync ended");
     //  DarmonPref.saveLastVisitTimestamp(result['laststamp']);
     DarmonPref.saveLastVisitTimestamp(
         DateUtil.format(DateTime.now(), DateUtil.FORMAT_DD_MM_YYYY_HH_MM));

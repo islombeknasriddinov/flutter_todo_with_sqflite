@@ -71,7 +71,7 @@ class MedicineListItem {
         "spread_kind",
         "box_group_id",
         "box_gen_name",
-        "retail_base_price"
+        "retail_price_base"
       ];
 }
 
@@ -103,9 +103,9 @@ class ProducerMedicineListItem {
 
   Color get spreadKindColor {
     if (spreadKind == "W")
-      return R.colors.status_success;
-    else if (spreadKind == "O") {
       return R.colors.status_error;
+    else if (spreadKind == "O") {
+      return R.colors.status_success;
     } else {
       return R.colors.textColor;
     }

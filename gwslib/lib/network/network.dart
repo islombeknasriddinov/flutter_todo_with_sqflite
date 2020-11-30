@@ -1,22 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gwslib/log/logger.dart';
 
 class Network {
-  static bool _debugMode = false;
-
-  static void enableDebugMode() {
-    _debugMode = true;
-  }
-
   static Network _instance;
 
   static Network _getInstance() {
     if (_instance == null) {
       Dio dio = Dio();
       dio.options.connectTimeout = 10 * 1000;
-      if (_debugMode) {
+      if (!kReleaseMode) {
         dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
       }
       _instance = Network(dio);
@@ -57,6 +52,7 @@ class Network {
           method: builder.method,
           headers: builder._header,
           baseUrl: builder.url,
+          connectTimeout: builder._connectionTimeout ?? (10 * 1000),
         ),
         data: data);
 
@@ -68,6 +64,8 @@ class _NetworkBuilder {
   final String url;
   final String uri;
   final String method;
+
+  int _connectionTimeout;
 
   final Map<String, String> _param = {};
   final Map<String, String> _header = {};
@@ -155,6 +153,11 @@ class _NetworkBuilder {
       _files.clear();
     }
     files.forEach((it) => file(it));
+    return this;
+  }
+
+  _NetworkBuilder connectionTimeout(int timeout) {
+    this._connectionTimeout = timeout;
     return this;
   }
 
