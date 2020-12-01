@@ -42,7 +42,7 @@
   "medicine_list_fragment:with_out_recipe": "без рецепта",
   "medicine_list_fragment:no_data_found": "Данные не найдены",
   "medicine_list_fragment:price": "Цена: %1s сум",
-  "medicine_list_fragment:not_found_price": "Цена не найдена",
+  "medicine_list_fragment:not_found_price": "Цена: не установлена",
 
   "filter:integer_text_field_hint": "Пожалуйста, введите номер",
   "filter:string_text_field_hint":"Пожалуйста, введите текст",

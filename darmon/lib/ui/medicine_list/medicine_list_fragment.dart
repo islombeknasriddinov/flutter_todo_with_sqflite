@@ -184,9 +184,8 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
         ),
         MyText(
           getMedicinePrice(item),
-          style: TS_Body_1(item.retailBasePrice?.isNotEmpty == true
-              ? R.colors.app_color
-              : R.colors.status_error),
+          style: TS_Body_2(
+              item.retailBasePrice?.isNotEmpty == true ? R.colors.app_color : R.colors.priceColor),
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         ),
         isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)

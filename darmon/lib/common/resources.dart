@@ -56,6 +56,8 @@ class ResourceColors {
   Color get switchColor => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 
   Color get stickHeaderColor => AppLang.instance.isDarkMode ? Colors.grey[700] : Colors.grey[300];
+
+  Color get priceColor => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFda5b58);
 }
 
 class ResourceStrings {

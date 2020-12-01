@@ -43,7 +43,7 @@
   "medicine_list_fragment:with_out_recipe": "retseptisiz",
   "medicine_list_fragment:no_data_found": "Ma'lumot topilmadi",
   "medicine_list_fragment:price": "Narxi: %1s so`m",
-  "medicine_list_fragment:not_found_price": "Narxi topilmadi",
+  "medicine_list_fragment:not_found_price": "Narxi: o'rnatilmagan",
 
   "filter:integer_text_field_hint": "Iltimos, raqamni kiriting",
   "filter:string_text_field_hint":"Iltimos, matnni kiriting",

@@ -21,9 +21,6 @@ class UIDarmonDao {
        WHERE t.${ZMedicineMarkName.C_NAME_EN} LIKE '%$latinQuery%'
           OR t.${ZMedicineMarkName.C_NAME_RU} LIKE '%$query%'
           OR t.${ZMedicineMarkName.C_NAME_UZ} LIKE '%$latinQuery%'
-          OR t.${ZMedicineMarkName.C_NAME_RU_PHONEX_CODE} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkName.C_NAME_EN_PHONEX_CODE} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkName.C_NAME_UZ_PHONEX_CODE} LIKE '%$querySoundex%'
        ORDER BY t.${ZMedicineMarkName.C_NAME_EN} ASC
        LIMIT ${limit ?? 5}
     """;

@@ -11,6 +11,8 @@ class SizeRoute extends PageRouteBuilder {
             Animation<double> secondaryAnimation,
           ) =>
               page,
+          transitionDuration: Duration(milliseconds: 200),
+          reverseTransitionDuration: Duration(milliseconds: 200),
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,

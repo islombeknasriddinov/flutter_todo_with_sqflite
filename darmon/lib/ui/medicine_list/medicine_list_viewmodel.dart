@@ -115,7 +115,7 @@ class MedicineListRepository {
     String langCode = await LocalizationPref.getLanguage();
     final body = {
       "d": {
-        "type": type == UIMedicineMarkSearchResultType.INN ? "I" : "N",
+        "type": type == UIMedicineMarkSearchResultType.INN ? "I" : "M",
         "query": query,
         "lang": langCode
       },
