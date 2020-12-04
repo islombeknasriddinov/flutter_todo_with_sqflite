@@ -115,9 +115,10 @@ class MedicineListFragmentStrings {
   final String with_recipe = "medicine_list_fragment:with_recipe";
   final String with_out_recipe = "medicine_list_fragment:with_out_recipe";
   final String no_data_found = "medicine_list_fragment:no_data_found";
-
-  final String  price = "medicine_list_fragment:price";
-  final String  not_found_price = "medicine_list_fragment:not_found_price";
+  final String price = "medicine_list_fragment:price";
+  final String not_found_price = "medicine_list_fragment:not_found_price";
+  final String pharmacy_dispensing_conditions =
+      "medicine_list_fragment:pharmacy_dispensing_conditions";
 }
 
 class MedicineMarkListFragmentStrings {

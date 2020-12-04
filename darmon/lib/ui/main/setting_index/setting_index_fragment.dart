@@ -39,9 +39,9 @@ class SettingIndexFragment extends ViewModelFragment<SettingIndexViewModel> {
         _buildMenuItem(R.strings.setting.about, () {
           // AboutContent.open(getContext());
         }),
-        _buildMenuItem(R.strings.setting.tutorial, () {
+/*        _buildMenuItem(R.strings.setting.tutorial, () {
           PresentationFragment.open(getContext());
-        }),
+        }),*/
         _buildChangeThemeMenuItem()
       ]),
     );

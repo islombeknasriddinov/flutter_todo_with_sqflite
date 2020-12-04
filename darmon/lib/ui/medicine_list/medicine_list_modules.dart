@@ -92,12 +92,18 @@ class ProducerMedicineListItem {
   ProducerMedicineListItem(this.spreadKind, this.boxGroupId, this.boxGenName, this.retailBasePrice);
 
   String get spreadKindTitle {
-    if (spreadKind == "W")
-      return R.strings.medicine_list_fragment.with_recipe;
-    else if (spreadKind == "O") {
-      return R.strings.medicine_list_fragment.with_out_recipe;
+    if (spreadKind == "W") {
+      String text = R.strings.medicine_list_fragment.with_recipe.translate();
+      return R.strings.medicine_list_fragment.pharmacy_dispensing_conditions
+          .translate(args: [text]);
+    } else if (spreadKind == "O") {
+      String text = R.strings.medicine_list_fragment.with_out_recipe.translate();
+      return R.strings.medicine_list_fragment.pharmacy_dispensing_conditions
+          .translate(args: [text]);
     } else {
-      return R.strings.medicine_list_fragment.no_data_found;
+      String text = R.strings.medicine_list_fragment.no_data_found.translate();
+      return R.strings.medicine_list_fragment.pharmacy_dispensing_conditions
+          .translate(args: [text]);
     }
   }
 

@@ -69,7 +69,8 @@ class LangContentFragment extends ViewModelFragment<LangViewModel> {
 
   void setSelectLocale(String lang) {
     AppLang.instance.changeLanguage(lang).then((value) {
-      PresentationFragment.replace(getContext(), openMainFragment: true);
+      MainFragment.open(getContext());
+      //   PresentationFragment.replace(getContext(), openMainFragment: true);
     }).catchError((error) {
       viewmodel.setError(error);
     });

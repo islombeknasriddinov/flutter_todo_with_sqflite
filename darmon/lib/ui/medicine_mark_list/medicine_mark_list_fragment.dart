@@ -86,6 +86,7 @@ class MedicineMarkListFragment
                   }
                   _clearSearchQuery();
                 },
+                padding: EdgeInsets.only(right: 12),
               );
             } else {
               return Container();
@@ -265,6 +266,7 @@ class MedicineMarkListFragment
             MyIcon.icon(Icons.delete_forever,
                 color: R.colors.iconColors,
                 size: 18,
+                padding: EdgeInsets.all(8),
                 onTap: onDeleteSearchHistory)
           ],
           crossAxisAlignment: CrossAxisAlignment.center,

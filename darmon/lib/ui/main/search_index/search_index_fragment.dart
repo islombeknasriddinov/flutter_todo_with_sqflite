@@ -215,7 +215,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
           width: double.infinity,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
-          height: 40,
+          height: 30,
         ),
         background: Center(
           child: MyText(
