@@ -73,6 +73,8 @@ class MedicineListItem {
         "box_gen_name",
         "retail_price_base"
       ];
+
+  static List<String> getSortKeys() => ["medicine_mark_name", "producer_gen_name"];
 }
 
 class ProducerListItem {

@@ -122,7 +122,7 @@ class MedicineListRepository {
       "p": {
         "column": MedicineListItem.getKeys(),
         "filter": [],
-        "sort": [],
+        "sort": MedicineListItem.getSortKeys(),
         "offset": page * LIMIT,
         "limit": LIMIT
       }
