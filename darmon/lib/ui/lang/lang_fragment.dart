@@ -1,6 +1,7 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/ui/intro/intro_content.dart';
+import 'package:darmon/ui/intro/intro_pref.dart';
 import 'package:darmon/ui/lang/lang_viewmodel.dart';
 import 'package:darmon/ui/main/main_fragment.dart';
 import 'package:darmon/ui/presentation/presentation_fragment.dart';
@@ -68,7 +69,10 @@ class LangContentFragment extends ViewModelFragment<LangViewModel> {
   }
 
   void setSelectLocale(String lang) {
-    AppLang.instance.changeLanguage(lang).then((value) {
+    AppLang.instance.changeLanguage(lang).then((value) async {
+//vaqtinchalik
+      await IntroPref.setPresentationShowed(true);
+
       MainFragment.open(getContext());
       //   PresentationFragment.replace(getContext(), openMainFragment: true);
     }).catchError((error) {

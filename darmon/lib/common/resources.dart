@@ -53,6 +53,8 @@ class ResourceColors {
 
   Color get hintTextColor => AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
 
+  Color get priceTitleTextColor => AppLang.instance.isDarkMode ? Colors.white60 : Colors.black54;
+
   Color get switchColor => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 
   Color get stickHeaderColor => AppLang.instance.isDarkMode ? Colors.grey[700] : Colors.grey[300];
@@ -117,6 +119,7 @@ class MedicineListFragmentStrings {
   final String no_data_found = "medicine_list_fragment:no_data_found";
   final String price = "medicine_list_fragment:price";
   final String not_found_price = "medicine_list_fragment:not_found_price";
+  final String price_currency = "medicine_list_fragment:price_currency";
   final String pharmacy_dispensing_conditions =
       "medicine_list_fragment:pharmacy_dispensing_conditions";
 }

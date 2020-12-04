@@ -177,16 +177,43 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
           style: TS_Body_1(R.colors.textColor),
           padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 4),
         ),
-        MyText(
-          item.spreadKindTitle,
-          style: TS_Subtitle_2(textColor: item.spreadKindColor),
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          child: RichText(
+              text: TextSpan(
+                  style: TS_Subtitle_2(textColor: item.spreadKindColor),
+                  children: <TextSpan>[
+                TextSpan(
+                    text:
+                        R.strings.medicine_list_fragment.pharmacy_dispensing_conditions.translate(),
+                    style: TS_Subtitle_2(textColor: R.colors.priceTitleTextColor)),
+                TextSpan(
+                    text: item.spreadKindTitle,
+                    style: TS_Subtitle_2(textColor: item.spreadKindColor))
+              ])),
         ),
-        MyText(
-          getMedicinePrice(item),
-          style: TS_Body_2(
-              item.retailBasePrice?.isNotEmpty == true ? R.colors.app_color : R.colors.priceColor),
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          child: RichText(
+              text: TextSpan(
+                  style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
+                      ? R.colors.app_color
+                      : R.colors.priceColor),
+                  children: <TextSpan>[
+                TextSpan(
+                    text: R.strings.medicine_list_fragment.price.translate(),
+                    style: TS_Body_2(R.colors.priceTitleTextColor)),
+                TextSpan(
+                    text: getMedicinePrice(item),
+                    style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
+                        ? R.colors.app_color
+                        : R.colors.priceColor)),
+                TextSpan(
+                    text: R.strings.medicine_list_fragment.price_currency.translate(),
+                    style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
+                        ? R.colors.app_color
+                        : R.colors.priceColor))
+              ])),
         ),
         isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)
       ],
@@ -199,9 +226,9 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
 
   String getMedicinePrice(ProducerMedicineListItem item) {
     if (item.retailBasePrice?.isNotEmpty == true) {
-      return R.strings.medicine_list_fragment.price.translate(args: [item.retailBasePrice]);
+      return item.retailBasePrice;
     } else {
-      return R.strings.medicine_list_fragment.not_found_price;
+      return R.strings.medicine_list_fragment.not_found_price.translate();
     }
   }
 }

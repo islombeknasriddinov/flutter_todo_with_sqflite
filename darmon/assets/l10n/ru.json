@@ -40,9 +40,10 @@
   "medicine_list_fragment:with_recipe": "по рецепту",
   "medicine_list_fragment:with_out_recipe": "без рецепта",
   "medicine_list_fragment:no_data_found": "Данные не найдены",
-  "medicine_list_fragment:price": "Предельная цена: %1s сум",
-  "medicine_list_fragment:not_found_price": "Предельная цена: не установлена",
-  "medicine_list_fragment:pharmacy_dispensing_conditions": "Условия отпуска из аптек: %1s",
+  "medicine_list_fragment:price": "Предельная цена: ",
+  "medicine_list_fragment:not_found_price": "не установлена",
+  "medicine_list_fragment:price_currency": " сум",
+  "medicine_list_fragment:pharmacy_dispensing_conditions": "Условия отпуска из аптек: ",
 
   "filter:integer_text_field_hint": "Пожалуйста, введите номер",
   "filter:string_text_field_hint":"Пожалуйста, введите текст",

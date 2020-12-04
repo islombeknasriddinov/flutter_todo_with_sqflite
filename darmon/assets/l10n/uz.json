@@ -40,9 +40,10 @@
   "medicine_list_fragment:with_recipe": "retsept bo'yicha",
   "medicine_list_fragment:with_out_recipe": "retseptisiz",
   "medicine_list_fragment:no_data_found": "Ma'lumot topilmadi",
-  "medicine_list_fragment:price": "Cheklangan narxi: %1s so`m",
-  "medicine_list_fragment:not_found_price": "Cheklangan narxi: o'rnatilmagan",
-  "medicine_list_fragment:pharmacy_dispensing_conditions": "Dorixonalardan berish tartibi: %1s",
+  "medicine_list_fragment:price": "Cheklangan narxi: ",
+  "medicine_list_fragment:price_currency": " so`m",
+  "medicine_list_fragment:not_found_price": "o'rnatilmagan",
+  "medicine_list_fragment:pharmacy_dispensing_conditions": "Dorixonalardan berish tartibi: ",
 
   "filter:integer_text_field_hint": "Iltimos, raqamni kiriting",
   "filter:string_text_field_hint":"Iltimos, matnni kiriting",

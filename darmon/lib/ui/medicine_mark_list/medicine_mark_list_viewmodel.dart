@@ -22,8 +22,7 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   Stream<List<UIMedicineMark>> get searchHistory => _searchHistory.stream;
 
-  List<UIMedicineMark> get medicineMarkNameList =>
-      _medicineMarkNameList.value ?? [];
+  List<UIMedicineMark> get medicineMarkNameList => _medicineMarkNameList.value ?? [];
 
   List<UIMedicineMark> get medicineMarkInnList => _medicineMarkInnList.value;
 
@@ -31,16 +30,12 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   Stream<String> get searchText => _searchText.stream;
 
-  bool get medicineMarkInnListIsNotEmpty =>
-      (_medicineMarkInnList?.value?.length ?? -1) > 0;
+  bool get medicineMarkInnListIsNotEmpty => (_medicineMarkInnList?.value?.length ?? -1) > 0;
 
-  bool get medicineMarkNameListIsNotEmpty =>
-      (_medicineMarkNameList?.value?.length ?? -1) > 0;
+  bool get medicineMarkNameListIsNotEmpty => (_medicineMarkNameList?.value?.length ?? -1) > 0;
   List<SearchField> searchFilterFields = [
-    SearchField(
-        "by_name", R.strings.medicine_list_fragment.search_by_name.translate()),
-    SearchField(
-        "by_inn", R.strings.medicine_list_fragment.search_by_inn.translate()),
+    SearchField("by_name", R.strings.medicine_list_fragment.search_by_name.translate()),
+    SearchField("by_inn", R.strings.medicine_list_fragment.search_by_inn.translate()),
   ];
 
   bool innIsActive = true;
@@ -49,6 +44,9 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
   String get getSearchText => _searchText.value;
 
   List<UIMedicineMark> get searchHistoryList => _searchHistory.value ?? [];
+
+  bool hasMarkNameListNextPage = true;
+  bool hasMarkInnListNextPage = true;
 
   @override
   void onCreate() {
@@ -74,9 +72,11 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
     _searchText.add(txt);
     try {
       final names = await _repository.searchMedicineMarkNames(txt);
+      hasMarkNameListNextPage = names.length == 5;
       _medicineMarkNameList.add(names);
 
       final inns = await _repository.searchMedicineMarkInns(txt);
+      hasMarkInnListNextPage = inns.length == 5;
       Log.debug("inn.lenght=${inns.length}");
       _medicineMarkInnList.add(inns);
 
@@ -94,8 +94,8 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
         if (!nameIsActive) {
           _medicineMarkNameList.add([]);
         } else {
-          final names = await _repository
-              .searchMedicineMarkNames(_searchText.value ?? "");
+          final names = await _repository.searchMedicineMarkNames(_searchText.value ?? "");
+          hasMarkNameListNextPage = names.length == 5;
           _medicineMarkNameList.add(names);
         }
       } else if (filterFeld.id == "by_inn") {
@@ -103,8 +103,8 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
         if (!innIsActive) {
           _medicineMarkInnList.add([]);
         } else {
-          final inns =
-              await _repository.searchMedicineMarkInns(_searchText.value ?? "");
+          final inns = await _repository.searchMedicineMarkInns(_searchText.value ?? "");
+          hasMarkInnListNextPage = inns.length == 5;
           _medicineMarkInnList.add(inns);
         }
       }
@@ -136,16 +136,16 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   void loadMedicineMarkInnMore() async {
     int length = (_medicineMarkInnList.value?.length ?? 0) + 10;
-    final inns = await _repository
-        .searchMedicineMarkInns(_searchText.value ?? "", limit: length);
+    final inns = await _repository.searchMedicineMarkInns(_searchText.value ?? "", limit: length);
+    hasMarkInnListNextPage = inns.length == length;
     _medicineMarkInnList.add(inns);
     _reload.add(() {});
   }
 
   void loadMedicineMarkNameMore() async {
     int length = (_medicineMarkNameList.value?.length ?? 0) + 10;
-    final names = await _repository
-        .searchMedicineMarkNames(_searchText.value ?? "", limit: length);
+    final names = await _repository.searchMedicineMarkNames(_searchText.value ?? "", limit: length);
+    hasMarkNameListNextPage = names.length == length;
     _medicineMarkNameList.add(names);
     _reload.add(() {});
   }

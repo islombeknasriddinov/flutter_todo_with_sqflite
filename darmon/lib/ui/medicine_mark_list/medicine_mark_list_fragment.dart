@@ -18,16 +18,12 @@ class ArgMedicineMarkList {
   ArgMedicineMarkList(this.query);
 }
 
-class MedicineMarkListFragment
-    extends ViewModelFragment<MedicineMarkListViewModel> {
+class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewModel> {
   static final String ROUTE_NAME = "/medicine_mark_list_fragment";
 
   static void open(BuildContext context, ArgMedicineMarkList arg) {
     Navigator.push<dynamic>(
-        context,
-        SizeRoute(
-            page:
-                Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
+        context, SizeRoute(page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
@@ -38,14 +34,12 @@ class MedicineMarkListFragment
   @override
   void onCreate(BuildContext context) {
     super.onCreate(context);
-    _searchQuery = new TextEditingController(
-        text: arg.query?.isNotEmpty == true ? arg.query : "");
+    _searchQuery = new TextEditingController(text: arg.query?.isNotEmpty == true ? arg.query : "");
   }
 
   @override
   MedicineMarkListViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineMarkListViewModel(
-          DarmonApp.instance.darmonServiceLocator.darmonRepository,
+      MedicineMarkListViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository,
           DarmonApp.instance.darmonServiceLocator.searchHistoryDao);
 
   @override
@@ -122,8 +116,7 @@ class MedicineMarkListFragment
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.medicine_list_fragment.search_by,
-            style: TS_Body_1(R.colors.textColor)),
+        MyText(R.strings.medicine_list_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
       background: R.colors.background,
@@ -166,8 +159,7 @@ class MedicineMarkListFragment
     return StreamBuilder<void>(
         stream: viewmodel.reload,
         builder: (_, snapshot) {
-          if ((viewmodel.getSearchText == null ||
-                  viewmodel.getSearchText.isEmpty) &&
+          if ((viewmodel.getSearchText == null || viewmodel.getSearchText.isEmpty) &&
               viewmodel.searchHistoryList?.isNotEmpty == true)
             return CustomScrollView(
               slivers: [
@@ -176,17 +168,13 @@ class MedicineMarkListFragment
               reverse: false,
             );
 
-          if ((viewmodel.medicineMarkInnListIsNotEmpty &&
-                  viewmodel.innIsActive) ||
-              (viewmodel.medicineMarkNameListIsNotEmpty &&
-                  viewmodel.nameIsActive)) {
+          if ((viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive) ||
+              (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)) {
             return CustomScrollView(
               slivers: [
-                if (viewmodel.medicineMarkNameListIsNotEmpty &&
-                    viewmodel.nameIsActive)
+                if (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)
                   _buildMedicineMarkNameList(),
-                if (viewmodel.medicineMarkInnListIsNotEmpty &&
-                    viewmodel.innIsActive)
+                if (viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive)
                   _buildMedicineMarkInnList(),
               ],
               reverse: false,
@@ -295,10 +283,15 @@ class MedicineMarkListFragment
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, i) {
-            if (i == names.length - 1 && names.length % 5 == 0) {
-              return buildMoreButtonWidget(() {
-                viewmodel.loadMedicineMarkNameMore();
-              });
+            print(names.length);
+            if (i == names.length) {
+              if (viewmodel.hasMarkNameListNextPage)
+                return buildMoreButtonWidget(() {
+                  viewmodel.loadMedicineMarkNameMore();
+                });
+              else {
+                return Container();
+              }
             }
 
             UIMedicineMark name = names[i];
@@ -306,7 +299,7 @@ class MedicineMarkListFragment
               openMedicineListFragment(name);
             });
           },
-          childCount: names.length,
+          childCount: names.length + 1,
         ),
       ),
     );
@@ -376,9 +369,7 @@ class MedicineMarkListFragment
     viewmodel.saveMedicineMarkSearchHistory(medicine);
     hideKeyboard();
     MedicineListFragment.open(
-        getContext(),
-        ArgMedicineList(
-            medicine.title, medicine.sendServerText, medicine.type));
+        getContext(), ArgMedicineList(medicine.title, medicine.sendServerText, medicine.type));
   }
 
   void hideKeyboard() {

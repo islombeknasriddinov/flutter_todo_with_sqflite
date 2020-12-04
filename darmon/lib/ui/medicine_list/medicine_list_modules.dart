@@ -93,23 +93,17 @@ class ProducerMedicineListItem {
 
   String get spreadKindTitle {
     if (spreadKind == "W") {
-      String text = R.strings.medicine_list_fragment.with_recipe.translate();
-      return R.strings.medicine_list_fragment.pharmacy_dispensing_conditions
-          .translate(args: [text]);
+      return R.strings.medicine_list_fragment.with_recipe.translate();
     } else if (spreadKind == "O") {
-      String text = R.strings.medicine_list_fragment.with_out_recipe.translate();
-      return R.strings.medicine_list_fragment.pharmacy_dispensing_conditions
-          .translate(args: [text]);
+      return R.strings.medicine_list_fragment.with_out_recipe.translate();
     } else {
-      String text = R.strings.medicine_list_fragment.no_data_found.translate();
-      return R.strings.medicine_list_fragment.pharmacy_dispensing_conditions
-          .translate(args: [text]);
+      return R.strings.medicine_list_fragment.no_data_found.translate();
     }
   }
 
   Color get spreadKindColor {
     if (spreadKind == "W")
-      return R.colors.status_error;
+      return R.colors.priceColor;
     else if (spreadKind == "O") {
       return R.colors.status_success;
     } else {
