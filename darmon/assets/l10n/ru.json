@@ -30,7 +30,7 @@
   "search_index:search_text": "Поиск лекарственного препарата",
   "search_index:list_is_empty": "Список пуст",
   "search_index:filter": "Фильтр",
-  "search_index:syncing": "Синхронизации",
+  "search_index:syncing": "Синхронизация",
 
   "medicine_list_fragment:search": "Поиск..",
   "medicine_list_fragment:search_by": "Искать по:",
