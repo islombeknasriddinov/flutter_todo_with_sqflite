@@ -30,7 +30,8 @@ class ZMedicineMarkName {
 	  name_en                               text not null,
 	  name_ru_phonex_code                   text not null,
 	  name_uz_phonex_code                   text not null,
-	  name_en_phonex_code                   text not null
+	  name_en_phonex_code                   text not null,
+	    constraint z_medicine_mark_name_pk primary key (name_en)
 	);
 	""";
 
@@ -45,6 +46,12 @@ class ZMedicineMarkName {
 		ArgumentError.checkNotNull(nameEnPhonexCode, C_NAME_EN_PHONEX_CODE);
 	}
 
+	static void checkPrimaryKeys(String nameEn) {
+		ArgumentError.checkNotNull(nameEn, C_NAME_EN);
+	}
+
+	//------------------------------------------------------------------------------------------------
+
 	final String nameRu;
 	final String nameUz;
 	final String nameEn;
@@ -52,9 +59,12 @@ class ZMedicineMarkName {
 	final String nameUzPhonexCode;
 	final String nameEnPhonexCode;
 
-	ZMedicineMarkName({@required this.nameRu, @required this.nameUz, @required this.nameEn, @required this.nameRuPhonexCode, @required this.nameUzPhonexCode, @required this.nameEnPhonexCode});
+	ZMedicineMarkName({@required this.nameRu, @required this.nameUz, @required this.nameEn, @required this.nameRuPhonexCode, @required this.nameUzPhonexCode, @required this.nameEnPhonexCode}) {
+		checkPrimaryKeys(nameEn);
+	}
 
 	factory ZMedicineMarkName.fromData(Map<String, dynamic> data) {
+		checkPrimaryKeys(data[C_NAME_EN]);
 		return ZMedicineMarkName(
 			nameRu: data[C_NAME_RU],
 			nameUz: data[C_NAME_UZ],
@@ -88,6 +98,7 @@ class Z_ZMedicineMarkName {
 
 	// init
 	static ZMedicineMarkName init({@required String nameRu, @required String nameUz, @required String nameEn, @required String nameRuPhonexCode, @required String nameUzPhonexCode, @required String nameEnPhonexCode}) {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
 		return new ZMedicineMarkName(nameRu: nameRu, nameUz: nameUz, nameEn: nameEn, nameRuPhonexCode: nameRuPhonexCode, nameUzPhonexCode: nameUzPhonexCode, nameEnPhonexCode: nameEnPhonexCode);
 	}
 
@@ -97,8 +108,57 @@ class Z_ZMedicineMarkName {
 			.then((it) => it.map((d) => ZMedicineMarkName.fromData(d)).toList());
 	}
 
+	// take row in database if no_data_found return null
+	static Future<ZMedicineMarkName> take(Database db, String nameEn) async {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
+		final result = await db.query(ZMedicineMarkName.TABLE_NAME, where: "${ZMedicineMarkName.C_NAME_EN} = ?", whereArgs: [nameEn]);
+		return result.isEmpty ? null : ZMedicineMarkName.fromData(result.first);
+	}
+
+	// load row in database if no_data_found throw exception
+	static Future<ZMedicineMarkName> load(Database db, String nameEn) async {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
+		final result = await take(db, nameEn);
+		if (result == null) {
+			throw Exception("no data found");
+		}
+		return result;
+	}
+
+	// check exist row in database return boolean if exists true or else
+	static Future<bool> exist(Database db, String nameEn) {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
+		return take(db, nameEn).then((it) => it != null);
+	}
+
+	// check exist row in database and getting result
+	static Future<bool> existTake(Database db, String nameEn, void onResult(ZMedicineMarkName row)) async {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
+		ArgumentError.checkNotNull(onResult, "OnResult");
+		final result = await take(db, nameEn);
+		onResult.call(result);
+		return result != null;
+	}
+
+	// update row
+	static Future<int> updateRow(Database db, ZMedicineMarkName row, {bool removeNull = false}) {
+		ZMedicineMarkName.checkPrimaryKeys(row.nameEn);
+		final data = row.toData();
+		if (removeNull) {
+			data.removeWhere((key, value) => value == null);
+		}
+		return db.update(ZMedicineMarkName.TABLE_NAME, data, where: "${ZMedicineMarkName.C_NAME_EN} = ?", whereArgs: [row.nameEn]);
+	}
+
+	// update by one
+	static Future<int> updateOne(Database db, {String nameRu, String nameUz, @required String nameEn, String nameRuPhonexCode, String nameUzPhonexCode, String nameEnPhonexCode, bool removeNull = false}) {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
+		return updateRow(db, toRowFromList(values: [nameRu, nameUz, nameEn, nameRuPhonexCode, nameUzPhonexCode, nameEnPhonexCode]), removeNull: removeNull);
+	}
+
 	// save row
 	static Future<int> saveRow(Database db, ZMedicineMarkName row, {bool removeNull = false}) {
+		ZMedicineMarkName.checkPrimaryKeys(row.nameEn);
 		final data = row.toData();
 		if (removeNull) {
 			data.removeWhere((key, value) => value == null);
@@ -108,12 +168,19 @@ class Z_ZMedicineMarkName {
 
 	// save one
 	static Future<int> saveOne(Database db, {@required String nameRu, @required String nameUz, @required String nameEn, @required String nameRuPhonexCode, @required String nameUzPhonexCode, @required String nameEnPhonexCode, bool removeNull = false}) {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
 		return saveRow(db, toRowFromList(values: [nameRu, nameUz, nameEn, nameRuPhonexCode, nameUzPhonexCode, nameEnPhonexCode]), removeNull: removeNull);
 	}
 
 	// delete all rows in database
 	static Future<int> deleteAll(Database db) {
 		return db.delete(ZMedicineMarkName.TABLE_NAME);
+	}
+
+	// delete row by primary key
+	static Future<int> deleteOne(Database db, String nameEn) {
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
+		return db.delete(ZMedicineMarkName.TABLE_NAME, where: "${ZMedicineMarkName.C_NAME_EN} = ?", whereArgs: [nameEn]);
 	}
 
 	// insert row try insert if exists abort
@@ -170,6 +237,7 @@ class Z_ZMedicineMarkName {
 		nameRuPhonexCode = nvl(data == null ? null : data[nvl(f4, ZMedicineMarkName.C_NAME_RU_PHONEX_CODE)], nameRuPhonexCode);
 		nameUzPhonexCode = nvl(data == null ? null : data[nvl(f5, ZMedicineMarkName.C_NAME_UZ_PHONEX_CODE)], nameUzPhonexCode);
 		nameEnPhonexCode = nvl(data == null ? null : data[nvl(f6, ZMedicineMarkName.C_NAME_EN_PHONEX_CODE)], nameEnPhonexCode);
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
 		return new ZMedicineMarkName(nameRu: nameRu, nameUz: nameUz, nameEn: nameEn, nameRuPhonexCode: nameRuPhonexCode, nameUzPhonexCode: nameUzPhonexCode, nameEnPhonexCode: nameEnPhonexCode);
 	}
 
@@ -181,6 +249,7 @@ class Z_ZMedicineMarkName {
 		final nameRuPhonexCode = values[keys?.indexOf(nvl(f4, ZMedicineMarkName.C_NAME_RU_PHONEX_CODE)) ?? 3];
 		final nameUzPhonexCode = values[keys?.indexOf(nvl(f5, ZMedicineMarkName.C_NAME_UZ_PHONEX_CODE)) ?? 4];
 		final nameEnPhonexCode = values[keys?.indexOf(nvl(f6, ZMedicineMarkName.C_NAME_EN_PHONEX_CODE)) ?? 5];
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
 		return new ZMedicineMarkName(nameRu: nameRu, nameUz: nameUz, nameEn: nameEn, nameRuPhonexCode: nameRuPhonexCode, nameUzPhonexCode: nameUzPhonexCode, nameEnPhonexCode: nameEnPhonexCode);
 	}
 
@@ -193,6 +262,7 @@ class Z_ZMedicineMarkName {
 		dynamic nameUzPhonexCode = values[keys?.indexOf(nvl(f5, ZMedicineMarkName.C_NAME_UZ_PHONEX_CODE)) ?? 4];
 		dynamic nameEnPhonexCode = values[keys?.indexOf(nvl(f6, ZMedicineMarkName.C_NAME_EN_PHONEX_CODE)) ?? 5];
 
+		ZMedicineMarkName.checkPrimaryKeys(nameEn);
 		return new ZMedicineMarkName(nameRu: nameRu, nameUz: nameUz, nameEn: nameEn, nameRuPhonexCode: nameRuPhonexCode, nameUzPhonexCode: nameUzPhonexCode, nameEnPhonexCode: nameEnPhonexCode);
 	}
 

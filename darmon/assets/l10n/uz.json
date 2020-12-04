@@ -38,10 +38,10 @@
   "medicine_list_fragment:search_by_inn": "MNN",
   "medicine_list_fragment:reload": "Qayta yuklash",
   "medicine_list_fragment:with_recipe": "retsept bo'yicha",
-  "medicine_list_fragment:with_out_recipe": "retseptisiz",
+  "medicine_list_fragment:with_out_recipe": "retseptsiz",
   "medicine_list_fragment:no_data_found": "Ma'lumot topilmadi",
   "medicine_list_fragment:price": "Cheklangan narxi: ",
-  "medicine_list_fragment:price_currency": " so`m",
+  "medicine_list_fragment:price_currency": " so'm",
   "medicine_list_fragment:not_found_price": "o'rnatilmagan",
   "medicine_list_fragment:pharmacy_dispensing_conditions": "Dorixonalardan berish tartibi: ",
 
@@ -50,7 +50,7 @@
   "filter:integer_range_from_hint": "dan",
   "filter:integer_range_to_hint":"gacha",
   "filter:clear_btn": "Bekor qilish",
-  "filter:apply_btn":"Qabo`l qilish",
+  "filter:apply_btn":"Qabo'l qilish",
 
 
   "medicine_mark_list_fragment:mark_name":"Ism",

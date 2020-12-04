@@ -208,11 +208,12 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                     style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
                         ? R.colors.app_color
                         : R.colors.priceColor)),
-                TextSpan(
-                    text: R.strings.medicine_list_fragment.price_currency.translate(),
-                    style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
-                        ? R.colors.app_color
-                        : R.colors.priceColor))
+                if (item.retailBasePrice?.isNotEmpty == true)
+                  TextSpan(
+                      text: R.strings.medicine_list_fragment.price_currency.translate(),
+                      style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
+                          ? R.colors.app_color
+                          : R.colors.priceColor))
               ])),
         ),
         isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)

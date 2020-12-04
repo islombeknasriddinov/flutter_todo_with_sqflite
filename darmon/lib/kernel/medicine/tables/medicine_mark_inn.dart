@@ -27,7 +27,8 @@ class ZMedicineMarkInn {
 	  inn_en                               text not null,
 	  inn_ru_phonex_code                   text not null,
 	  inn_en_phonex_code                   text not null,
-	  inn_ids                              text not null
+	  inn_ids                              text not null,
+	  constraint z_medicine_mark_inn_pk primary key (inn_en)
 	);
 	""";
 
@@ -41,15 +42,24 @@ class ZMedicineMarkInn {
 		ArgumentError.checkNotNull(innIds, C_INN_IDS);
 	}
 
+	static void checkPrimaryKeys(String innEn) {
+		ArgumentError.checkNotNull(innEn, C_INN_EN);
+	}
+
+	//------------------------------------------------------------------------------------------------
+
 	final String innRu;
 	final String innEn;
 	final String innRuPhonexCode;
 	final String innEnPhonexCode;
 	final String innIds;
 
-	ZMedicineMarkInn({@required this.innRu, @required this.innEn, @required this.innRuPhonexCode, @required this.innEnPhonexCode, @required this.innIds});
+	ZMedicineMarkInn({@required this.innRu, @required this.innEn, @required this.innRuPhonexCode, @required this.innEnPhonexCode, @required this.innIds}) {
+		checkPrimaryKeys(innEn);
+	}
 
 	factory ZMedicineMarkInn.fromData(Map<String, dynamic> data) {
+		checkPrimaryKeys(data[C_INN_EN]);
 		return ZMedicineMarkInn(
 			innRu: data[C_INN_RU],
 			innEn: data[C_INN_EN],
@@ -81,6 +91,7 @@ class Z_ZMedicineMarkInn {
 
 	// init
 	static ZMedicineMarkInn init({@required String innRu, @required String innEn, @required String innRuPhonexCode, @required String innEnPhonexCode, @required String innIds}) {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
 		return new ZMedicineMarkInn(innRu: innRu, innEn: innEn, innRuPhonexCode: innRuPhonexCode, innEnPhonexCode: innEnPhonexCode, innIds: innIds);
 	}
 
@@ -90,8 +101,57 @@ class Z_ZMedicineMarkInn {
 			.then((it) => it.map((d) => ZMedicineMarkInn.fromData(d)).toList());
 	}
 
+	// take row in database if no_data_found return null
+	static Future<ZMedicineMarkInn> take(Database db, String innEn) async {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
+		final result = await db.query(ZMedicineMarkInn.TABLE_NAME, where: "${ZMedicineMarkInn.C_INN_EN} = ?", whereArgs: [innEn]);
+		return result.isEmpty ? null : ZMedicineMarkInn.fromData(result.first);
+	}
+
+	// load row in database if no_data_found throw exception
+	static Future<ZMedicineMarkInn> load(Database db, String innEn) async {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
+		final result = await take(db, innEn);
+		if (result == null) {
+			throw Exception("no data found");
+		}
+		return result;
+	}
+
+	// check exist row in database return boolean if exists true or else
+	static Future<bool> exist(Database db, String innEn) {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
+		return take(db, innEn).then((it) => it != null);
+	}
+
+	// check exist row in database and getting result
+	static Future<bool> existTake(Database db, String innEn, void onResult(ZMedicineMarkInn row)) async {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
+		ArgumentError.checkNotNull(onResult, "OnResult");
+		final result = await take(db, innEn);
+		onResult.call(result);
+		return result != null;
+	}
+
+	// update row
+	static Future<int> updateRow(Database db, ZMedicineMarkInn row, {bool removeNull = false}) {
+		ZMedicineMarkInn.checkPrimaryKeys(row.innEn);
+		final data = row.toData();
+		if (removeNull) {
+			data.removeWhere((key, value) => value == null);
+		}
+		return db.update(ZMedicineMarkInn.TABLE_NAME, data, where: "${ZMedicineMarkInn.C_INN_EN} = ?", whereArgs: [row.innEn]);
+	}
+
+	// update by one
+	static Future<int> updateOne(Database db, {String innRu, @required String innEn, String innRuPhonexCode, String innEnPhonexCode, String innIds, bool removeNull = false}) {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
+		return updateRow(db, toRowFromList(values: [innRu, innEn, innRuPhonexCode, innEnPhonexCode, innIds]), removeNull: removeNull);
+	}
+
 	// save row
 	static Future<int> saveRow(Database db, ZMedicineMarkInn row, {bool removeNull = false}) {
+		ZMedicineMarkInn.checkPrimaryKeys(row.innEn);
 		final data = row.toData();
 		if (removeNull) {
 			data.removeWhere((key, value) => value == null);
@@ -101,12 +161,19 @@ class Z_ZMedicineMarkInn {
 
 	// save one
 	static Future<int> saveOne(Database db, {@required String innRu, @required String innEn, @required String innRuPhonexCode, @required String innEnPhonexCode, @required String innIds, bool removeNull = false}) {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
 		return saveRow(db, toRowFromList(values: [innRu, innEn, innRuPhonexCode, innEnPhonexCode, innIds]), removeNull: removeNull);
 	}
 
 	// delete all rows in database
 	static Future<int> deleteAll(Database db) {
 		return db.delete(ZMedicineMarkInn.TABLE_NAME);
+	}
+
+	// delete row by primary key
+	static Future<int> deleteOne(Database db, String innEn) {
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
+		return db.delete(ZMedicineMarkInn.TABLE_NAME, where: "${ZMedicineMarkInn.C_INN_EN} = ?", whereArgs: [innEn]);
 	}
 
 	// insert row try insert if exists abort
@@ -160,6 +227,7 @@ class Z_ZMedicineMarkInn {
 		innRuPhonexCode = nvl(data == null ? null : data[nvl(f3, ZMedicineMarkInn.C_INN_RU_PHONEX_CODE)], innRuPhonexCode);
 		innEnPhonexCode = nvl(data == null ? null : data[nvl(f4, ZMedicineMarkInn.C_INN_EN_PHONEX_CODE)], innEnPhonexCode);
 		innIds = nvl(data == null ? null : data[nvl(f5, ZMedicineMarkInn.C_INN_IDS)], innIds);
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
 		return new ZMedicineMarkInn(innRu: innRu, innEn: innEn, innRuPhonexCode: innRuPhonexCode, innEnPhonexCode: innEnPhonexCode, innIds: innIds);
 	}
 
@@ -170,6 +238,7 @@ class Z_ZMedicineMarkInn {
 		final innRuPhonexCode = values[keys?.indexOf(nvl(f3, ZMedicineMarkInn.C_INN_RU_PHONEX_CODE)) ?? 2];
 		final innEnPhonexCode = values[keys?.indexOf(nvl(f4, ZMedicineMarkInn.C_INN_EN_PHONEX_CODE)) ?? 3];
 		final innIds = values[keys?.indexOf(nvl(f5, ZMedicineMarkInn.C_INN_IDS)) ?? 4];
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
 		return new ZMedicineMarkInn(innRu: innRu, innEn: innEn, innRuPhonexCode: innRuPhonexCode, innEnPhonexCode: innEnPhonexCode, innIds: innIds);
 	}
 
@@ -181,6 +250,7 @@ class Z_ZMedicineMarkInn {
 		dynamic innEnPhonexCode = values[keys?.indexOf(nvl(f4, ZMedicineMarkInn.C_INN_EN_PHONEX_CODE)) ?? 3];
 		dynamic innIds = values[keys?.indexOf(nvl(f5, ZMedicineMarkInn.C_INN_IDS)) ?? 4];
 
+		ZMedicineMarkInn.checkPrimaryKeys(innEn);
 		return new ZMedicineMarkInn(innRu: innRu, innEn: innEn, innRuPhonexCode: innRuPhonexCode, innEnPhonexCode: innEnPhonexCode, innIds: innIds);
 	}
 
