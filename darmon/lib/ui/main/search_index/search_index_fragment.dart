@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
-import 'package:darmon/custom/auto_complete_text_view.dart';
 import 'package:darmon/main.dart';
 import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/main/search_index/search_index_viewmodel.dart';
@@ -13,6 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
 
 class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
+  static final String ROUTE_NAME = "/search_index";
+
+  static void replace(BuildContext context) {
+    Mold.replaceContent(context, ROUTE_NAME);
+  }
+
   @override
   SearchIndexViewModel onCreateViewModel(BuildContext buildContext) =>
       SearchIndexViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
@@ -49,7 +54,7 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
           //filterContainer(),
           progressContainer(),
 
-        /*  StreamBuilder<List<String>>(
+          /*  StreamBuilder<List<String>>(
               stream: viewmodel.menuItems,
               builder: (_, snapshot) {
                 if (snapshot?.data?.isNotEmpty == true) {

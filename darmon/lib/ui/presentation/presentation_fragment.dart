@@ -2,6 +2,7 @@ import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/ui/lang/lang_fragment.dart';
 import 'package:darmon/ui/main/main_fragment.dart';
+import 'package:darmon/ui/main/search_index/search_index_fragment.dart';
 import 'package:darmon/ui/presentation/presentation_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -150,7 +151,7 @@ class PresentationFragment extends ViewModelFragment<PresentationViewModel> {
   void donePresentation() {
     viewmodel.presentationShowed().then((value) {
       if (openMainFragment) {
-        MainFragment.open(getContext());
+        SearchIndexFragment.replace(getContext());
       } else {
         Mold.onContextBackPressed(getContext());
       }

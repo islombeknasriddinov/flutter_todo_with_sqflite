@@ -5,9 +5,9 @@ import 'package:gwslib/gwslib.dart';
 import 'package:gwslib/log/logger.dart';
 
 class NetworkManager {
-  //static const String BASE_URL = "http://orcl.smartup.uz:8080/xdarmon/";
+  static const String BASE_URL = "http://orcl.smartup.uz:8080/xdarmon/";
 
-  static const String BASE_URL = "http://uzpharminfo.uz/";
+  //static const String BASE_URL = "http://uzpharminfo.uz/";
   static const String SYNC = "b/darmon/dsph/r:sync_medicine_mark";
   static const String MEDICINE_LIST = "b/darmon/dsph/r:get_query";
 

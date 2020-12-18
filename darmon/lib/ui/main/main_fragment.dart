@@ -4,12 +4,11 @@ import 'package:darmon/ui/main/search_index/search_index_fragment.dart';
 import 'package:darmon/ui/main/setting_index/setting_index_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
-import 'package:gwslib/localization/pref.dart';
 
 class MainFragment extends ViewModelFragment<MainViewModel> {
   static final String ROUTE_NAME = "/main";
 
-  static void open(BuildContext context) {
+  static void replace(BuildContext context) {
     Mold.replaceContent(context, ROUTE_NAME);
   }
 

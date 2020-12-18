@@ -2,6 +2,7 @@ import 'package:darmon/common/resources.dart';
 import 'package:darmon/ui/intro/intro_viewmodel.dart';
 import 'package:darmon/ui/lang/lang_fragment.dart';
 import 'package:darmon/ui/main/main_fragment.dart';
+import 'package:darmon/ui/main/search_index/search_index_fragment.dart';
 import 'package:darmon/ui/presentation/presentation_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
@@ -48,7 +49,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
         !(await viewmodel.isShowedPresentation())) {
       LangContentFragment.replace(getContext());
     } else {
-      MainFragment.open(getContext());
+      SearchIndexFragment.replace(getContext());
     }
   }
 
