@@ -151,7 +151,7 @@ class PresentationFragment extends ViewModelFragment<PresentationViewModel> {
   void donePresentation() {
     viewmodel.presentationShowed().then((value) {
       if (openMainFragment) {
-        SearchIndexFragment.replace(getContext());
+        MainFragment.replace(getContext());
       } else {
         Mold.onContextBackPressed(getContext());
       }

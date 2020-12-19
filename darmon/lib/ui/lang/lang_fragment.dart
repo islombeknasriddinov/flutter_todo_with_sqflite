@@ -74,7 +74,7 @@ class LangContentFragment extends ViewModelFragment<LangViewModel> {
 //vaqtinchalik
       await IntroPref.setPresentationShowed(true);
 
-      SearchIndexFragment.replace(getContext());
+      MainFragment.replace(getContext());
       //   PresentationFragment.replace(getContext(), openMainFragment: true);
     }).catchError((error) {
       viewmodel.setError(error);

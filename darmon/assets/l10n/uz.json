@@ -16,7 +16,10 @@
   "lang:select_language":"Tilni tanlang",
 
   "main:medicine": "Dorilar",
+  "main:pharmacy": "Dorixona",
   "main:setting": "Sozlash",
+  "main:title":"Dori-darmonlarni, dorixonalarni va shifoxonalarni qidiring",
+  "main:search_hint":"Nimani qidirmoqchisiz?",
 
   "setting:change_lang":"Tilni o'zgartirish",
   "setting:help":"Yordam",

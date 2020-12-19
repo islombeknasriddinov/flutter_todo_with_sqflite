@@ -1,9 +1,10 @@
 import 'package:darmon/common/resources.dart';
+import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/ui/main/main_viewmodel.dart';
-import 'package:darmon/ui/main/search_index/search_index_fragment.dart';
-import 'package:darmon/ui/main/setting_index/setting_index_fragment.dart';
+import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
+import 'package:gwslib/widgets/icon.dart';
 
 class MainFragment extends ViewModelFragment<MainViewModel> {
   static final String ROUTE_NAME = "/main";
@@ -17,52 +18,87 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
 
   @override
   Widget onCreateWidget(BuildContext context) {
-    return StreamBuilder<int>(
-        stream: viewmodel.currentItemIndex,
-        builder: (_, snapshot) {
-          if (snapshot?.data != null) {
-            return Scaffold(
-              backgroundColor: R.colors.background,
-              body: getIndexFragment(snapshot.data),
-              bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: R.colors.background,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.format_list_bulleted_rounded),
-                    label: R.strings.main.medicine.translate(),
-                  ),
-                  /*    BottomNavigationBarItem(
-                    icon: Icon(Icons.comment),
-                    label: 'Жалоба',
-                  ),*/
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: R.strings.main.setting.translate(),
-                  ),
-                ],
-                currentIndex: snapshot.data,
-                selectedItemColor: R.colors.app_color,
-                unselectedItemColor: R.colors.unselectedItemColor,
-                onTap: _onItemTapped,
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: R.colors.appBarColor,
+          leading: StreamBuilder<String>(
+            stream: viewmodel.currentLangCode,
+            builder: (_, snapshot) {
+              if (snapshot?.data == "ru") {
+                return MyText("RU");
+              } else if (snapshot?.data == "en") {
+                return MyText("EN");
+              } else if (snapshot?.data == "uz") {
+                return MyText("UZ");
+              } else {
+                return Container();
+              }
+            },
+          ),
+          actions: [
+            MyIcon.icon(
+              Icons.info,
+              color: Colors.white,
+              padding: EdgeInsets.only(right: 12),
+              onTap: () {},
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: MyTable.vertical(
+            [
+              Image.asset(R.asserts.pills, width: double.infinity),
+              MyText(
+                R.strings.main.title,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                style: TS_HeadLine5(Colors.white),
               ),
-            );
-          } else {
-            return Container(child: Center(child: CircularProgressIndicator()));
-          }
-        });
+              MyTable.horizontal(
+                [
+                  MyIcon.svg(R.asserts.search, size: 20),
+                  MyText(
+                    R.strings.main.search_hint,
+                    padding: EdgeInsets.only(left: 8),
+                    style: TS_Subtitle_1(Colors.black54),
+                  )
+                ],
+                onTapCallback: () {
+                  MedicineMarkListFragment.open(getContext(), ArgMedicineMarkList(""));
+                },
+                background: Colors.white,
+                width: double.infinity,
+                padding: EdgeInsets.all(14),
+                borderRadius: BorderRadius.circular(12),
+                margin: EdgeInsets.only(left: 12, right: 12, bottom: 16),
+              ),
+              MyTable.vertical(
+                [
+                  buildMenu(R.strings.main.medicine, R.asserts.medicine, onTapAction: () {}),
+                  buildMenu(R.strings.main.pharmacy, R.asserts.pharmacy, onTapAction: () {}),
+                ],
+                width: double.infinity,
+                background: Colors.white,
+                borderRadius:
+                    BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+              )
+            ],
+            width: double.infinity,
+            background: R.colors.appBarColor,
+          ),
+        ));
   }
 
-  void _onItemTapped(int index) {
-    viewmodel.setBottomNavigationBarItemIndex(index);
-  }
-
-  Widget getIndexFragment(int index) {
-    switch (index) {
-      case 0:
-        return SearchIndexFragment().toFragment();
-      case 1:
-        return SettingIndexFragment().toFragment();
-    }
-    return Container(child: Center(child: CircularProgressIndicator()));
+  Widget buildMenu(String title, String icon, {void Function() onTapAction}) {
+    return MyTable.horizontal(
+      [
+        MyIcon.svg(icon, size: 32, padding: EdgeInsets.only(left: 4)),
+        MyText(title,
+            style: TS_Subtitle_1(Colors.black), padding: EdgeInsets.only(left: 16), flex: 1),
+        if (onTapAction != null) MyIcon.svg(R.asserts.arrow_forward, size: 16)
+      ],
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      onTapCallback: onTapAction,
+    );
   }
 }

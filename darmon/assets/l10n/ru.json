@@ -16,7 +16,10 @@
   "lang:select_language":"Выбрать язык",
 
   "main:medicine": "Лекарства",
+  "main:pharmacy": "Аптеки",
   "main:setting": "Настройка",
+  "main:title":"Поиск лекарств, аптек и больниц",
+  "main:search_hint":"Что ищем?",
 
   "setting:change_lang":"Изменить язык",
   "setting:help":"Помощь",

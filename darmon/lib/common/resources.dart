@@ -9,9 +9,14 @@ class R {
 
 class ResourceAssert {
   final String intro_logo = "assets/images/uzpharminfo.png";
+  final String pills = "assets/images/pills.png";
   final String drawer_menu = "assets/libs/accounts/svg/drawer_menu.svg";
   final String edit_24 = "assets/libs/accounts/svg/edit_24.svg";
   final String leading_back = "assets/libs/accounts/svg/leading_back.svg";
+  final String search = "assets/svg/search.svg";
+  final String medicine = "assets/svg/medicine.svg";
+  final String pharmacy = "assets/svg/pharmacy.svg";
+  final String arrow_forward = "assets/svg/arrow_forward.svg";
 }
 
 class ResourceColors {
@@ -22,8 +27,10 @@ class ResourceColors {
 
   Color get app_color => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 
+  Color get statusBarColor => AppLang.instance.isDarkMode ? Colors.black87 : Color(0xFF489FCA);
+
   Color get appBarColor =>
-      AppLang.instance.isDarkMode ? ThemeData.dark().appBarTheme.color : Color(0xFF007BCF);
+      AppLang.instance.isDarkMode ? ThemeData.dark().appBarTheme.color : Color(0xFF489FCA);
 
   Color get background => AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
 
@@ -87,7 +94,10 @@ class LanguageStrings {
 
 class MainStrings {
   final String medicine = "main:medicine";
+  final String pharmacy = "main:pharmacy";
   final String setting = "main:setting";
+  final String title = "main:title";
+  final String search_hint = "main:search_hint";
 }
 
 class SettingStrings {

@@ -102,20 +102,17 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   fonts:
-    - family: Roboto
+    - family: SourceSansPro
       fonts:
-        - asset: assets/fonts/Roboto-Black.ttf
-        - asset: assets/fonts/Roboto-BlackItalic.ttf
-        - asset: assets/fonts/Roboto-Bold.ttf
-        - asset: assets/fonts/Roboto-BoldItalic.ttf
-        - asset: assets/fonts/Roboto-Italic.ttf
-        - asset: assets/fonts/Roboto-Light.ttf
-        - asset: assets/fonts/Roboto-LightItalic.ttf
-        - asset: assets/fonts/Roboto-Medium.ttf
-        - asset: assets/fonts/Roboto-MediumItalic.ttf
-        - asset: assets/fonts/Roboto-Regular.ttf
-        - asset: assets/fonts/Roboto-Thin.ttf
-        - asset: assets/fonts/Roboto-ThinItalic.ttf
-    - family: Smartup5x
-      fonts:
-        - asset: assets/fonts/Smartup5x.ttf
+        - asset: assets/fonts/SourceSansPro-Black.ttf
+        - asset: assets/fonts/SourceSansPro-BlackItalic.ttf
+        - asset: assets/fonts/SourceSansPro-Bold.ttf
+        - asset: assets/fonts/SourceSansPro-BoldItalic.ttf
+        - asset: assets/fonts/SourceSansPro-ExtraLight.ttf
+        - asset: assets/fonts/SourceSansPro-ExtraLightItalic.ttf
+        - asset: assets/fonts/SourceSansPro-Italic.ttf
+        - asset: assets/fonts/SourceSansPro-Light.ttf
+        - asset: assets/fonts/SourceSansPro-LightItalic.ttf
+        - asset: assets/fonts/SourceSansPro-Regular.ttf
+        - asset: assets/fonts/SourceSansPro-SemiBold.ttf
+        - asset: assets/fonts/SourceSansPro-SemiBoldItalic.ttf

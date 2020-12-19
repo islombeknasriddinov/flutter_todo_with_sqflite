@@ -49,7 +49,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
         !(await viewmodel.isShowedPresentation())) {
       LangContentFragment.replace(getContext());
     } else {
-      SearchIndexFragment.replace(getContext());
+      MainFragment.replace(getContext());
     }
   }
 
