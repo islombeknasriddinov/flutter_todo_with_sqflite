@@ -17,6 +17,17 @@ class ResourceAssert {
   final String medicine = "assets/svg/medicine.svg";
   final String pharmacy = "assets/svg/pharmacy.svg";
   final String arrow_forward = "assets/svg/arrow_forward.svg";
+  final String medical_facilities = "assets/svg/medical_facilities.svg";
+  final String home = "assets/svg/home.svg";
+  final String envelope = "assets/svg/envelope.svg";
+  final String pager = "assets/svg/pager.svg";
+  final String phone = "assets/svg/phone.svg";
+  final String telegram = "assets/svg/telegram.svg";
+  final String arrow_back = "assets/svg/arrow_back.svg";
+  final String uzpharminfo_logo = "assets/svg/uzpharminfo_logo.svg";
+  final String history = "assets/svg/history.svg";
+  final String search_left = "assets/svg/search_left.svg";
+  final String stroke = "assets/svg/stroke.svg";
 }
 
 class ResourceColors {
@@ -24,8 +35,9 @@ class ResourceColors {
   final Color status_error = Color(0xFFE93558);
   final Color status_attention = Color(0xFFF79B26);
   final Color server_hint = Color(0xFF9AA4A8);
+  final Color fabColor = Color(0xFFE15A5A);
 
-  Color get app_color => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
+  Color get app_color => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF489FCA);
 
   Color get statusBarColor => AppLang.instance.isDarkMode ? Colors.black87 : Color(0xFF489FCA);
 
@@ -33,6 +45,9 @@ class ResourceColors {
       AppLang.instance.isDarkMode ? ThemeData.dark().appBarTheme.color : Color(0xFF489FCA);
 
   Color get background => AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
+
+  Color get medicineMarkBackground =>
+      AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFE5E5E5);
 
   Color get backgroundColor => AppLang.instance.isDarkMode
       ? ThemeData.dark().backgroundColor
@@ -48,9 +63,8 @@ class ResourceColors {
 
   Color get textColorOpposite => AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
 
-  Color get iconColors => AppLang.instance.isDarkMode
-      ? ThemeData.dark().iconTheme.color
-      : ThemeData.light().iconTheme.color;
+  Color get iconColors =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().iconTheme.color : Colors.black54;
 
   Color get unselectedItemColor => AppLang.instance.isDarkMode
       ? ThemeData.dark().unselectedWidgetColor
@@ -75,17 +89,28 @@ class ResourceStrings {
   final MainStrings main = MainStrings();
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
-  final MedicineListFragmentStrings medicine_list_fragment = new MedicineListFragmentStrings();
+  final MedicineItemStrings medicine_item = new MedicineItemStrings();
+  final MedicineListStrings medicine_list = new MedicineListStrings();
 
-  final MedicineMarkListFragmentStrings medicine_mark_list_fragment =
-      new MedicineMarkListFragmentStrings();
+  final AboutStrings about = new AboutStrings();
+  final MedicineMarkListStrings medicine_mark_list = new MedicineMarkListStrings();
+
   final FilterStrings filter = FilterStrings();
   final String more = "more";
+  final String please_wait = "please_wait";
 }
 
 class PresentationStrings {
   final String next = "presentation:next";
   final String done = "presentation:done";
+}
+
+class AboutStrings {
+  final String address = "about:address";
+  final String phone = "about:phone";
+  final String site = "about:site";
+  final String mail = "about:mail";
+  final String telegram = "about:telegram";
 }
 
 class LanguageStrings {
@@ -95,6 +120,7 @@ class LanguageStrings {
 class MainStrings {
   final String medicine = "main:medicine";
   final String pharmacy = "main:pharmacy";
+  final String medical_facilities = "main:medical_facilities";
   final String setting = "main:setting";
   final String title = "main:title";
   final String search_hint = "main:search_hint";
@@ -118,7 +144,21 @@ class SearchIndexStrings {
   final String syncing = "search_index:syncing";
 }
 
-class MedicineListFragmentStrings {
+class MedicineItemStrings {
+  final String reload = "medicine_item:reload";
+  final String with_recipe = "medicine_item:with_recipe";
+  final String with_out_recipe = "medicine_item:with_out_recipe";
+  final String no_data_found = "medicine_item:no_data_found";
+  final String price = "medicine_item:price";
+  final String instructions = "medicine_item:instructions";
+  final String marginal_price = "medicine_item:marginal_price";
+  final String medicine_price = "medicine_item:medicine_price";
+  final String analogs_count = "medicine_item:analogs_count";
+  final String mnn = "medicine_item:mnn";
+  final String producer = "medicine_item:producer";
+}
+
+class MedicineListStrings {
   final String search = "medicine_list_fragment:search";
   final String search_by = "medicine_list_fragment:search_by";
   final String search_by_name = "medicine_list_fragment:search_by_name";
@@ -134,11 +174,15 @@ class MedicineListFragmentStrings {
       "medicine_list_fragment:pharmacy_dispensing_conditions";
 }
 
-class MedicineMarkListFragmentStrings {
+class MedicineMarkListStrings {
   final String mark_name = "medicine_mark_list_fragment:mark_name";
   final String mark_inn = "medicine_mark_list_fragment:mark_inn";
   final String search_history = "medicine_mark_list_fragment:search_history";
   final String show_more = "medicine_mark_list_fragment:show_more";
+  final String warning = "medicine_mark_list_fragment:warning";
+  final String delete_message = "medicine_mark_list_fragment:delete_message";
+  final String yes = "medicine_mark_list_fragment:yes";
+  final String no = "medicine_mark_list_fragment:no";
 }
 
 class FilterStrings {

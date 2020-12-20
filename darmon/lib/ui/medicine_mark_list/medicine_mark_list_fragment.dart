@@ -1,3 +1,4 @@
+import 'package:darmon/common/dialogs.dart';
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/routes/size_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
@@ -23,8 +24,15 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
 
   static void open(BuildContext context, ArgMedicineMarkList arg) {
     Navigator.push<dynamic>(
-        context, SizeRoute(page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
+        context,
+        SizeRoute(
+            routeName: ROUTE_NAME,
+            page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
+  }
+
+  static void popUntil(BuildContext context) {
+    Navigator.popUntil(context, (route) => route.settings.name == ROUTE_NAME);
   }
 
   ArgMedicineMarkList get arg => argument as ArgMedicineMarkList;
@@ -46,13 +54,11 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   Widget onCreateWidget(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          leading: BackButton(
-            color: R.colors.iconColors,
-          ),
+          leading: Container(),
+          leadingWidth: 0,
           elevation: 1,
           title: _buildSearchField(),
-          actions: _buildActions(),
-          backgroundColor: R.colors.background,
+          backgroundColor: R.colors.appBarColor,
         ),
         body: MyTable.vertical(
           [
@@ -64,31 +70,6 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         ));
   }
 
-  List<Widget> _buildActions() {
-    return <Widget>[
-      StreamBuilder<String>(
-          stream: viewmodel.searchText,
-          builder: (_, snapshot) {
-            if (snapshot?.data?.isNotEmpty == true) {
-              return MyIcon.icon(
-                Icons.clear,
-                color: R.colors.iconColors,
-                onTap: () {
-                  if (_searchQuery == null || _searchQuery.text.isEmpty) {
-                    Mold.onBackPressed(this);
-                    return;
-                  }
-                  _clearSearchQuery();
-                },
-                padding: EdgeInsets.only(right: 12),
-              );
-            } else {
-              return Container();
-            }
-          })
-    ];
-  }
-
   void _clearSearchQuery() {
     print("close search box");
     _searchQuery.clear();
@@ -96,16 +77,59 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   }
 
   Widget _buildSearchField() {
-    return new TextField(
-      controller: _searchQuery,
-      autofocus: true,
-      decoration: InputDecoration(
-        hintText: R.strings.medicine_list_fragment.search.translate(),
-        border: InputBorder.none,
-        hintStyle: TextStyle(color: R.colors.hintTextColor),
-      ),
-      style: TextStyle(color: R.colors.textColor),
-      onChanged: updateSearchQuery,
+    return MyTable.horizontal(
+      [
+        StreamBuilder<String>(
+            stream: viewmodel.searchText,
+            builder: (_, snapshot) {
+              if (snapshot?.data?.isNotEmpty == true) {
+                return MyIcon.icon(
+                  Icons.clear,
+                  color: R.colors.app_color,
+                  onTap: () {
+                    if (_searchQuery == null || _searchQuery.text.isEmpty) {
+                      Mold.onBackPressed(this);
+                      return;
+                    }
+                    _clearSearchQuery();
+                  },
+                  padding: EdgeInsets.only(right: 12),
+                );
+              } else {
+                return MyIcon.icon(
+                  Icons.arrow_back,
+                  color: R.colors.app_color,
+                  onTap: () {
+                    Mold.onBackPressed(this);
+                  },
+                  padding: EdgeInsets.only(right: 12),
+                );
+              }
+            }),
+        Expanded(
+            child: TextField(
+          controller: _searchQuery,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: R.strings.medicine_list.search.translate(),
+            border: InputBorder.none,
+            hintStyle: TextStyle(
+                color: R.colors.hintTextColor,
+                fontFamily: "SourceSansPro",
+                fontWeight: FontWeight.w300),
+          ),
+          style: TextStyle(
+            color: R.colors.textColor,
+            fontFamily: "SourceSansPro",
+            fontWeight: FontWeight.w400,
+          ),
+          onChanged: updateSearchQuery,
+        ))
+      ],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      background: Colors.white,
+      borderRadius: BorderRadius.circular(12),
+      padding: EdgeInsets.symmetric(horizontal: 12),
     );
   }
 
@@ -116,7 +140,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
-        MyText(R.strings.medicine_list_fragment.search_by, style: TS_Body_1(R.colors.textColor)),
+        MyText(R.strings.medicine_list.search_by, style: TS_Body_1(R.colors.textColor)),
         MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
       ],
       background: R.colors.background,
@@ -185,37 +209,16 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         });
   }
 
-/*
-  Widget _buildListWidget() {
-    return StreamBuilder<List<UIMedicineMark>>(
-      stream: viewmodel.items,
-      builder: (_, snapshot) {
-        print("snapshot?.data=${snapshot?.data}");
-        if (snapshot?.data?.isNotEmpty == true) {
-          return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return populateListItem(snapshot.data[index]);
-            },
-          );
-        } else {
-          return Container();
-        }
-      },
-    );
-  }*/
-
   Widget _buildSearchHistory() {
     List<UIMedicineMark> histories = viewmodel.searchHistoryList;
     return SliverStickyHeader(
       header: Container(
-        height: 30.0,
-        color: R.colors.stickHeaderColor,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        color: R.colors.background,
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
         alignment: Alignment.centerLeft,
         child: MyText(
-          R.strings.medicine_mark_list_fragment.search_history,
-          style: TS_Caption(R.colors.hintTextColor),
+          R.strings.medicine_mark_list.search_history,
+          style: TS_Subtitle_2(Colors.black),
         ),
       ),
       sliver: SliverList(
@@ -236,48 +239,58 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
 
   Widget populateSearchHistoryItem(
       String title, Function onTapCallback, Function onDeleteSearchHistory) {
-    return MyTable.vertical(
-      [
-        MyTable.horizontal(
-          [
-            MyIcon.icon(
-              Icons.access_time_outlined,
-              color: R.colors.iconColors,
-              size: 18,
-            ),
-            MyText(
-              title,
-              flex: 1,
-              style: TS_Body_1(R.colors.textColor),
-              padding: EdgeInsets.symmetric(vertical: 8),
-            ),
-            MyIcon.icon(Icons.delete_forever,
-                color: R.colors.iconColors,
-                size: 18,
-                padding: EdgeInsets.all(8),
-                onTap: onDeleteSearchHistory)
-          ],
-          crossAxisAlignment: CrossAxisAlignment.center,
-          padding: EdgeInsets.only(right: 12, top: 6, bottom: 6),
-        ),
-        Divider(color: R.colors.dividerColor, height: 1)
-      ],
-      padding: EdgeInsets.only(left: 12),
-      onTapCallback: onTapCallback,
-    );
+    return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          child: MyTable.vertical(
+            [
+              MyTable.horizontal(
+                [
+                  MyIcon.svg(
+                    R.asserts.history,
+                    color: R.colors.iconColors,
+                    size: 24,
+                  ),
+                  MyText(
+                    title,
+                    flex: 1,
+                    style: TS_Subtitle_1(R.colors.textColor),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  ),
+                  MyIcon.icon(Icons.arrow_forward_rounded,
+                      color: R.colors.iconColors, size: 16, padding: EdgeInsets.all(8))
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              ),
+              Divider(color: R.colors.dividerColor, height: 1)
+            ],
+            background: Colors.white,
+          ),
+          onTap: onTapCallback,
+          onLongPress: () {
+            MyDialog.alert()
+                .title(R.strings.medicine_mark_list.warning)
+                .message(R.strings.medicine_mark_list.delete_message)
+                .positive(R.strings.medicine_mark_list.yes, () {
+                  onDeleteSearchHistory.call();
+                })
+                .negative(R.strings.medicine_mark_list.no, () {})
+                .show(getContext());
+          },
+        ));
   }
 
   Widget _buildMedicineMarkNameList() {
     List<UIMedicineMark> names = viewmodel.medicineMarkNameList;
     return SliverStickyHeader(
       header: Container(
-        height: 30.0,
-        color: R.colors.stickHeaderColor,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        color: R.colors.background,
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
         alignment: Alignment.centerLeft,
         child: MyText(
-          R.strings.medicine_mark_list_fragment.mark_name,
-          style: TS_Caption(R.colors.hintTextColor),
+          R.strings.medicine_mark_list.mark_name,
+          style: TS_Subtitle_2(Colors.black),
         ),
       ),
       sliver: SliverList(
@@ -310,13 +323,12 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     Log.debug("inns.length=${inns.length}");
     return SliverStickyHeader(
       header: Container(
-        height: 30.0,
-        color: R.colors.stickHeaderColor,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        color: R.colors.background,
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
         alignment: Alignment.centerLeft,
         child: MyText(
-          R.strings.medicine_mark_list_fragment.mark_inn,
-          style: TS_Caption(R.colors.hintTextColor),
+          R.strings.medicine_mark_list.mark_inn,
+          style: TS_Subtitle_2(Colors.black),
         ),
       ),
       sliver: SliverList(
@@ -346,7 +358,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
             MyText(
               title,
               flex: 1,
-              style: TS_Body_1(R.colors.textColor),
+              style: TS_Subtitle_1(R.colors.textColor),
               padding: EdgeInsets.symmetric(vertical: 8),
             ),
             MyIcon.icon(
@@ -360,6 +372,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         ),
         Divider(color: R.colors.dividerColor, height: 1)
       ],
+      background: Colors.white,
       padding: EdgeInsets.only(left: 12),
       onTapCallback: onTapCallback,
     );
@@ -386,9 +399,9 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         MyTable.horizontal(
           [
             MyText(
-              R.strings.medicine_mark_list_fragment.show_more,
+              R.strings.medicine_mark_list.show_more,
               flex: 1,
-              style: TS_Body_1(R.colors.textColor),
+              style: TS_Body_1(R.colors.app_color),
               padding: EdgeInsets.symmetric(vertical: 8),
             )
           ],
@@ -397,6 +410,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         ),
         Divider(color: R.colors.dividerColor, height: 1)
       ],
+      background: Colors.white,
       padding: EdgeInsets.only(left: 12),
       onTapCallback: onTapCallback,
     );

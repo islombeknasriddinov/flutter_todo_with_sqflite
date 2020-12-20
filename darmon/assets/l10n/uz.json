@@ -4,6 +4,7 @@
   "next": "Keyingi",
   "no_internet_connect": "Internetga ulanmagan",
   "unknown": "noma`lum",
+  "please_wait":"Iltimos kuting",
 
   "hour": "%1s soat",
   "minute": "%1s minut",
@@ -16,7 +17,8 @@
   "lang:select_language":"Tilni tanlang",
 
   "main:medicine": "Dorilar",
-  "main:pharmacy": "Dorixona",
+  "main:pharmacy": "Dorixona (tez orada)",
+  "main:medical_facilities": "Tibbiyot muassasalari (tez orada)",
   "main:setting": "Sozlash",
   "main:title":"Dori-darmonlarni, dorixonalarni va shifoxonalarni qidiring",
   "main:search_hint":"Nimani qidirmoqchisiz?",
@@ -43,8 +45,8 @@
   "medicine_list_fragment:with_recipe": "retsept bo'yicha",
   "medicine_list_fragment:with_out_recipe": "retseptsiz",
   "medicine_list_fragment:no_data_found": "Ma'lumot topilmadi",
-  "medicine_list_fragment:price": "Cheklangan narxi: ",
-  "medicine_list_fragment:price_currency": " so'm",
+  "medicine_list_fragment:price": "%1s so'm",
+  "medicine_list_fragment:price_currency": "",
   "medicine_list_fragment:not_found_price": "o'rnatilmagan",
   "medicine_list_fragment:pharmacy_dispensing_conditions": "Dorixonalardan berish tartibi: ",
 
@@ -60,6 +62,29 @@
   "medicine_mark_list_fragment:mark_inn":"MNN",
   "medicine_mark_list_fragment:search_history":"Qidiruv tarixi",
   "medicine_mark_list_fragment:show_more":"Ko'proq ko'rsatish",
+  "medicine_mark_list_fragment:warning":"Ogohlantirish",
+  "medicine_mark_list_fragment:delete_message":"O'chirishni xohlisizmi?",
+  "medicine_mark_list_fragment:yes":"Ha",
+  "medicine_mark_list_fragment:no":"Yo'q",
+
+  "medicine_item:reload": "Qayta yuklash",
+  "medicine_item:with_recipe": "retsept bo'yicha",
+  "medicine_item:with_out_recipe": "retseptsiz",
+  "medicine_item:no_data_found": "Ma'lumot topilmadi",
+  "medicine_item:price": " so'm",
+  "medicine_item:medicine_price": "%1s so'm",
+  "medicine_item:analogs_count": "Analoglar (%1s)",
+  "medicine_item:instructions": "Ko'rsatmalar",
+  "medicine_item:marginal_price": "cheklangan narxi",
+  "medicine_item:mnn": "MNN: ",
+  "medicine_item:producer": "Ishlab chiqaruvchi: ",
+
+  "about:address": "O'zbekiston R., Toshkent, 100084, Ch.Aytmatova ko`chasi, 1A",
+  "about:phone": "+998 (71) 203-81-81",
+  "about:site": "https://uzpharmagency.uz",
+  "about:mail": "https://uzpharmagency.uz",
+  "about:telegram": "@uzpharmagency_bot",
+
 
   "z": "z"
 }

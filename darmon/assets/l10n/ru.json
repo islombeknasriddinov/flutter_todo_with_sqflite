@@ -4,6 +4,7 @@
   "next": "Далее",
   "no_internet_connect": "Нет соединения с интернетом",
   "unknown": "неизвестно",
+  "please_wait":"Пожалуйста, подождите",
 
   "hour": "%1s ч",
   "minute": "%1s мин",
@@ -16,7 +17,8 @@
   "lang:select_language":"Выбрать язык",
 
   "main:medicine": "Лекарства",
-  "main:pharmacy": "Аптеки",
+  "main:pharmacy": "Аптеки (скоро)",
+  "main:medical_facilities": "Медицинские учереждения (скоро)",
   "main:setting": "Настройка",
   "main:title":"Поиск лекарств, аптек и больниц",
   "main:search_hint":"Что ищем?",
@@ -43,7 +45,7 @@
   "medicine_list_fragment:with_recipe": "по рецепту",
   "medicine_list_fragment:with_out_recipe": "без рецепта",
   "medicine_list_fragment:no_data_found": "Данные не найдены",
-  "medicine_list_fragment:price": "Предельная цена: ",
+  "medicine_list_fragment:price": "%1s сум",
   "medicine_list_fragment:not_found_price": "не установлена",
   "medicine_list_fragment:price_currency": " сум",
   "medicine_list_fragment:pharmacy_dispensing_conditions": "Условия отпуска из аптек: ",
@@ -59,7 +61,28 @@
   "medicine_mark_list_fragment:mark_inn":"МНН",
   "medicine_mark_list_fragment:search_history":"История поиска",
   "medicine_mark_list_fragment:show_more":"Показать больше",
+  "medicine_mark_list_fragment:warning":"Предупреждение",
+  "medicine_mark_list_fragment:delete_message":"Вы хотели удалить?",
+  "medicine_mark_list_fragment:yes":"Да",
+  "medicine_mark_list_fragment:no":"Нет",
 
+  "medicine_item:reload": "Перезагрузить",
+  "medicine_item:with_recipe": "по рецепту",
+  "medicine_item:with_out_recipe": "без рецепта",
+  "medicine_item:no_data_found": "Данные не найдены",
+  "medicine_item:price": " сум",
+  "medicine_item:medicine_price": "%1s сум",
+  "medicine_item:analogs_count": "Аналоги (%1s)",
+  "medicine_item:instructions": "Инструкция",
+  "medicine_item:marginal_price": "предельная цена",
+  "medicine_item:mnn": "МНН: ",
+  "medicine_item:producer": "Производитель: ",
+
+  "about:address": "Р. Узбекистан, г. Ташкент, 100084, ул. Ч.Айтматова, 1А",
+  "about:phone": "+998 (71) 203-81-81",
+  "about:site": "https://uzpharmagency.uz",
+  "about:mail": "https://uzpharmagency.uz",
+  "about:telegram": "@uzpharmagency_bot",
 
 
   "z": "z"

@@ -3,8 +3,10 @@ import 'package:darmon/common/result.dart';
 import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';
+import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -23,7 +25,9 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
 
   static void open(BuildContext context, ArgMedicineList arg) {
     Navigator.push<dynamic>(
-        context, SlideLeftRoute(page: Mold.newInstance(MedicineListFragment()..argument = arg)));
+        context,
+        SlideLeftRoute(
+            routeName: ROUTE_NAME, page: Mold.newInstance(MedicineListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
@@ -35,19 +39,42 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
   @override
   Widget onCreateWidget(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          leading: BackButton(color: R.colors.iconColors),
-          elevation: 1,
+        appBar: AppBar(
+          leading: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              child: Container(
+                margin: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white30,
+                  shape: BoxShape.circle,
+                ),
+                padding: EdgeInsets.all(8),
+                child: MyIcon.icon(Icons.arrow_back, color: Colors.white, size: 24),
+              ),
+              onTap: () {
+                MedicineMarkListFragment.popUntil(getContext());
+              },
+            ),
+          ),
+          elevation: 0,
           title: MyText(
             arg.medicineMark,
-            style: TextStyle(color: R.colors.textColor),
+            style: TextStyle(color: Colors.white, fontSize: 14),
           ),
-          backgroundColor: R.colors.background,
+          backgroundColor: R.colors.appBarColor,
         ),
-        body: MyTable.vertical([
-          Divider(height: 1, color: R.colors.dividerColor),
-          Expanded(child: _buildListWidget())
-        ]));
+        floatingActionButton: FloatingActionButton(
+          child: MyIcon.svg(R.asserts.search_left, size: 24, color: Colors.white),
+          backgroundColor: R.colors.fabColor,
+          onPressed: () {
+            Mold.onBackPressed(this);
+          },
+        ),
+        body: MyTable.vertical(
+          [Divider(height: 1, color: R.colors.dividerColor), Expanded(child: _buildListWidget())],
+          background: R.colors.background,
+        ));
   }
 
   Widget _buildListWidget() {
@@ -93,7 +120,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                       Padding(
                         child: ContainerElevation(
                           MyText(
-                            R.strings.medicine_list_fragment.reload,
+                            R.strings.medicine_list.reload,
                             style: TS_Button(R.colors.app_color),
                             upperCase: true,
                           ),
@@ -137,26 +164,16 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
     return MyTable.vertical(
       [
         MyText(
-          medicine.medicineMarkName,
-          style: TS_Body_1(R.colors.textColorOpposite),
-          padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 4),
-        ),
-        MyText(
           medicine.producerGenName,
-          style: TS_Subtitle_2(textColor: R.colors.textColorOpposite),
-          padding: EdgeInsets.only(left: 12, right: 12, bottom: 10),
+          style: TS_Subtitle_2(Colors.black),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         MyTable.vertical(
           _buildMedicineProductsList(medicine.medicines),
-          borderRadius: BorderRadius.circular(8),
           background: R.colors.cardColor,
           width: double.infinity,
         ),
       ],
-      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-      background: R.colors.app_color,
-      borderRadius: BorderRadius.circular(8),
-      elevation: 2,
     );
   }
 
@@ -172,64 +189,40 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
   Widget _buildMedicineProduct(ProducerMedicineListItem item, bool isLast) {
     return MyTable.vertical(
       [
-        MyText(
-          item.boxGenName,
-          style: TS_Body_1(R.colors.textColor),
-          padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 4),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          child: RichText(
-              text: TextSpan(
-                  style: TS_Subtitle_2(textColor: item.spreadKindColor),
-                  children: <TextSpan>[
-                TextSpan(
-                    text:
-                        R.strings.medicine_list_fragment.pharmacy_dispensing_conditions.translate(),
-                    style: TS_Subtitle_2(textColor: R.colors.priceTitleTextColor)),
-                TextSpan(
-                    text: item.spreadKindTitle,
-                    style: TS_Subtitle_2(textColor: item.spreadKindColor))
-              ])),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          child: RichText(
-              text: TextSpan(
-                  style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
-                      ? R.colors.app_color
-                      : R.colors.priceColor),
-                  children: <TextSpan>[
-                TextSpan(
-                    text: R.strings.medicine_list_fragment.price.translate(),
-                    style: TS_Body_2(R.colors.priceTitleTextColor)),
-                TextSpan(
-                    text: getMedicinePrice(item),
-                    style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
-                        ? R.colors.app_color
-                        : R.colors.priceColor)),
+        MyTable.horizontal(
+          [
+            MyTable.vertical(
+              [
+                MyText(
+                  item.boxGenName,
+                  style: TS_Body_1(R.colors.textColor),
+                  padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 4),
+                ),
                 if (item.retailBasePrice?.isNotEmpty == true)
-                  TextSpan(
-                      text: R.strings.medicine_list_fragment.price_currency.translate(),
-                      style: TS_Body_2(item.retailBasePrice?.isNotEmpty == true
-                          ? R.colors.app_color
-                          : R.colors.priceColor))
-              ])),
+                  MyText(
+                    R.strings.medicine_list.price.translate(args: [item.retailBasePrice]),
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    style: TS_List_Subtitle_1(),
+                  ),
+                SizedBox(height: 12)
+              ],
+              flex: 1,
+            ),
+            MyIcon.icon(
+              Icons.arrow_forward,
+              size: 20,
+              padding: EdgeInsets.all(16),
+              color: R.colors.iconColors,
+            )
+          ],
+          crossAxisAlignment: CrossAxisAlignment.center,
         ),
         isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)
       ],
       onTapCallback: () {
-        //MedicineItemFragment.open(getContext(), ArgMedicineItem(item.boxGroupId));
+        MedicineItemFragment.open(getContext(), ArgMedicineItem(item.boxGroupId));
       },
       width: double.infinity,
     );
-  }
-
-  String getMedicinePrice(ProducerMedicineListItem item) {
-    if (item.retailBasePrice?.isNotEmpty == true) {
-      return item.retailBasePrice;
-    } else {
-      return R.strings.medicine_list_fragment.not_found_price.translate();
-    }
   }
 }

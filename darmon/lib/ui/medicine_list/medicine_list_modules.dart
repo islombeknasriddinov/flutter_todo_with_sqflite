@@ -95,21 +95,21 @@ class ProducerMedicineListItem {
 
   String get spreadKindTitle {
     if (spreadKind == "W") {
-      return R.strings.medicine_list_fragment.with_recipe.translate();
+      return R.strings.medicine_list.with_recipe.translate();
     } else if (spreadKind == "O") {
-      return R.strings.medicine_list_fragment.with_out_recipe.translate();
+      return R.strings.medicine_list.with_out_recipe.translate();
     } else {
-      return R.strings.medicine_list_fragment.no_data_found.translate();
+      return R.strings.medicine_list.no_data_found.translate();
     }
   }
 
   Color get spreadKindColor {
     if (spreadKind == "W")
-      return R.colors.priceColor;
+      return R.colors.fabColor;
     else if (spreadKind == "O") {
       return R.colors.status_success;
     } else {
-      return R.colors.textColor;
+      return R.colors.appBarColor;
     }
   }
 }

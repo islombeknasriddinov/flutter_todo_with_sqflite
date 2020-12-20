@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SizeRoute extends PageRouteBuilder {
   final Widget page;
 
-  SizeRoute({this.page})
+  SizeRoute({this.page, @required String routeName})
       : super(
           pageBuilder: (
             BuildContext context,
@@ -13,6 +13,7 @@ class SizeRoute extends PageRouteBuilder {
               page,
           transitionDuration: Duration(milliseconds: 200),
           reverseTransitionDuration: Duration(milliseconds: 200),
+          settings: RouteSettings(name: routeName),
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,

@@ -34,8 +34,8 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   bool get medicineMarkNameListIsNotEmpty => (_medicineMarkNameList?.value?.length ?? -1) > 0;
   List<SearchField> searchFilterFields = [
-    SearchField("by_name", R.strings.medicine_list_fragment.search_by_name.translate()),
-    SearchField("by_inn", R.strings.medicine_list_fragment.search_by_inn.translate()),
+    SearchField("by_name", R.strings.medicine_list.search_by_name.translate()),
+    SearchField("by_inn", R.strings.medicine_list.search_by_inn.translate()),
   ];
 
   bool innIsActive = true;
