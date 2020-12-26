@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:darmon/common/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
@@ -65,44 +63,48 @@ class MedicineItem {
 
 class MedicineItemInstruction {
   final String medicineName;
-  final String medicineMnn;
+  final String medicineInn;
   final String producerGenName;
-  final List<MedicineInstruction> instructions;
+
+  final String atcName;
+  final String spreadKind;
+  final String shelfLifeKind;
+  final String shelfLife;
+  final String openedShelfLifeKind;
+  final String openedShelfLife;
+  final String scope;
+  final String storage;
+  final String pharmacologicAction;
 
   MedicineItemInstruction(
     this.medicineName,
-    this.medicineMnn,
+    this.medicineInn,
     this.producerGenName,
-    this.instructions,
+    this.atcName,
+    this.spreadKind,
+    this.shelfLifeKind,
+    this.shelfLife,
+    this.openedShelfLifeKind,
+    this.openedShelfLife,
+    this.scope,
+    this.storage,
+    this.pharmacologicAction,
   );
 
   factory MedicineItemInstruction.fromData(Map<String, dynamic> data) {
-    List<dynamic> instructionsJson = nvl(data['instructions']) ?? [];
-
-    List<MedicineInstruction> instructions = [];
-    for (var instruction in instructionsJson) {
-      instructions.add(MedicineInstruction.fromData(jsonDecode(instruction)));
-    }
-
     return MedicineItemInstruction(
-      nvl(data['medicine_name']),
-      nvl(data['medicine_mnn']),
+      nvl(data['box_gen_name']),
+      nvl(data['inn']),
       nvl(data['producer_gen_name']),
-      instructions,
-    );
-  }
-}
-
-class MedicineInstruction {
-  final String header;
-  final String body;
-
-  MedicineInstruction(this.header, this.body);
-
-  factory MedicineInstruction.fromData(Map<String, dynamic> data) {
-    return MedicineInstruction(
-      nvl(data['header']),
-      nvl(data['body']),
+      nvl(data['atc_name']),
+      nvl(data['spread_kind']),
+      nvl(data['shelf_life_kind']),
+      nvl(data['shelf_life']),
+      nvl(data['opened_shelf_life_kind']),
+      nvl(data['opened_shelf_life']),
+      nvl(data['scope']),
+      nvl(data['storage']),
+      nvl(data['pharmacologic_action']),
     );
   }
 }

@@ -80,6 +80,16 @@
   "medicine_item:not_found_price": "не установлена",
   "medicine_item:price_no_set": "Предельная цена: не установлена",
 
+  "medicine_instruction:reload": "Перезагрузить",
+  "medicine_instruction:mnn": "МНН: ",
+  "medicine_instruction:producer": "Производитель: ",
+  "medicine_instruction:scope": "Объем",
+  "medicine_instruction:storage": "Место хранения",
+  "medicine_instruction:pharmacologic_action": "Фармакологическое действие",
+  "medicine_instruction:atc_name": "ACT",
+  "medicine_instruction:shelf_life": "Срок годности",
+  "medicine_instruction:opened_shelf_life": "Открытый срок годности",
+
   "about:address": "100002, г.Ташкент, ул. Озод, проезд К.Умарова, 16.",
   "about:phone": "+998 (71) 242-48-93",
   "about:fax": "+998 (71) 242-48-25",

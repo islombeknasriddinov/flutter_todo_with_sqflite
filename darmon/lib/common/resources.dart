@@ -25,10 +25,12 @@ class ResourceAssert {
   final String telegram = "assets/svg/telegram.svg";
   final String arrow_back = "assets/svg/arrow_back.svg";
   final String uzpharminfo_logo = "assets/svg/uzpharminfo_logo.svg";
+  final String uzpharminfo_logo_small = "assets/svg/uzpharminfo_logo_small.svg";
   final String history = "assets/svg/history.svg";
   final String search_left = "assets/svg/search_left.svg";
   final String stroke = "assets/svg/stroke.svg";
   final String fax = "assets/svg/fax.svg";
+  final String medicine_12 = "assets/svg/medicine_12.svg";
 }
 
 class ResourceColors {
@@ -38,14 +40,18 @@ class ResourceColors {
   final Color server_hint = Color(0xFF9AA4A8);
   final Color fabColor = Color(0xFFE15A5A);
 
-  Color get app_color => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF489FCA);
+  Color get app_color =>
+      AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF489FCA);
 
-  Color get statusBarColor => AppLang.instance.isDarkMode ? Colors.black87 : Color(0xFF489FCA);
+  Color get statusBarColor =>
+      AppLang.instance.isDarkMode ? Colors.black87 : Color(0xFF489FCA);
 
-  Color get appBarColor =>
-      AppLang.instance.isDarkMode ? ThemeData.dark().appBarTheme.color : Color(0xFF489FCA);
+  Color get appBarColor => AppLang.instance.isDarkMode
+      ? ThemeData.dark().appBarTheme.color
+      : Color(0xFF489FCA);
 
-  Color get background => AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
+  Color get background =>
+      AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
 
   Color get medicineMarkBackground =>
       AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFE5E5E5);
@@ -54,34 +60,45 @@ class ResourceColors {
       ? ThemeData.dark().backgroundColor
       : ThemeData.light().backgroundColor;
 
-  Color get statusError => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFE93558);
+  Color get statusError =>
+      AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFE93558);
 
-  Color get cardColor =>
-      AppLang.instance.isDarkMode ? ThemeData.dark().cardColor : ThemeData.light().cardColor;
+  Color get cardColor => AppLang.instance.isDarkMode
+      ? ThemeData.dark().cardColor
+      : ThemeData.light().cardColor;
 
-  Color get dividerColor =>
-      AppLang.instance.isDarkMode ? ThemeData.dark().dividerColor : ThemeData.light().dividerColor;
+  Color get dividerColor => AppLang.instance.isDarkMode
+      ? ThemeData.dark().dividerColor
+      : ThemeData.light().dividerColor;
 
-  Color get textColorOpposite => AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
+  Color get textColorOpposite =>
+      AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
 
-  Color get iconColors =>
-      AppLang.instance.isDarkMode ? ThemeData.dark().iconTheme.color : Colors.black54;
+  Color get iconColors => AppLang.instance.isDarkMode
+      ? ThemeData.dark().iconTheme.color
+      : Colors.black54;
 
   Color get unselectedItemColor => AppLang.instance.isDarkMode
       ? ThemeData.dark().unselectedWidgetColor
       : ThemeData.light().unselectedWidgetColor;
 
-  Color get textColor => AppLang.instance.isDarkMode ? Colors.white : Colors.black87;
+  Color get textColor =>
+      AppLang.instance.isDarkMode ? Colors.white : Colors.black87;
 
-  Color get hintTextColor => AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
+  Color get hintTextColor =>
+      AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
 
-  Color get priceTitleTextColor => AppLang.instance.isDarkMode ? Colors.white60 : Colors.black54;
+  Color get priceTitleTextColor =>
+      AppLang.instance.isDarkMode ? Colors.white60 : Colors.black54;
 
-  Color get switchColor => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
+  Color get switchColor =>
+      AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 
-  Color get stickHeaderColor => AppLang.instance.isDarkMode ? Colors.grey[700] : Color(0xFF489FCA);
+  Color get stickHeaderColor =>
+      AppLang.instance.isDarkMode ? Colors.grey[700] : Color(0xFF489FCA);
 
-  Color get priceColor => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFda5b58);
+  Color get priceColor =>
+      AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFda5b58);
 }
 
 class ResourceStrings {
@@ -91,10 +108,13 @@ class ResourceStrings {
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
   final MedicineItemStrings medicine_item = new MedicineItemStrings();
+  final MedicineInstructionStrings medicine_instructions =
+      new MedicineInstructionStrings();
   final MedicineListStrings medicine_list = new MedicineListStrings();
 
   final AboutStrings about = new AboutStrings();
-  final MedicineMarkListStrings medicine_mark_list = new MedicineMarkListStrings();
+  final MedicineMarkListStrings medicine_mark_list =
+      new MedicineMarkListStrings();
 
   final FilterStrings filter = FilterStrings();
   final String more = "more";
@@ -159,6 +179,19 @@ class MedicineItemStrings {
   final String producer = "medicine_item:producer";
   final String not_found_price = "medicine_item:not_found_price";
   final String price_no_set = "medicine_item:price_no_set";
+}
+
+class MedicineInstructionStrings {
+  final String reload = "medicine_instruction:reload";
+  final String mnn = "medicine_instruction:mnn";
+  final String producer = "medicine_instruction:producer";
+  final String scope = "medicine_instruction:scope";
+  final String storage = "medicine_instruction:storage";
+  final String pharmacologic_action =
+      "medicine_instruction:pharmacologic_action";
+  final String atc_name = "medicine_instruction:atc_name";
+  final String shelf_life = "medicine_instruction:shelf_life";
+  final String opened_shelf_life = "medicine_instruction:opened_shelf_life";
 }
 
 class MedicineListStrings {

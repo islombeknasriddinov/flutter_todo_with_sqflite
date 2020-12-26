@@ -81,6 +81,16 @@
   "medicine_item:not_found_price": "o'rnatilmagan",
   "medicine_item:price_no_set": "Cheklangan narxi: o'rnatilmagan",
 
+  "medicine_instruction:reload": "Qayta yuklash",
+  "medicine_instruction:mnn": "MNN: ",
+  "medicine_instruction:producer": "Ishlab chiqaruvchi: ",
+  "medicine_instruction:scope": "Qamrov doirasi",
+  "medicine_instruction:storage": "Saqlash",
+  "medicine_instruction:pharmacologic_action": "Farmakologik ta'sir",
+  "medicine_instruction:atc_name": "ACT",
+  "medicine_instruction:shelf_life": "Saqlash muddati",
+  "medicine_instruction:opened_shelf_life": "Yaroqlilik muddati ochilgandan so'ng",
+
   "about:address": "100002, Toshkent sh., Olmazor tumani Ozod ko'chasi, K.Umarov tor ko'chasi, 16 uy",
   "about:phone": "+998 (71) 242-48-93",
   "about:fax": "+998 (71) 242-48-25",

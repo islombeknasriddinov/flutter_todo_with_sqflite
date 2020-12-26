@@ -2,8 +2,6 @@ import 'package:darmon/common/resources.dart';
 import 'package:darmon/ui/intro/intro_viewmodel.dart';
 import 'package:darmon/ui/lang/lang_fragment.dart';
 import 'package:darmon/ui/main/main_fragment.dart';
-import 'package:darmon/ui/main/search_index/search_index_fragment.dart';
-import 'package:darmon/ui/presentation/presentation_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:local_auth/local_auth.dart';
@@ -24,7 +22,8 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
   PublishSubject<bool> subject;
 
   @override
-  IntroViewModel onCreateViewModel(BuildContext buildContext) => IntroViewModel();
+  IntroViewModel onCreateViewModel(BuildContext buildContext) =>
+      IntroViewModel();
 
   @override
   void onCreate(BuildContext context) {
@@ -64,14 +63,20 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
   @override
   Widget onCreateWidget(BuildContext context) {
     return Scaffold(
-      backgroundColor: R.colors.background,
+      backgroundColor: R.colors.appBarColor,
       body: Stack(
         children: <Widget>[
-          Center(child: Image.asset(R.asserts.intro_logo, width: 200)),
           Align(
-            child: Padding(
-              child: CircularProgressIndicator(),
-              padding: EdgeInsets.only(bottom: 36),
+            child: Container(
+              child: MyIcon.svg(R.asserts.medicine_12),
+              padding: EdgeInsets.all(80),
+            ),
+            alignment: Alignment.center,
+          ),
+          Align(
+            child: Container(
+              child: MyIcon.svg(R.asserts.uzpharminfo_logo_small),
+              padding: EdgeInsets.only(bottom: 40),
             ),
             alignment: Alignment.bottomCenter,
           )
