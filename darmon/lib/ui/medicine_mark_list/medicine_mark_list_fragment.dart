@@ -56,17 +56,13 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         appBar: new AppBar(
           leading: Container(),
           leadingWidth: 0,
-          elevation: 1,
+          elevation: 0,
           title: _buildSearchField(),
           backgroundColor: R.colors.appBarColor,
         ),
-        body: MyTable.vertical(
-          [
-            _searchIFieldsListWidget(),
-            Divider(height: 1, color: R.colors.dividerColor),
-            Expanded(child: _buildListWidget())
-          ],
-          background: R.colors.background,
+        body: Container(
+          child: _buildListWidget(),
+          color: R.colors.background,
         ));
   }
 
@@ -137,7 +133,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     viewmodel.setSearchText(newQuery);
   }
 
-  Widget _searchIFieldsListWidget() {
+/*  Widget _searchIFieldsListWidget() {
     return MyTable.horizontal(
       [
         MyText(R.strings.medicine_list.search_by, style: TS_Body_1(R.colors.textColor)),
@@ -148,7 +144,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
       padding: EdgeInsets.only(left: 16, right: 16),
       width: double.infinity,
     );
-  }
+  }*/
 
   List<Widget> _buildSearchFields(List<SearchField> fields) {
     if (fields == null || fields.isEmpty) return [Container()];
@@ -213,12 +209,12 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     List<UIMedicineMark> histories = viewmodel.searchHistoryList;
     return SliverStickyHeader(
       header: Container(
-        color: R.colors.background,
+        color: R.colors.stickHeaderColor,
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
         alignment: Alignment.centerLeft,
         child: MyText(
           R.strings.medicine_mark_list.search_history,
-          style: TS_Subtitle_2(Colors.black),
+          style: TS_Subtitle_2(Colors.white),
         ),
       ),
       sliver: SliverList(
@@ -285,12 +281,12 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     List<UIMedicineMark> names = viewmodel.medicineMarkNameList;
     return SliverStickyHeader(
       header: Container(
-        color: R.colors.background,
+        color: R.colors.stickHeaderColor,
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
         alignment: Alignment.centerLeft,
         child: MyText(
           R.strings.medicine_mark_list.mark_name,
-          style: TS_Subtitle_2(Colors.black),
+          style: TS_Subtitle_2(Colors.white),
         ),
       ),
       sliver: SliverList(
@@ -323,12 +319,12 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     Log.debug("inns.length=${inns.length}");
     return SliverStickyHeader(
       header: Container(
-        color: R.colors.background,
+        color: R.colors.stickHeaderColor,
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
         alignment: Alignment.centerLeft,
         child: MyText(
           R.strings.medicine_mark_list.mark_inn,
-          style: TS_Subtitle_2(Colors.black),
+          style: TS_Subtitle_2(Colors.white),
         ),
       ),
       sliver: SliverList(

@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gwslib/gwslib.dart';
+import 'package:darmon/common/extensions.dart';
 
 class ArgMedicineList {
   final String medicineMark;
@@ -71,10 +72,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
             Mold.onBackPressed(this);
           },
         ),
-        body: MyTable.vertical(
-          [Divider(height: 1, color: R.colors.dividerColor), Expanded(child: _buildListWidget())],
-          background: R.colors.background,
-        ));
+        body: _buildListWidget());
   }
 
   Widget _buildListWidget() {
@@ -165,7 +163,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
       [
         MyText(
           medicine.producerGenName,
-          style: TS_Subtitle_2(Colors.black),
+          style: TS_Subtitle_2(Colors.white),
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         MyTable.vertical(
@@ -174,6 +172,8 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
           width: double.infinity,
         ),
       ],
+      width: double.infinity,
+      background: R.colors.stickHeaderColor,
     );
   }
 
@@ -200,7 +200,14 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                 ),
                 if (item.retailBasePrice?.isNotEmpty == true)
                   MyText(
-                    R.strings.medicine_list.price.translate(args: [item.retailBasePrice]),
+                    R.strings.medicine_list.price
+                        .translate(args: [item.retailBasePrice.toMoneyFormat()]),
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    style: TS_List_Subtitle_1(),
+                  )
+                else
+                  MyText(
+                    R.strings.medicine_list.not_found_price,
                     padding: EdgeInsets.only(left: 16, right: 16),
                     style: TS_List_Subtitle_1(),
                   ),
@@ -208,14 +215,13 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
               ],
               flex: 1,
             ),
-            MyIcon.icon(
-              Icons.arrow_forward,
-              size: 20,
-              padding: EdgeInsets.all(16),
-              color: R.colors.iconColors,
+            MyText(
+              item.spreadKindTitle,
+              style: TS_List_Subtitle_1(item.spreadKindColor,
+                  item.spreadKindWithRecipe ? FontWeight.w600 : FontWeight.w300),
+              padding: EdgeInsets.only(right: 16, top: 12),
             )
           ],
-          crossAxisAlignment: CrossAxisAlignment.center,
         ),
         isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)
       ],

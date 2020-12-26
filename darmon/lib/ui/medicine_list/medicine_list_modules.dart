@@ -103,11 +103,13 @@ class ProducerMedicineListItem {
     }
   }
 
+  bool get spreadKindWithRecipe => spreadKind == "W";
+
   Color get spreadKindColor {
     if (spreadKind == "W")
       return R.colors.fabColor;
     else if (spreadKind == "O") {
-      return R.colors.status_success;
+      return Colors.black;
     } else {
       return R.colors.appBarColor;
     }

@@ -28,6 +28,7 @@ class ResourceAssert {
   final String history = "assets/svg/history.svg";
   final String search_left = "assets/svg/search_left.svg";
   final String stroke = "assets/svg/stroke.svg";
+  final String fax = "assets/svg/fax.svg";
 }
 
 class ResourceColors {
@@ -78,7 +79,7 @@ class ResourceColors {
 
   Color get switchColor => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 
-  Color get stickHeaderColor => AppLang.instance.isDarkMode ? Colors.grey[700] : Colors.grey[300];
+  Color get stickHeaderColor => AppLang.instance.isDarkMode ? Colors.grey[700] : Color(0xFF489FCA);
 
   Color get priceColor => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFda5b58);
 }
@@ -110,7 +111,7 @@ class AboutStrings {
   final String phone = "about:phone";
   final String site = "about:site";
   final String mail = "about:mail";
-  final String telegram = "about:telegram";
+  final String fax = "about:fax";
 }
 
 class LanguageStrings {
@@ -156,6 +157,8 @@ class MedicineItemStrings {
   final String analogs_count = "medicine_item:analogs_count";
   final String mnn = "medicine_item:mnn";
   final String producer = "medicine_item:producer";
+  final String not_found_price = "medicine_item:not_found_price";
+  final String price_no_set = "medicine_item:price_no_set";
 }
 
 class MedicineListStrings {

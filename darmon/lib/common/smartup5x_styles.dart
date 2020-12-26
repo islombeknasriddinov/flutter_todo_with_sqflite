@@ -72,9 +72,10 @@ TextStyle TS_Subtitle_1([Color textColor = Colors.black87]) {
       color: textColor, fontSize: 16.0, fontFamily: "SourceSansPro", fontWeight: FontWeight.w300);
 }
 
-TextStyle TS_List_Subtitle_1([Color textColor = Colors.black87]) {
+TextStyle TS_List_Subtitle_1(
+    [Color textColor = Colors.black87, FontWeight fontWeight = FontWeight.w300]) {
   return TextStyle(
-      color: textColor, fontSize: 14.0, fontFamily: "SourceSansPro", fontWeight: FontWeight.w300);
+      color: textColor, fontSize: 14.0, fontFamily: "SourceSansPro", fontWeight: fontWeight);
 }
 
 TextStyle TS_Subtitle_2([Color textColor = Colors.black]) {

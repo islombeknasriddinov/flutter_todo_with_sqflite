@@ -7,6 +7,7 @@ import 'package:darmon/kernel/medicine/tables/medicine_mark_name.dart';
 import 'package:darmon/kernel/medicine/tables/medicine_mark_search_history.dart';
 import 'package:darmon/kernel/uis/ui_damon_dao.dart';
 import 'package:darmon/network/network_manager.dart';
+import 'package:darmon/ui/medicine_item/medicine_item_models.dart';
 import 'package:gwslib/common/date_util.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:gwslib/localization/pref.dart';
@@ -104,6 +105,13 @@ class DarmonRepository {
           }
           return UIMedicineMark(inn, markInn.innIds, UIMedicineMarkSearchResultType.INN);
         }).toList());
+  }
+
+  Future<MedicineItem> loadMedicineItem(String medicineId) async {
+    String langCode = await LocalizationPref.getLanguage();
+    final body = {"box_group_id": medicineId, "lang": langCode};
+    Map<String, dynamic> result = await NetworkManager.medicineItem(body);
+    return MedicineItem.fromData(result);
   }
 }
 

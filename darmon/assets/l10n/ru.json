@@ -46,7 +46,7 @@
   "medicine_list_fragment:with_out_recipe": "без рецепта",
   "medicine_list_fragment:no_data_found": "Данные не найдены",
   "medicine_list_fragment:price": "%1s сум",
-  "medicine_list_fragment:not_found_price": "не установлена",
+  "medicine_list_fragment:not_found_price": "Предельная цена: не установлена",
   "medicine_list_fragment:price_currency": " сум",
   "medicine_list_fragment:pharmacy_dispensing_conditions": "Условия отпуска из аптек: ",
 
@@ -77,12 +77,14 @@
   "medicine_item:marginal_price": "предельная цена",
   "medicine_item:mnn": "МНН: ",
   "medicine_item:producer": "Производитель: ",
+  "medicine_item:not_found_price": "не установлена",
+  "medicine_item:price_no_set": "Предельная цена: не установлена",
 
-  "about:address": "Р. Узбекистан, г. Ташкент, 100084, ул. Ч.Айтматова, 1А",
-  "about:phone": "+998 (71) 203-81-81",
-  "about:site": "https://uzpharmagency.uz",
-  "about:mail": "https://uzpharmagency.uz",
-  "about:telegram": "@uzpharmagency_bot",
+  "about:address": "100002, г.Ташкент, ул. Озод, проезд К.Умарова, 16.",
+  "about:phone": "+998 (71) 242-48-93",
+  "about:fax": "+998 (71) 242-48-25",
+  "about:site": "https://www.uzpharm-control.uz",
+  "about:mail": "farmkomitet@minzdrav.uz",
 
 
   "z": "z"

@@ -47,7 +47,7 @@
   "medicine_list_fragment:no_data_found": "Ma'lumot topilmadi",
   "medicine_list_fragment:price": "%1s so'm",
   "medicine_list_fragment:price_currency": "",
-  "medicine_list_fragment:not_found_price": "o'rnatilmagan",
+  "medicine_list_fragment:not_found_price": "Cheklangan narxi: o'rnatilmagan",
   "medicine_list_fragment:pharmacy_dispensing_conditions": "Dorixonalardan berish tartibi: ",
 
   "filter:integer_text_field_hint": "Iltimos, raqamni kiriting",
@@ -78,13 +78,14 @@
   "medicine_item:marginal_price": "cheklangan narxi",
   "medicine_item:mnn": "MNN: ",
   "medicine_item:producer": "Ishlab chiqaruvchi: ",
+  "medicine_item:not_found_price": "o'rnatilmagan",
+  "medicine_item:price_no_set": "Cheklangan narxi: o'rnatilmagan",
 
-  "about:address": "O'zbekiston R., Toshkent, 100084, Ch.Aytmatova ko`chasi, 1A",
-  "about:phone": "+998 (71) 203-81-81",
-  "about:site": "https://uzpharmagency.uz",
-  "about:mail": "https://uzpharmagency.uz",
-  "about:telegram": "@uzpharmagency_bot",
-
+  "about:address": "100002, Toshkent sh., Olmazor tumani Ozod ko'chasi, K.Umarov tor ko'chasi, 16 uy",
+  "about:phone": "+998 (71) 242-48-93",
+  "about:fax": "+998 (71) 242-48-25",
+  "about:site": "https://www.uzpharm-control.uz",
+  "about:mail": "farmkomitet@minzdrav.uz",
 
   "z": "z"
 }

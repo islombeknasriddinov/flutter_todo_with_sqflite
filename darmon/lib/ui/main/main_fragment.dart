@@ -26,7 +26,7 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
         body: SafeArea(
           child: MyTable([
             Align(
-              child: Image.asset(R.asserts.pills, width: double.infinity),
+              child: Image.asset(R.asserts.pills, width: double.infinity,fit:BoxFit.fill ),
               alignment: Alignment.topCenter,
             ),
             Align(

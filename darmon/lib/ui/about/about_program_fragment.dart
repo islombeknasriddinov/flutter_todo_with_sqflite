@@ -64,12 +64,11 @@ class AboutProgramFragment extends ViewModelFragment<AboutProgramViewModel> {
                   Divider(height: 0.5, color: Colors.grey),
                   buildMenu(R.strings.about.phone, R.asserts.phone, onTapAction: openPhone),
                   Divider(height: 0.5, color: Colors.grey),
+                  buildMenu(R.strings.about.fax, R.asserts.fax),
+                  Divider(height: 0.5, color: Colors.grey),
                   buildMenu(R.strings.about.site, R.asserts.pager, onTapAction: openSite),
                   Divider(height: 0.5, color: Colors.grey),
                   buildMenu(R.strings.about.mail, R.asserts.envelope, onTapAction: openMail),
-                  Divider(height: 0.5, color: Colors.grey),
-                  buildMenu(R.strings.about.telegram, R.asserts.telegram,
-                      onTapAction: openTelegram),
                   SizedBox(height: 50),
                 ],
                 width: double.infinity,
@@ -95,7 +94,14 @@ class AboutProgramFragment extends ViewModelFragment<AboutProgramViewModel> {
     );
   }
 
-  void openMap() {}
+  void openMap() async {
+    final url = "https://goo.gl/maps/RhEo6i1HVYUeQjNw7";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   void openPhone() async {
     String tel = R.strings.about.phone.translate();

@@ -10,37 +10,34 @@ class MedicineItem {
   final String producerGenName;
   final String spreadKind;
   final String boxGroupId;
-  final String boxGenName;
   final String retailBasePrice;
   final List<AnalogMedicineItem> analogs;
 
   MedicineItem(
-    this.medicineName,
+    this.boxGroupId,
     this.medicineMnn,
+    this.medicineName,
     this.producerGenName,
     this.spreadKind,
-    this.boxGroupId,
-    this.boxGenName,
     this.retailBasePrice,
     this.analogs,
   );
 
   factory MedicineItem.fromData(Map<String, dynamic> data) {
-    List<dynamic> analogsJson = nvl(data['analogs']) ?? [];
+    List<dynamic> analogsJson = data['similar_box_groups'] ?? [];
 
     List<AnalogMedicineItem> analogs = [];
     for (var analog in analogsJson) {
-      analogs.add(AnalogMedicineItem.fromData(jsonDecode(analog)));
+      analogs.add(AnalogMedicineItem.fromData(analog));
     }
 
     return MedicineItem(
-      nvl(data['medicine_name']),
-      nvl(data['medicine_mnn']),
+      nvl(data['box_group_id']),
+      nvl(data['inn']),
+      nvl(data['box_gen_name']),
       nvl(data['producer_gen_name']),
       nvl(data['spread_kind']),
-      nvl(data['box_group_id']),
-      nvl(data['box_gen_name']),
-      nvl(data['retail_base_price']),
+      nvl(data['retail_price_base']),
       analogs,
     );
   }
@@ -114,24 +111,32 @@ class AnalogMedicineItem {
   final String medicineName;
   final String producerGenName;
   final String boxGroupId;
-  final String boxGenName;
+  final String spreadKind;
   final String retailBasePrice;
 
   AnalogMedicineItem(
+    this.boxGroupId,
     this.medicineName,
     this.producerGenName,
-    this.boxGroupId,
-    this.boxGenName,
+    this.spreadKind,
     this.retailBasePrice,
   );
 
   factory AnalogMedicineItem.fromData(Map<String, dynamic> data) {
     return AnalogMedicineItem(
-      nvl(data['medicine_name']),
-      nvl(data['producer_gen_name']),
       nvl(data['box_group_id']),
       nvl(data['box_gen_name']),
-      nvl(data['retail_base_price']),
+      nvl(data['producer_gen_name']),
+      nvl(data['spread_kind']),
+      nvl(data['retail_price_base']),
     );
+  }
+
+  String getName() {
+    int l = medicineName.length;
+    int center = l ~/ 2;
+    String first = medicineName.substring(0, center);
+    String second = medicineName.substring(center, l);
+    return "$first\n$second";
   }
 }

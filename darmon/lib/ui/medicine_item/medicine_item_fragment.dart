@@ -9,6 +9,7 @@ import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:darmon/common/extensions.dart';
 import 'package:gwslib/gwslib.dart';
 
 class ArgMedicineItem {
@@ -79,29 +80,54 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                   ),
                 );
               } else {
-                if (viewmodel.errorMessageValue?.message?.isNotEmpty == true) {
-                  return Center(
-                      child: MyTable.vertical(
-                    [
-                      MyIcon.icon(Icons.error_outlined, size: 60, color: R.colors.fabColor),
-                      SizedBox(height: 16),
-                      MyText(viewmodel.errorMessageValue.message, style: TS_ErrorText()),
-                      SizedBox(height: 8),
-                      MyTable.horizontal(
-                        [MyText(R.strings.medicine_item.reload, style: TS_Button(Colors.white))],
-                        padding: EdgeInsets.all(12),
-                        borderRadius: BorderRadius.circular(8),
-                        background: R.colors.appBarColor,
-                        onTapCallback: () {
-                          viewmodel.reloadModel();
-                        },
-                      )
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ));
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
+                return Center(
+                  child: MyTable.vertical([
+                    StreamBuilder<Map<int, bool>>(
+                        stream: viewmodel.progressStream,
+                        builder: (_, snapshot) {
+                          if (snapshot?.data?.isNotEmpty == true &&
+                              snapshot.data[MedicineItemViewModel.PROGRESS] == true) {
+                            return Center(child: CircularProgressIndicator());
+                          } else {
+                            return Container();
+                          }
+                        }),
+                    StreamBuilder<ErrorMessage>(
+                        stream: viewmodel.errorMessageStream,
+                        builder: (_, snapshot) {
+                          if (snapshot?.data?.message?.isNotEmpty == true) {
+                            return Center(
+                                child: MyTable.vertical(
+                              [
+                                MyIcon.icon(Icons.error_outlined,
+                                    size: 60, color: R.colors.fabColor),
+                                SizedBox(height: 16),
+                                MyText(viewmodel.errorMessageValue.message,
+                                    style: TS_ErrorText(),
+                                    textAlign: TextAlign.center,
+                                    padding: EdgeInsets.symmetric(horizontal: 12)),
+                                SizedBox(height: 8),
+                                MyTable.horizontal(
+                                  [
+                                    MyText(R.strings.medicine_item.reload,
+                                        style: TS_Button(Colors.white))
+                                  ],
+                                  padding: EdgeInsets.all(12),
+                                  borderRadius: BorderRadius.circular(8),
+                                  background: R.colors.appBarColor,
+                                  onTapCallback: () {
+                                    viewmodel.reloadModel();
+                                  },
+                                )
+                              ],
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                            ));
+                          } else {
+                            return Container();
+                          }
+                        }),
+                  ]),
+                );
               }
             }));
   }
@@ -134,7 +160,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
         ),
         SizedBox(height: 6),
         MyText(
-          item.medicineName,
+          item.medicineMnn,
           style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -146,16 +172,25 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
           [
             MyTable.vertical(
               [
-                RichText(
-                  text: TextSpan(
-                      text: item.retailBasePrice,
-                      style: TS_HeadLine4(Colors.white),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: R.strings.medicine_item.price.translate(),
-                            style: TextStyle(fontSize: 16)),
-                      ]),
-                ),
+                item.retailBasePrice?.isNotEmpty == true
+                    ? RichText(
+                        text: TextSpan(
+                            text: item.retailBasePrice.toMoneyFormat(),
+                            style: TS_HeadLine4(Colors.white),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: R.strings.medicine_item.price.translate(),
+                                  style: TextStyle(fontSize: 16)),
+                            ]),
+                      )
+                    : MyText(
+                        R.strings.medicine_item.not_found_price,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: "SourceSansPro"),
+                      ),
                 MyText(
                   R.strings.medicine_item.marginal_price,
                   style: TS_List_Subtitle_1(Colors.white70),
@@ -209,7 +244,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
           ),
           Container(
             width: double.infinity,
-            height: 100,
+            height: 105,
             child: ListView.builder(
                 itemCount: item.analogs.length,
                 scrollDirection: Axis.horizontal,
@@ -231,7 +266,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
         MyTable.vertical(
           [
             MyText(
-              analog.medicineName,
+              analog.getName(),
               singleLine: true,
               style: TextStyle(
                   color: Colors.white,
@@ -249,7 +284,9 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
             ),
             SizedBox(height: 8),
             MyText(
-              R.strings.medicine_item.medicine_price.translate(args: [analog.retailBasePrice]),
+              analog.retailBasePrice?.isNotEmpty == true
+                  ? R.strings.medicine_item.medicine_price.translate(args: [analog.retailBasePrice])
+                  : R.strings.medicine_item.price_no_set,
               singleLine: true,
               style: TextStyle(
                   color: Colors.white,
