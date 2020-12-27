@@ -12,6 +12,6 @@ class MedicineApi {
       MedicineCore.updateMedicineMarkSearchHistoryOrderNo(db, history);
 
   static Future<void> deleteMedicineMarkSearchHistory(
-          Database db, String title, int type) =>
-      MedicineCore.deleteMedicineMarkSearchHistory(db, title, type);
+          Database db, String titleRu, int type) =>
+      MedicineCore.deleteMedicineMarkSearchHistory(db, titleRu, type);
 }

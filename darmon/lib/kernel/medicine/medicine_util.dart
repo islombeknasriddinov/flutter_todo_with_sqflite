@@ -5,8 +5,8 @@ import 'package:sqflite/sqflite.dart';
 
 class MedicineUtil {
   static Future<ZMedicineMarkSearchHistory> loadMedicineMarkSearchHistory(
-      Database db, String title, int type) {
-    return Z_ZMedicineMarkSearchHistory.take(db, title, type);
+      Database db, String titleRu, int type) {
+    return Z_ZMedicineMarkSearchHistory.take(db, titleRu, type);
   }
 
   static Future<List<ZMedicineMarkSearchHistory>>

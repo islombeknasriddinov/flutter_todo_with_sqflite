@@ -18,9 +18,11 @@ create table z_medicine_mark_inn (
 );
 
 create table z_medicine_mark_search_history (
-  title                                text not null,
+  title_ru                             text not null,
+  title_en                             text,
+  title_uz                             text,
   send_server_text                     text not null,
   type                                 int not null,
   order_no                             int not null,
-  constraint z_medicine_mark_search_history_pk primary key (title,type)
+  constraint z_medicine_mark_search_history_pk primary key (title_ru,type)
 );

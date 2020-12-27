@@ -21,7 +21,7 @@ class DarmonDatabase {
     if (_instance == null || !_instance.db.isOpen) {
       final db = await openDatabase(
         await getPath(),
-        version: 1,
+        version: 2,
         onCreate: (db, version) => onCreate.call(db),
         onDowngrade: (db, oldVersion, newVersion) => onDowngrade.call(db),
       );

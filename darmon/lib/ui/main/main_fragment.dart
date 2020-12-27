@@ -101,8 +101,8 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                     ),
                     MyTable.vertical(
                       [
-                        buildMenu(R.strings.main.medicine, R.asserts.medicine, onTapAction: () {}),
-                        Divider(height: 0.5, color: Colors.grey),
+                       /* buildMenu(R.strings.main.medicine, R.asserts.medicine, onTapAction: () {}),
+                        Divider(height: 0.5, color: Colors.grey),*/
                         buildMenu(R.strings.main.pharmacy, R.asserts.pharmacy),
                         Divider(height: 0.5, color: Colors.grey),
                         buildMenu(R.strings.main.medical_facilities, R.asserts.medical_facilities),

@@ -20,8 +20,7 @@ class DarmonRepository {
     if (timeStamp?.isNotEmpty == true) {
       int syncTime = DateUtil.parse(timeStamp).millisecondsSinceEpoch;
       if (syncTime >=
-          DateTime(now.year, now.month, now.day, now.hour - 12)
-              .millisecondsSinceEpoch) {
+          DateTime(now.year, now.month, now.day, now.hour - 12).millisecondsSinceEpoch) {
         return Future.value(false);
       }
     }
@@ -36,34 +35,34 @@ class DarmonRepository {
     return true;
   }
 
-  Future<List<UIMedicineMarkName>> searchMedicineMarkName(String query,
-      {int limit}) async {
+  Future<List<UIMedicineMarkName>> searchMedicineMarkName(String query, {int limit}) async {
     return dao.searchMedicineMarkName(query.trim(), limit: limit).then(
-        (value) => value
-            .map((e) => UIMedicineMarkName(e.nameRu, e.nameUz, e.nameEn))
-            .toList());
+        (value) => value.map((e) => UIMedicineMarkName(e.nameRu, e.nameUz, e.nameEn)).toList());
   }
 
-  Future<List<UIMedicineMarkInn>> searchMedicineMarkInn(String query,
-      {int limit}) async {
-    return dao.searchMedicineMarkInn(query.trim(), limit: limit).then((value) =>
-        value
-            .map((e) => UIMedicineMarkInn(e.innRu, e.innEn, e.innIds))
-            .toList());
+  Future<List<UIMedicineMarkInn>> searchMedicineMarkInn(String query, {int limit}) async {
+    return dao
+        .searchMedicineMarkInn(query.trim(), limit: limit)
+        .then((value) => value.map((e) => UIMedicineMarkInn(e.innRu, e.innEn, e.innIds)).toList());
   }
 
   Future<List<UIMedicineMark>> searchMedicineMark(String query) async {
     List<UIMedicineMark> result = [];
     String langCode = await LocalizationPref.getLanguage();
-    List<UIMedicineMark> names = await searchMedicineMarkName(query)
-        .then((value) => value.map((medicineMarkName) {
+    List<UIMedicineMark> names =
+        await searchMedicineMarkName(query).then((value) => value.map((medicineMarkName) {
               String name = medicineMarkName.nameRu;
               if (langCode == "uz") {
                 name = medicineMarkName.nameUz;
               } else if (langCode == "en") {
                 name = medicineMarkName.nameEn;
               }
-              return UIMedicineMark(name, medicineMarkName.nameEn,
+              return UIMedicineMark(
+                  name,
+                  medicineMarkName.nameRu,
+                  medicineMarkName.nameUz,
+                  medicineMarkName.nameEn,
+                  medicineMarkName.nameEn,
                   UIMedicineMarkSearchResultType.NAME);
             }).toList());
     result.addAll(names);
@@ -75,15 +74,20 @@ class DarmonRepository {
                 inn = markInn.innEn;
               }
               return UIMedicineMark(
-                  inn, markInn.innIds, UIMedicineMarkSearchResultType.INN);
+                inn,
+                markInn.innRu,
+                markInn.innEn,
+                markInn.innEn,
+                markInn.innIds,
+                UIMedicineMarkSearchResultType.INN,
+              );
             }).toList());
     result.addAll(inns);
 
     return result;
   }
 
-  Future<List<UIMedicineMark>> searchMedicineMarkNames(String query,
-      {int limit}) async {
+  Future<List<UIMedicineMark>> searchMedicineMarkNames(String query, {int limit}) async {
     String langCode = await LocalizationPref.getLanguage();
     return await searchMedicineMarkName(query, limit: limit)
         .then((value) => value.map((medicineMarkName) {
@@ -93,24 +97,33 @@ class DarmonRepository {
               } else if (langCode == "en") {
                 name = medicineMarkName.nameEn;
               }
-              return UIMedicineMark(name, medicineMarkName.nameEn,
+              return UIMedicineMark(
+                  name,
+                  medicineMarkName.nameRu,
+                  medicineMarkName.nameUz,
+                  medicineMarkName.nameEn,
+                  medicineMarkName.nameEn,
                   UIMedicineMarkSearchResultType.NAME);
             }).toList());
   }
 
-  Future<List<UIMedicineMark>> searchMedicineMarkInns(String query,
-      {int limit}) async {
+  Future<List<UIMedicineMark>> searchMedicineMarkInns(String query, {int limit}) async {
     Log.debug("searchMedicineMarkInns($query)");
     String langCode = await LocalizationPref.getLanguage();
-    return await searchMedicineMarkInn(query, limit: limit)
-        .then((value) => value.map((markInn) {
-              String inn = markInn.innRu;
-              if (langCode == "en") {
-                inn = markInn.innEn;
-              }
-              return UIMedicineMark(
-                  inn, markInn.innIds, UIMedicineMarkSearchResultType.INN);
-            }).toList());
+    return await searchMedicineMarkInn(query, limit: limit).then((value) => value.map((markInn) {
+          String inn = markInn.innRu;
+          if (langCode == "en") {
+            inn = markInn.innEn;
+          }
+          return UIMedicineMark(
+            inn,
+            markInn.innRu,
+            markInn.innEn,
+            markInn.innEn,
+            markInn.innIds,
+            UIMedicineMarkSearchResultType.INN,
+          );
+        }).toList());
   }
 
   Future<MedicineItem> loadMedicineItem(String medicineId) async {
@@ -120,12 +133,10 @@ class DarmonRepository {
     return MedicineItem.fromData(result);
   }
 
-  Future<MedicineItemInstruction> loadMedicineInstruction(
-      String medicineId) async {
+  Future<MedicineItemInstruction> loadMedicineInstruction(String medicineId) async {
     String langCode = await LocalizationPref.getLanguage();
     final body = {"box_group_id": medicineId, "lang": langCode};
-    Map<String, dynamic> result =
-        await NetworkManager.medicineInstruction(body);
+    Map<String, dynamic> result = await NetworkManager.medicineInstruction(body);
     return MedicineItemInstruction.fromData(result);
   }
 }
@@ -148,10 +159,20 @@ class UIMedicineMarkInn {
 
 class UIMedicineMark {
   final String title;
+  final String titleRu;
+  final String titleUz;
+  final String titleEn;
   final String sendServerText;
   final UIMedicineMarkSearchResultType type;
 
-  UIMedicineMark(this.title, this.sendServerText, this.type);
+  UIMedicineMark(
+    this.title,
+    this.titleRu,
+    this.titleUz,
+    this.titleEn,
+    this.sendServerText,
+    this.type,
+  );
 }
 
 enum UIMedicineMarkSearchResultType { NAME, INN }

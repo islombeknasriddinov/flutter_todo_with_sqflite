@@ -12,11 +12,10 @@ class MedicineCore {
     return db.update(ZMedicineMarkSearchHistory.TABLE_NAME,
         {ZMedicineMarkSearchHistory.C_ORDER_NO: ((history?.orderNo ?? 0) + 1)},
         where:
-            "${ZMedicineMarkSearchHistory.C_TITLE} = ? AND ${ZMedicineMarkSearchHistory.C_TYPE} = ?",
-        whereArgs: [history.title, history.type]);
+            "${ZMedicineMarkSearchHistory.C_TITLE_RU} = ? AND ${ZMedicineMarkSearchHistory.C_TYPE} = ?",
+        whereArgs: [history.titleRu, history.type]);
   }
 
-  static Future<void> deleteMedicineMarkSearchHistory(
-          Database db, String title, int type) =>
-      Z_ZMedicineMarkSearchHistory.deleteOne(db, title, type);
+  static Future<void> deleteMedicineMarkSearchHistory(Database db, String titleRu, int type) =>
+      Z_ZMedicineMarkSearchHistory.deleteOne(db, titleRu, type);
 }
