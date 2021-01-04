@@ -63,12 +63,17 @@ class MedicineInstructionFragment
                     [
                       _buildHeaderWidget(instruction),
                       MyTable.vertical([
+                        _buildInstructionWidget(R.strings.medicine_instructions.spread_kind, instruction.getSpreadInfo),
+                        _buildInstructionWidget(R.strings.medicine_instructions.shelf_life, instruction.getShelfLifeInfo),
                         _buildInstructionWidget(R.strings.medicine_instructions.atc_name, instruction.atcName),
-                        _buildInstructionWidget(R.strings.medicine_instructions.shelf_life, instruction.shelfLife),
-                        _buildInstructionWidget(R.strings.medicine_instructions.opened_shelf_life, instruction.openedShelfLife),
+                        _buildInstructionWidget(R.strings.medicine_instructions.opened_shelf_life, instruction.getOpenedShelfLifeInfo),
                         _buildInstructionWidget(R.strings.medicine_instructions.pharmacologic_action, instruction.pharmacologicAction),
                         _buildInstructionWidget(R.strings.medicine_instructions.scope, instruction.scope),
                         _buildInstructionWidget(R.strings.medicine_instructions.storage, instruction.storage),
+                        _buildInstructionWidget(R.strings.medicine_instructions.medicine_product, instruction.medicineProduct),
+                        _buildInstructionWidget(R.strings.medicine_instructions.route_of_administration, instruction.routeAdministration),
+                        _buildInstructionWidget(R.strings.medicine_instructions.pharmacotherapeutic_group, instruction.pharmacotherapeuticGroup),
+                        _buildInstructionWidget(R.strings.medicine_instructions.clinical_pharmacological_group, instruction.clinicalPharmacologicalGroup),
                       ])
                     ],
                     width: double.infinity,

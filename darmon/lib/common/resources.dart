@@ -10,6 +10,7 @@ class R {
 class ResourceAssert {
   final String intro_logo = "assets/images/uzpharminfo.png";
   final String pills = "assets/images/pills.png";
+  final String pills_horizontal = "assets/images/pills_horizontal.png";
   final String drawer_menu = "assets/libs/accounts/svg/drawer_menu.svg";
   final String edit_24 = "assets/libs/accounts/svg/edit_24.svg";
   final String leading_back = "assets/libs/accounts/svg/leading_back.svg";
@@ -31,6 +32,8 @@ class ResourceAssert {
   final String stroke = "assets/svg/stroke.svg";
   final String fax = "assets/svg/fax.svg";
   final String medicine_12 = "assets/svg/medicine_12.svg";
+  final String info_circle = "assets/svg/info_circle.svg";
+  final String animation_intro = "assets/anim/intro_anim.json";
 }
 
 class ResourceColors {
@@ -145,6 +148,7 @@ class MainStrings {
   final String setting = "main:setting";
   final String title = "main:title";
   final String search_hint = "main:search_hint";
+  final String about = "main:about";
 }
 
 class SettingStrings {
@@ -192,6 +196,23 @@ class MedicineInstructionStrings {
   final String atc_name = "medicine_instruction:atc_name";
   final String shelf_life = "medicine_instruction:shelf_life";
   final String opened_shelf_life = "medicine_instruction:opened_shelf_life";
+  final String spread_kind = "medicine_instruction:spread_kind";
+  final String clinical_pharmacological_group =
+      "medicine_instruction:clinical_pharmacological_group";
+  final String pharmacotherapeutic_group =
+      "medicine_instruction:pharmacotherapeutic_group";
+  final String color = "medicine_instruction:color";
+  final String taste = "medicine_instruction:taste";
+  final String route_of_administration =
+      "medicine_instruction:route_of_administration";
+  final String medicine_product = "medicine_instruction:medicine_product";
+  final String year = "medicine_instruction:year";
+  final String month = "medicine_instruction:month";
+  final String week = "medicine_instruction:week";
+  final String day = "medicine_instruction:day";
+  final String with_recipe = "medicine_instruction:with_recipe";
+  final String with_out_recipe = "medicine_instruction:with_out_recipe";
+  final String no_data_found = "medicine_instruction:no_data_found";
 }
 
 class MedicineListStrings {

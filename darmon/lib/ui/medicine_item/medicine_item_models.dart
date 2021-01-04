@@ -75,37 +75,90 @@ class MedicineItemInstruction {
   final String scope;
   final String storage;
   final String pharmacologicAction;
+  final String boxGroupId;
+  final String medicineProduct;
+  final String routeAdministration;
+  final String pharmacotherapeuticGroup;
+  final String clinicalPharmacologicalGroup;
 
   MedicineItemInstruction(
-    this.medicineName,
-    this.medicineInn,
-    this.producerGenName,
-    this.atcName,
-    this.spreadKind,
-    this.shelfLifeKind,
-    this.shelfLife,
-    this.openedShelfLifeKind,
-    this.openedShelfLife,
-    this.scope,
-    this.storage,
-    this.pharmacologicAction,
-  );
+      this.medicineName,
+      this.medicineInn,
+      this.producerGenName,
+      this.atcName,
+      this.spreadKind,
+      this.shelfLifeKind,
+      this.shelfLife,
+      this.openedShelfLifeKind,
+      this.openedShelfLife,
+      this.scope,
+      this.storage,
+      this.pharmacologicAction,
+      this.boxGroupId,
+      this.medicineProduct,
+      this.routeAdministration,
+      this.pharmacotherapeuticGroup,
+      this.clinicalPharmacologicalGroup);
 
   factory MedicineItemInstruction.fromData(Map<String, dynamic> data) {
     return MedicineItemInstruction(
-      nvl(data['box_gen_name']),
-      nvl(data['inn']),
-      nvl(data['producer_gen_name']),
-      nvl(data['atc_name']),
-      nvl(data['spread_kind']),
-      nvl(data['shelf_life_kind']),
-      nvl(data['shelf_life']),
-      nvl(data['opened_shelf_life_kind']),
-      nvl(data['opened_shelf_life']),
-      nvl(data['scope']),
-      nvl(data['storage']),
-      nvl(data['pharmacologic_action']),
-    );
+        nvl(data['box_gen_name']),
+        nvl(data['inn']),
+        nvl(data['producer_gen_name']),
+        nvl(data['atc_name']),
+        nvl(data['spread_kind']),
+        nvl(data['shelf_life_kind']),
+        nvl(data['shelf_life']),
+        nvl(data['opened_shelf_life_kind']),
+        nvl(data['opened_shelf_life']),
+        nvl(data['scope']),
+        nvl(data['storage']),
+        nvl(data['pharmacologic_action']),
+        nvl(data['box_group_id']),
+        nvl(data['medicine_product']),
+        nvl(data['route_administration']),
+        nvl(data['pharmacotherapeutic_group']),
+        nvl(data['clinical_pharmacological_group']));
+  }
+
+  String get getShelfLifeInfo {
+    if (shelfLifeKind == "Y") {
+      return R.strings.medicine_instructions.year.translate(args: [shelfLife]);
+    } else if (shelfLifeKind == "M") {
+      return R.strings.medicine_instructions.month.translate(args: [shelfLife]);
+    } else if (shelfLifeKind == "W") {
+      return R.strings.medicine_instructions.week.translate(args: [shelfLife]);
+    } else if (shelfLifeKind == "D") {
+      return R.strings.medicine_instructions.day.translate(args: [shelfLife]);
+    }
+    return shelfLife;
+  }
+
+  String get getOpenedShelfLifeInfo {
+    if (openedShelfLifeKind == "Y") {
+      return R.strings.medicine_instructions.year
+          .translate(args: [openedShelfLife]);
+    } else if (openedShelfLifeKind == "M") {
+      return R.strings.medicine_instructions.month
+          .translate(args: [openedShelfLife]);
+    } else if (openedShelfLifeKind == "W") {
+      return R.strings.medicine_instructions.week
+          .translate(args: [openedShelfLife]);
+    } else if (openedShelfLifeKind == "D") {
+      return R.strings.medicine_instructions.day
+          .translate(args: [openedShelfLife]);
+    }
+    return openedShelfLife;
+  }
+
+  String get getSpreadInfo {
+    if (spreadKind == "W") {
+      return R.strings.medicine_instructions.with_recipe.translate();
+    } else if (spreadKind == "O") {
+      return R.strings.medicine_instructions.with_out_recipe.translate();
+    } else {
+      return R.strings.medicine_instructions.no_data_found.translate();
+    }
   }
 }
 

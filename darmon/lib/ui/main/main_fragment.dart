@@ -21,12 +21,19 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
 
   @override
   Widget onCreateWidget(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: R.colors.appBarColor,
         body: SafeArea(
           child: MyTable([
             Align(
-              child: Image.asset(R.asserts.pills, width: double.infinity,fit:BoxFit.fill ),
+              child: Image.asset(
+                  width >= height
+                      ? R.asserts.pills_horizontal
+                      : R.asserts.pills,
+                  width: double.infinity,
+                  fit: BoxFit.cover),
               alignment: Alignment.topCenter,
             ),
             Align(
@@ -38,15 +45,7 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                       return buildChooseLangWidget(snapshot?.data);
                     },
                   ),
-                  Expanded(child: Container()),
-                  MyIcon.icon(
-                    Icons.info,
-                    color: Colors.white,
-                    padding: EdgeInsets.only(right: 12),
-                    onTap: () {
-                      AboutProgramFragment.open(getContext());
-                    },
-                  )
+                  Expanded(child: Container())
                 ],
                 width: double.infinity,
                 padding: EdgeInsets.all(12),
@@ -59,7 +58,8 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                   [
                     MyText(
                       R.strings.main.title,
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                       style: TS_HeadLine5(Colors.white),
                     ),
                     MyTable.horizontal(
@@ -72,7 +72,8 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                         )
                       ],
                       onTapCallback: () {
-                        MedicineMarkListFragment.open(getContext(), ArgMedicineMarkList(""));
+                        MedicineMarkListFragment.open(
+                            getContext(), ArgMedicineMarkList(""));
                       },
                       background: Colors.white,
                       width: double.infinity,
@@ -83,12 +84,16 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                     StreamBuilder<Map<int, bool>>(
                       stream: viewmodel.progressStream,
                       builder: (_, snapshot) {
-                        if ((snapshot.data?.values?.where((element) => element)?.length ?? -1) >
+                        if ((snapshot.data?.values
+                                    ?.where((element) => element)
+                                    ?.length ??
+                                -1) >
                             0) {
                           return MyTable.vertical(
                             [
                               LinearProgressIndicator(),
-                              MyText(R.strings.search_index.syncing, style: TS_Body_1(Colors.white))
+                              MyText(R.strings.search_index.syncing,
+                                  style: TS_Body_1(Colors.white))
                             ],
                             padding: EdgeInsets.all(12),
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,16 +106,16 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                     ),
                     MyTable.vertical(
                       [
-                       /* buildMenu(R.strings.main.medicine, R.asserts.medicine, onTapAction: () {}),
-                        Divider(height: 0.5, color: Colors.grey),*/
-                        buildMenu(R.strings.main.pharmacy, R.asserts.pharmacy),
-                        Divider(height: 0.5, color: Colors.grey),
-                        buildMenu(R.strings.main.medical_facilities, R.asserts.medical_facilities),
+                        buildMenu(R.strings.main.about, R.asserts.info_circle,
+                            onTapAction: () {
+                          AboutProgramFragment.open(getContext());
+                        }),
                       ],
                       width: double.infinity,
                       background: Colors.white,
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8)),
                     )
                   ],
                   width: double.infinity,
@@ -127,7 +132,9 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
       [
         MyIcon.svg(icon, size: 32, padding: EdgeInsets.only(left: 4)),
         MyText(title,
-            style: TS_Subtitle_1(Colors.black), padding: EdgeInsets.only(left: 16), flex: 1),
+            style: TS_Subtitle_1(Colors.black),
+            padding: EdgeInsets.only(left: 16),
+            flex: 1),
         if (onTapAction != null) MyIcon.svg(R.asserts.arrow_forward, size: 16)
       ],
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -141,7 +148,8 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
         .getSupportLangText()
         .map(
           (lang) => DropdownMenuItem(
-              value: lang.first, child: MyText(lang.second, style: TS_Body_1(Colors.white))),
+              value: lang.first,
+              child: MyText(lang.second, style: TS_Body_1(Colors.white))),
         )
         .toList();
 

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class IntroFragment extends ViewModelFragment<IntroViewModel> {
   static final String ROUTE_NAME = "/";
@@ -33,7 +35,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
       if (!isSubjectRunning) {
         isSubjectRunning = true;
         subject = PublishSubject<bool>();
-        subject.debounceTime(Duration(seconds: 2)).listen((_) => startWork());
+        subject.debounceTime(Duration(seconds: 5)).listen((_) => startWork());
         subject?.add(true);
       }
     }
@@ -67,19 +69,9 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
       body: Stack(
         children: <Widget>[
           Align(
-            child: Container(
-              child: MyIcon.svg(R.asserts.medicine_12),
-              padding: EdgeInsets.all(80),
-            ),
+            child: Container(child: Lottie.asset(R.asserts.animation_intro)),
             alignment: Alignment.center,
           ),
-          Align(
-            child: Container(
-              child: MyIcon.svg(R.asserts.uzpharminfo_logo_small),
-              padding: EdgeInsets.only(bottom: 40),
-            ),
-            alignment: Alignment.bottomCenter,
-          )
         ],
       ),
     );
