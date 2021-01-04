@@ -28,14 +28,46 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
     Navigator.push<dynamic>(
         context,
         SlideLeftRoute(
-            routeName: ROUTE_NAME, page: Mold.newInstance(MedicineListFragment()..argument = arg)));
+            routeName: ROUTE_NAME,
+            page: Mold.newInstance(MedicineListFragment()..argument = arg)));
     // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
   ArgMedicineList get arg => argument as ArgMedicineList;
 
   @override
-  MedicineListViewModel onCreateViewModel(BuildContext buildContext) => MedicineListViewModel();
+  void onCreate(BuildContext context) {
+    super.onCreate(context);
+    showModalBottomSheet(
+      context: getContext(),
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.5, // half screen on load
+          maxChildSize: 1, // full screen on scroll
+          minChildSize: 0.25,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return Container(
+              color: Colors.white,
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: 25,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(title: Text('Item $index'));
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  MedicineListViewModel onCreateViewModel(BuildContext buildContext) =>
+      MedicineListViewModel();
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -51,7 +83,8 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                   shape: BoxShape.circle,
                 ),
                 padding: EdgeInsets.all(8),
-                child: MyIcon.icon(Icons.arrow_back, color: Colors.white, size: 24),
+                child: MyIcon.icon(Icons.arrow_back,
+                    color: Colors.white, size: 24),
               ),
               onTap: () {
                 MedicineMarkListFragment.popUntil(getContext());
@@ -66,7 +99,8 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
           backgroundColor: R.colors.appBarColor,
         ),
         floatingActionButton: FloatingActionButton(
-          child: MyIcon.svg(R.asserts.search_left, size: 24, color: Colors.white),
+          child:
+              MyIcon.svg(R.asserts.search_left, size: 24, color: Colors.white),
           backgroundColor: R.colors.fabColor,
           onPressed: () {
             Mold.onBackPressed(this);
@@ -81,7 +115,8 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
         Expanded(
           child: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollInfo) {
-                if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                if (scrollInfo.metrics.pixels ==
+                    scrollInfo.metrics.maxScrollExtent) {
                   viewmodel.loadPage();
                 }
                 return true;
@@ -123,14 +158,16 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                             upperCase: true,
                           ),
                           backgroundColor: R.colors.cardColor,
-                          padding: EdgeInsets.only(top: 11, bottom: 11, left: 16, right: 16),
+                          padding: EdgeInsets.only(
+                              top: 11, bottom: 11, left: 16, right: 16),
                           elevation: 2,
                           borderRadius: BorderRadius.circular(4),
                           onClick: () {
                             viewmodel.reload();
                           },
                         ),
-                        padding: EdgeInsets.only(left: 6, right: 16, top: 16, bottom: 16),
+                        padding: EdgeInsets.only(
+                            left: 6, right: 16, top: 16, bottom: 16),
                       )
                     ],
                     width: double.infinity,
@@ -177,7 +214,8 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
     );
   }
 
-  List<Widget> _buildMedicineProductsList(List<ProducerMedicineListItem> medicines) {
+  List<Widget> _buildMedicineProductsList(
+      List<ProducerMedicineListItem> medicines) {
     List<Widget> result = [];
     int medLength = medicines.length;
     for (int i = 0; i < medLength; i++) {
@@ -196,12 +234,13 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                 MyText(
                   item.boxGenName,
                   style: TS_Body_1(R.colors.textColor),
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 4),
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 4),
                 ),
                 if (item.retailBasePrice?.isNotEmpty == true)
                   MyText(
-                    R.strings.medicine_list.price
-                        .translate(args: [item.retailBasePrice.toMoneyFormat()]),
+                    R.strings.medicine_list.price.translate(
+                        args: [item.retailBasePrice.toMoneyFormat()]),
                     padding: EdgeInsets.only(left: 16, right: 16),
                     style: TS_List_Subtitle_1(),
                   )
@@ -217,16 +256,22 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
             ),
             MyText(
               item.spreadKindTitle,
-              style: TS_List_Subtitle_1(item.spreadKindColor,
-                  item.spreadKindWithRecipe ? FontWeight.w600 : FontWeight.w300),
+              style: TS_List_Subtitle_1(
+                  item.spreadKindColor,
+                  item.spreadKindWithRecipe
+                      ? FontWeight.w600
+                      : FontWeight.w300),
               padding: EdgeInsets.only(right: 16, top: 12),
             )
           ],
         ),
-        isLast ? SizedBox(height: 10) : Divider(height: 1, color: R.colors.dividerColor)
+        isLast
+            ? SizedBox(height: 10)
+            : Divider(height: 1, color: R.colors.dividerColor)
       ],
       onTapCallback: () {
-        MedicineItemFragment.open(getContext(), ArgMedicineItem(item.boxGroupId));
+        MedicineItemFragment.open(
+            getContext(), ArgMedicineItem(item.boxGroupId));
       },
       width: double.infinity,
     );
