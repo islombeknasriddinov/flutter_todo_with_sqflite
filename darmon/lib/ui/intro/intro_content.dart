@@ -24,8 +24,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
   PublishSubject<bool> subject;
 
   @override
-  IntroViewModel onCreateViewModel(BuildContext buildContext) =>
-      IntroViewModel();
+  IntroViewModel onCreateViewModel(BuildContext buildContext) => IntroViewModel();
 
   @override
   void onCreate(BuildContext context) {
@@ -35,7 +34,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
       if (!isSubjectRunning) {
         isSubjectRunning = true;
         subject = PublishSubject<bool>();
-        subject.debounceTime(Duration(seconds: 5)).listen((_) => startWork());
+        subject.debounceTime(Duration(seconds: 4,milliseconds:5 )).listen((_) => startWork());
         subject?.add(true);
       }
     }

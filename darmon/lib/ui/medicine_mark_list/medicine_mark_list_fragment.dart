@@ -133,48 +133,6 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     viewmodel.setSearchText(newQuery);
   }
 
-/*  Widget _searchIFieldsListWidget() {
-    return MyTable.horizontal(
-      [
-        MyText(R.strings.medicine_list.search_by, style: TS_Body_1(R.colors.textColor)),
-        MyTable.horizontal(_buildSearchFields(viewmodel.searchFilterFields))
-      ],
-      background: R.colors.background,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      padding: EdgeInsets.only(left: 16, right: 16),
-      width: double.infinity,
-    );
-  }*/
-
-  List<Widget> _buildSearchFields(List<SearchField> fields) {
-    if (fields == null || fields.isEmpty) return [Container()];
-    return fields.map((field) => _buildFilterChipItem(field)).toList();
-  }
-
-  Widget _buildFilterChipItem(SearchField field) {
-    return StreamBuilder<bool>(
-        stream: field.onSelected,
-        builder: (_, snapshot) {
-          return Padding(
-            padding: EdgeInsets.only(top: 2, bottom: 2, left: 4, right: 4),
-            child: FilterChip(
-              label: MyText(field.title),
-              onSelected: (bool value) {
-                field.setOnSelected(value);
-                viewmodel.onSelectFilter();
-              },
-              checkmarkColor: Colors.white,
-              selected: snapshot?.data == true,
-              selectedColor: R.colors.app_color,
-              labelStyle: TextStyle(
-                color: Colors.white,
-              ),
-              backgroundColor: R.colors.server_hint,
-            ),
-          );
-        });
-  }
-
   Widget _buildListWidget() {
     return StreamBuilder<void>(
         stream: viewmodel.reload,
@@ -188,14 +146,12 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
               reverse: false,
             );
 
-          if ((viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive) ||
-              (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)) {
+          if ((viewmodel.medicineMarkInnListIsNotEmpty) ||
+              (viewmodel.medicineMarkNameListIsNotEmpty)) {
             return CustomScrollView(
               slivers: [
-                if (viewmodel.medicineMarkNameListIsNotEmpty && viewmodel.nameIsActive)
-                  _buildMedicineMarkNameList(),
-                if (viewmodel.medicineMarkInnListIsNotEmpty && viewmodel.innIsActive)
-                  _buildMedicineMarkInnList(),
+                if (viewmodel.medicineMarkNameListIsNotEmpty) _buildMedicineMarkNameList(),
+                if (viewmodel.medicineMarkInnListIsNotEmpty) _buildMedicineMarkInnList(),
               ],
               reverse: false,
             );
@@ -220,6 +176,17 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, i) {
+            print(histories.length);
+            if (i == histories.length) {
+              if (viewmodel.hasHistoryListNextPage)
+                return buildMoreButtonWidget(() {
+                  viewmodel.loadMoreHistory();
+                });
+              else {
+                return Container();
+              }
+            }
+
             UIMedicineMark mark = histories[i];
             return populateSearchHistoryItem(mark.title, () {
               openMedicineListFragment(mark);
@@ -227,7 +194,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
               viewmodel.deleteSearchHistory(mark);
             });
           },
-          childCount: histories.length,
+          childCount: histories.length + 1,
         ),
       ),
     );
@@ -330,17 +297,21 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, i) {
-            if (i == inns.length - 1 && inns.length % 5 == 0) {
-              return buildMoreButtonWidget(() {
-                viewmodel.loadMedicineMarkInnMore();
-              });
+            if (i == inns.length) {
+              if (viewmodel.hasMarkInnListNextPage)
+                return buildMoreButtonWidget(() {
+                  viewmodel.loadMedicineMarkInnMore();
+                });
+              else {
+                return Container();
+              }
             }
             UIMedicineMark inn = inns[i];
             return populateListItem(inn.title, () {
               openMedicineListFragment(inn);
             });
           },
-          childCount: inns.length,
+          childCount: inns.length + 1,
         ),
       ),
     );

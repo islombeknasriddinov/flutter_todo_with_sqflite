@@ -2,6 +2,8 @@ import 'package:darmon/common/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
 
+import 'package:darmon/common/extensions.dart';
+
 class MedicineItem {
   final String medicineName;
   final String medicineMnn;
@@ -136,17 +138,13 @@ class MedicineItemInstruction {
 
   String get getOpenedShelfLifeInfo {
     if (openedShelfLifeKind == "Y") {
-      return R.strings.medicine_instructions.year
-          .translate(args: [openedShelfLife]);
+      return R.strings.medicine_instructions.year.translate(args: [openedShelfLife]);
     } else if (openedShelfLifeKind == "M") {
-      return R.strings.medicine_instructions.month
-          .translate(args: [openedShelfLife]);
+      return R.strings.medicine_instructions.month.translate(args: [openedShelfLife]);
     } else if (openedShelfLifeKind == "W") {
-      return R.strings.medicine_instructions.week
-          .translate(args: [openedShelfLife]);
+      return R.strings.medicine_instructions.week.translate(args: [openedShelfLife]);
     } else if (openedShelfLifeKind == "D") {
-      return R.strings.medicine_instructions.day
-          .translate(args: [openedShelfLife]);
+      return R.strings.medicine_instructions.day.translate(args: [openedShelfLife]);
     }
     return openedShelfLife;
   }
@@ -186,6 +184,10 @@ class AnalogMedicineItem {
       nvl(data['retail_price_base']),
     );
   }
+
+  String get getPrice => retailBasePrice?.isNotEmpty == true
+      ? R.strings.medicine_item.medicine_price.translate(args: [retailBasePrice.toMoneyFormat()])
+      : R.strings.medicine_item.not_found_price.translate();
 
   String getName() {
     int l = medicineName.length;

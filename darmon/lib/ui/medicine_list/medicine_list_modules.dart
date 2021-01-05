@@ -90,8 +90,10 @@ class ProducerMedicineListItem {
   String boxGroupId;
   String boxGenName;
   String retailBasePrice;
+  String producerGenName;
 
-  ProducerMedicineListItem(this.spreadKind, this.boxGroupId, this.boxGenName, this.retailBasePrice);
+  ProducerMedicineListItem(this.spreadKind, this.boxGroupId, this.boxGenName, this.retailBasePrice,
+      this.producerGenName);
 
   String get spreadKindTitle {
     if (spreadKind == "W") {

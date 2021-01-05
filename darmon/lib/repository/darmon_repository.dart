@@ -175,4 +175,4 @@ class UIMedicineMark {
   );
 }
 
-enum UIMedicineMarkSearchResultType { NAME, INN }
+enum UIMedicineMarkSearchResultType { NAME, INN, BOX_GROUP }

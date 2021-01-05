@@ -79,7 +79,7 @@
   "medicine_item:mnn": "МНН: ",
   "medicine_item:producer": "Производитель: ",
   "medicine_item:not_found_price": "не установлена",
-  "medicine_item:price_no_set": "Предельная цена: не установлена",
+  "medicine_item:medicine_marginal_price": "Предельная цена: %1s",
 
   "medicine_instruction:reload": "Перезагрузить",
   "medicine_instruction:mnn": "МНН: ",

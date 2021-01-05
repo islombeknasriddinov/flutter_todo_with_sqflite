@@ -22,7 +22,11 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
   void onCreate() {
     super.onCreate();
     _repository = MedicineListRepository();
-    loadFirstPage(argument.type, argument.sendServerText);
+    loadFirstPage(
+        argument.type,
+        argument.type == UIMedicineMarkSearchResultType.BOX_GROUP
+            ? argument.boxGroupId
+            : argument.sendServerText);
     _statuse.get().listen((value) {
       print(value);
     });
@@ -35,15 +39,22 @@ class MedicineListViewModel extends ViewModel<ArgMedicineList> {
   }
 
   void reload() {
-    loadFirstPage(argument.type, argument.sendServerText);
+    loadFirstPage(
+        argument.type,
+        argument.type == UIMedicineMarkSearchResultType.BOX_GROUP
+            ? argument.boxGroupId
+            : argument.sendServerText);
   }
 
   void loadPage() async {
     if (_statuse.value == MyResultStatus.SUCCESS && _repository.hasNextPage) {
       try {
         _statuse.add(MyResultStatus.LOADING);
-        List<ProducerListItem> result =
-            await _repository.loadList(argument.type, argument.sendServerText);
+        List<ProducerListItem> result = await _repository.loadList(
+            argument.type,
+            argument.type == UIMedicineMarkSearchResultType.BOX_GROUP
+                ? argument.boxGroupId
+                : argument.sendServerText);
 
         List<ProducerListItem> list = _items.value ?? [];
         ProducerListItem last = list?.isNotEmpty == true ? list?.last : null;
@@ -110,7 +121,35 @@ class MedicineListRepository {
     return result;
   }
 
+  Future<List<ProducerListItem>> loadMedicineAnalogues(String box_group_id, int page) async {
+    String langCode = await LocalizationPref.getLanguage();
+    final body = {
+      "d": {"box_group_id": box_group_id, "lang": langCode},
+      "p": {
+        "column": MedicineListItem.getKeys(),
+        "filter": [],
+        "sort": MedicineListItem.getSortKeys(),
+        "offset": page * LIMIT,
+        "limit": LIMIT
+      }
+    };
+    Map<String, dynamic> result = await NetworkManager.medicineAnalogsList(body);
+    int resultCount = result["count"];
+    List<dynamic> data = result["data"];
+    hasNextPage = resultCount > ((page + 1) * LIMIT);
+    List<MedicineListItem> list = await parseObjects(data);
+    return toMedicineMarkNameListItem(list);
+  }
+
   Future<List<ProducerListItem>> loadMedicine(
+      UIMedicineMarkSearchResultType type, String query, int page) async {
+    if (type == UIMedicineMarkSearchResultType.BOX_GROUP)
+      return loadMedicineAnalogues(query, page);
+    else
+      return loadMedicineList(type, query, page);
+  }
+
+  Future<List<ProducerListItem>> loadMedicineList(
       UIMedicineMarkSearchResultType type, String query, int page) async {
     String langCode = await LocalizationPref.getLanguage();
     final body = {
@@ -132,7 +171,10 @@ class MedicineListRepository {
     List<dynamic> data = result["data"];
     hasNextPage = resultCount > ((page + 1) * LIMIT);
     List<MedicineListItem> list = await parseObjects(data);
-    return toProducerMedicineListItem(list);
+    if (type == UIMedicineMarkSearchResultType.NAME)
+      return toProducerMedicineListItem(list);
+    else
+      return toMedicineMarkNameListItem(list);
   }
 
   Future<List<MedicineListItem>> parseObjects(List<dynamic> datas) async {
@@ -150,10 +192,35 @@ class MedicineListRepository {
           medicine.spread_kind,
           medicine.box_group_id,
           medicine.box_gen_name,
-          medicine.retail_base_price);
+          medicine.retail_base_price,
+          medicine.producer_gen_name);
 
       ProducerListItem producerListItem = result.firstWhere(
           (element) => element.producerGenName == medicine.producer_gen_name,
+          orElse: () => null);
+      if (producerListItem != null) {
+        producerListItem.medicines.add(producerMedicineListItem);
+      } else {
+        result.add(ProducerListItem(
+            medicine.medicine_mark_name, medicine.producer_gen_name, [producerMedicineListItem]));
+      }
+    }
+
+    return result;
+  }
+
+  List<ProducerListItem> toMedicineMarkNameListItem(List<MedicineListItem> items) {
+    List<ProducerListItem> result = [];
+    for (var medicine in items) {
+      ProducerMedicineListItem producerMedicineListItem = ProducerMedicineListItem(
+          medicine.spread_kind,
+          medicine.box_group_id,
+          medicine.box_gen_name,
+          medicine.retail_base_price,
+          medicine.producer_gen_name);
+
+      ProducerListItem producerListItem = result.firstWhere(
+          (element) => element.medicineMarkName == medicine.medicine_mark_name,
           orElse: () => null);
       if (producerListItem != null) {
         producerListItem.medicines.add(producerMedicineListItem);

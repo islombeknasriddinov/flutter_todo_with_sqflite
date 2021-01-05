@@ -38,12 +38,10 @@ class UIDarmonDao {
 
     final sql = """
     SELECT t.* 
-          FROM ${ZMedicineMarkInn.TABLE_NAME} t
-       WHERE  t.${ZMedicineMarkInn.C_INN_RU} LIKE '%$query%'
-          OR t.${ZMedicineMarkInn.C_INN_EN} LIKE '%$latinQuery%'
-          OR t.${ZMedicineMarkInn.C_INN_RU_PHONEX_CODE} LIKE '%$querySoundex%'
-          OR t.${ZMedicineMarkInn.C_INN_EN_PHONEX_CODE} LIKE '%$querySoundex%'
-          LIMIT ${limit ?? 5}
+      FROM ${ZMedicineMarkInn.TABLE_NAME} t
+    WHERE  t.${ZMedicineMarkInn.C_INN_RU} LIKE '%$query%'
+        OR t.${ZMedicineMarkInn.C_INN_EN} LIKE '%$latinQuery%'
+     LIMIT ${limit ?? 5}
     """;
     return db
         .rawQuery(sql)

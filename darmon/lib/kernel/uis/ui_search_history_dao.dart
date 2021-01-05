@@ -12,27 +12,17 @@ class UISearchHistoryDao {
   UISearchHistoryDao(this.db);
 
   Future<void> saveMedicineMarkSearchHistory(UIMedicineMark medicine) async {
-    ZMedicineMarkSearchHistory history = await MedicineUtil.loadMedicineMarkSearchHistory(
+    await MedicineApi.saveMedicineMarkSearchHistory(
         db,
-        medicine.titleRu,
-        medicine.type == UIMedicineMarkSearchResultType.INN
-            ? MedicinePref.SEARCH_HISTORY_TYPE_INN
-            : MedicinePref.SEARCH_HISTORY_TYPE_NAME);
-    if (history == null) {
-      await MedicineApi.saveMedicineMarkSearchHistory(
-          db,
-          ZMedicineMarkSearchHistory(
-              titleRu: medicine.titleRu,
-              titleEn: medicine.titleEn,
-              titleUz: medicine.titleUz,
-              sendServerText: medicine.sendServerText,
-              type: medicine.type == UIMedicineMarkSearchResultType.INN
-                  ? MedicinePref.SEARCH_HISTORY_TYPE_INN
-                  : MedicinePref.SEARCH_HISTORY_TYPE_NAME,
-              orderNo: 1));
-    } else {
-      await MedicineApi.updateMedicineMarkSearchHistoryOrderNo(db, history);
-    }
+        ZMedicineMarkSearchHistory(
+            titleRu: medicine.titleRu,
+            titleEn: medicine.titleEn,
+            titleUz: medicine.titleUz,
+            sendServerText: medicine.sendServerText,
+            type: medicine.type == UIMedicineMarkSearchResultType.INN
+                ? MedicinePref.SEARCH_HISTORY_TYPE_INN
+                : MedicinePref.SEARCH_HISTORY_TYPE_NAME,
+            orderNo: DateTime.now().millisecondsSinceEpoch));
   }
 
   Future<List<UIMedicineMark>> loadMedicineMarkSearchHistory({int limit}) async {

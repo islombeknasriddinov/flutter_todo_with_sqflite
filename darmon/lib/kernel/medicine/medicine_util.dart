@@ -9,15 +9,18 @@ class MedicineUtil {
     return Z_ZMedicineMarkSearchHistory.take(db, titleRu, type);
   }
 
-  static Future<List<ZMedicineMarkSearchHistory>>
-      loadMedicineMarkSearchHistoryList(Database db, {int limit}) {
-    final sql = """
+  static Future<List<ZMedicineMarkSearchHistory>> loadMedicineMarkSearchHistoryList(Database db,
+      {int limit}) {
+    String sql = """
     SELECT t.* 
-          FROM ${ZMedicineMarkSearchHistory.TABLE_NAME} t
-       ORDER BY t.${ZMedicineMarkSearchHistory.C_ORDER_NO} DESC
-          LIMIT ${limit ?? 5}
+      FROM ${ZMedicineMarkSearchHistory.TABLE_NAME} t
+  ORDER BY t.${ZMedicineMarkSearchHistory.C_ORDER_NO} DESC
     """;
-    return db.rawQuery(sql).then(
-        (it) => it.map((d) => ZMedicineMarkSearchHistory.fromData(d)).toList());
+    if (limit != null) {
+      sql = "$sql LIMIT $limit";
+    }
+    return db
+        .rawQuery(sql)
+        .then((it) => it.map((d) => ZMedicineMarkSearchHistory.fromData(d)).toList());
   }
 }

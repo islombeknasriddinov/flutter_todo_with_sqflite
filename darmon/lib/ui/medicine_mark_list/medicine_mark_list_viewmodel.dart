@@ -38,15 +38,13 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
     SearchField("by_inn", R.strings.medicine_list.search_by_inn.translate()),
   ];
 
-  bool innIsActive = true;
-  bool nameIsActive = true;
-
   String get getSearchText => _searchText.value;
 
   List<UIMedicineMark> get searchHistoryList => _searchHistory.value ?? [];
 
   bool hasMarkNameListNextPage = true;
   bool hasMarkInnListNextPage = true;
+  bool hasHistoryListNextPage = true;
 
   @override
   void onCreate() {
@@ -59,7 +57,8 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
 
   void loadSearchHistory() async {
     try {
-      final result = await _searchHistoryDao.loadMedicineMarkSearchHistory();
+      final result = await _searchHistoryDao.loadMedicineMarkSearchHistory(limit: 5);
+      hasHistoryListNextPage = result.length == 5;
       _searchHistory.add(result);
       _reload.add(() {});
     } catch (error, st) {
@@ -85,31 +84,6 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
       Log.error("Error($error)\n$st");
       setError(error);
     }
-  }
-
-  void onSelectFilter() async {
-    for (var filterFeld in searchFilterFields) {
-      if (filterFeld.id == "by_name") {
-        nameIsActive = filterFeld.getOnSelected;
-        if (!nameIsActive) {
-          _medicineMarkNameList.add([]);
-        } else {
-          final names = await _repository.searchMedicineMarkNames(_searchText.value ?? "");
-          hasMarkNameListNextPage = names.length == 5;
-          _medicineMarkNameList.add(names);
-        }
-      } else if (filterFeld.id == "by_inn") {
-        innIsActive = filterFeld.getOnSelected;
-        if (!innIsActive) {
-          _medicineMarkInnList.add([]);
-        } else {
-          final inns = await _repository.searchMedicineMarkInns(_searchText.value ?? "");
-          hasMarkInnListNextPage = inns.length == 5;
-          _medicineMarkInnList.add(inns);
-        }
-      }
-    }
-    _reload.add(() {});
   }
 
   void saveMedicineMarkSearchHistory(UIMedicineMark medicine) {
@@ -147,6 +121,14 @@ class MedicineMarkListViewModel extends ViewModel<ArgMedicineMarkList> {
     final names = await _repository.searchMedicineMarkNames(_searchText.value ?? "", limit: length);
     hasMarkNameListNextPage = names.length == length;
     _medicineMarkNameList.add(names);
+    _reload.add(() {});
+  }
+
+  void loadMoreHistory() async {
+    int length = (_searchHistory.value?.length ?? 0) + 10;
+    final result = await _searchHistoryDao.loadMedicineMarkSearchHistory(limit: length);
+    hasHistoryListNextPage = result.length == length;
+    _searchHistory.add(result);
     _reload.add(() {});
   }
 }

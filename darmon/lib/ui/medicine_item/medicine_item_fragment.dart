@@ -26,8 +26,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
         context,
         SlideLeftRoute(
             routeName: ROUTE_NAME,
-            page: Mold.newInstance(
-                MedicineItemFragment()..argument = argMedicineItem)));
+            page: Mold.newInstance(MedicineItemFragment()..argument = argMedicineItem)));
   }
 
   static void replace(BuildContext context, ArgMedicineItem argMedicineItem) {
@@ -35,16 +34,14 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
         context,
         SlideLeftRoute(
             routeName: ROUTE_NAME,
-            page: Mold.newInstance(
-                MedicineItemFragment()..argument = argMedicineItem)));
+            page: Mold.newInstance(MedicineItemFragment()..argument = argMedicineItem)));
   }
 
   ArgMedicineItem get argMedicineItem => argument;
 
   @override
   MedicineItemViewModel onCreateViewModel(BuildContext buildContext) =>
-      MedicineItemViewModel(
-          DarmonApp.instance.darmonServiceLocator.darmonRepository);
+      MedicineItemViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
 
   @override
   Widget onCreateWidget(BuildContext context) {
@@ -60,8 +57,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                   shape: BoxShape.circle,
                 ),
                 padding: EdgeInsets.all(8),
-                child: MyIcon.icon(Icons.arrow_back,
-                    color: Colors.white, size: 24),
+                child: MyIcon.icon(Icons.arrow_back, color: Colors.white, size: 24),
               ),
               onTap: () {
                 Mold.onBackPressed(this);
@@ -72,8 +68,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
           backgroundColor: R.colors.appBarColor,
         ),
         floatingActionButton: FloatingActionButton(
-          child:
-              MyIcon.svg(R.asserts.search_left, size: 24, color: Colors.white),
+          child: MyIcon.svg(R.asserts.search_left, size: 24, color: Colors.white),
           backgroundColor: R.colors.fabColor,
           onPressed: () {
             MedicineMarkListFragment.popUntil(getContext());
@@ -99,8 +94,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                         stream: viewmodel.progressStream,
                         builder: (_, snapshot) {
                           if (snapshot?.data?.isNotEmpty == true &&
-                              snapshot.data[MedicineItemViewModel.PROGRESS] ==
-                                  true) {
+                              snapshot.data[MedicineItemViewModel.PROGRESS] == true) {
                             return Center(child: CircularProgressIndicator());
                           } else {
                             return Container();
@@ -119,8 +113,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                                 MyText(viewmodel.errorMessageValue.message,
                                     style: TS_ErrorText(),
                                     textAlign: TextAlign.center,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 12)),
+                                    padding: EdgeInsets.symmetric(horizontal: 12)),
                                 SizedBox(height: 8),
                                 MyTable.horizontal(
                                   [
@@ -152,8 +145,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
       child: MyTable.vertical([
         MyTable.horizontal(
           [
-            MyText(item.producerGenName,
-                flex: 1, style: TS_CAPTION(Colors.white)),
+            MyText(item.producerGenName, flex: 1, style: TS_CAPTION(Colors.white)),
             MyTable(
               [
                 MyText(item.spreadKindTitle, style: TS_CAPTION(Colors.white)),
@@ -195,8 +187,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                             style: TS_HeadLine4(Colors.white),
                             children: <TextSpan>[
                               TextSpan(
-                                  text:
-                                      R.strings.medicine_item.price.translate(),
+                                  text: R.strings.medicine_item.price.translate(),
                                   style: TextStyle(fontSize: 16)),
                             ]),
                       )
@@ -222,9 +213,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                   style: TS_Caption(Colors.white),
                 ),
                 MyIcon.icon(Icons.chevron_right,
-                    size: 16,
-                    color: Colors.white,
-                    padding: EdgeInsets.only(left: 8))
+                    size: 16, color: Colors.white, padding: EdgeInsets.only(left: 8))
               ],
               crossAxisAlignment: CrossAxisAlignment.center,
               borderColor: Colors.white,
@@ -253,8 +242,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
       return MyTable.vertical(
         [
           MyText(
-            R.strings.medicine_item.analogs_count
-                .translate(args: [item.analogs.length.toString()]),
+            R.strings.medicine_item.analogs_count.translate(args: [item.analogs.length.toString()]),
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 12,
@@ -304,10 +292,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
             ),
             SizedBox(height: 8),
             MyText(
-              analog.retailBasePrice?.isNotEmpty == true
-                  ? R.strings.medicine_item.medicine_price
-                      .translate(args: [analog.retailBasePrice])
-                  : R.strings.medicine_item.price_no_set,
+              R.strings.medicine_item.medicine_marginal_price.translate(args: [analog.getPrice]),
               singleLine: true,
               style: TextStyle(
                   color: Colors.white,
@@ -320,8 +305,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         ),
         Align(
-          child:
-              MyIcon.svg(R.asserts.stroke, padding: EdgeInsets.only(bottom: 5)),
+          child: MyIcon.svg(R.asserts.stroke, padding: EdgeInsets.only(bottom: 5)),
           alignment: Alignment.bottomRight,
         ),
       ],
@@ -329,8 +313,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
       borderRadius: BorderRadius.circular(4),
       elevation: 1,
       onTapCallback: () {
-        MedicineItemFragment.replace(
-            getContext(), ArgMedicineItem(analog.boxGroupId));
+        MedicineItemFragment.replace(getContext(), ArgMedicineItem(analog.boxGroupId));
       },
       margin: EdgeInsets.all(4),
       background: Color(0xFF39B070),
