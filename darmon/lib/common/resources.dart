@@ -183,6 +183,7 @@ class MedicineItemStrings {
   final String producer = "medicine_item:producer";
   final String not_found_price = "medicine_item:not_found_price";
   final String medicine_marginal_price = "medicine_item:medicine_marginal_price";
+  final String show_all = "medicine_item:show_all";
 }
 
 class MedicineInstructionStrings {

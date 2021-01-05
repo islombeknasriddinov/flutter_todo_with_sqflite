@@ -80,6 +80,7 @@
   "medicine_item:producer": "Производитель: ",
   "medicine_item:not_found_price": "не установлена",
   "medicine_item:medicine_marginal_price": "Предельная цена: %1s",
+  "medicine_item:show_all": "Показать все",
 
   "medicine_instruction:reload": "Перезагрузить",
   "medicine_instruction:mnn": "МНН: ",

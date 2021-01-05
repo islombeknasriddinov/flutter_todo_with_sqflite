@@ -100,7 +100,6 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
               child: StreamBuilder<List<ProducerListItem>>(
                 stream: viewmodel.items,
                 builder: (_, snapshot) {
-                  print("snapshot?.data=${snapshot?.data}");
 
                   if (snapshot?.data?.isNotEmpty == true) {
                     return ListView.builder(

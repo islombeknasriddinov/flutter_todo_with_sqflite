@@ -5,6 +5,7 @@ import 'package:darmon/main.dart';
 import 'package:darmon/ui/medicine_item/instructions/medicine_instructions_fragment.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_models.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_viewmodel.dart';
+import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
 import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -254,9 +255,12 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
             width: double.infinity,
             height: 105,
             child: ListView.builder(
-                itemCount: item.analogs.length,
+                itemCount: item.analogs.length + 1,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
+                  if (index == item.analogs.length) {
+                    return _buildMoreAnalogMedicinesBtnWidget(item);
+                  }
                   return _buildAnalogMedicineWidget(item.analogs[index]);
                 }),
           )
@@ -266,6 +270,54 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
     } else {
       return Container();
     }
+  }
+
+  Widget _buildMoreAnalogMedicinesBtnWidget(MedicineItem item) {
+    return MyTable(
+      [
+        MyTable.vertical(
+          [
+            MyText(
+              R.strings.medicine_item.show_all,
+              singleLine: true,
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: "SourceSansPro"),
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        ),
+        Align(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              child: Container(
+                margin: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  shape: BoxShape.circle,
+                ),
+                padding: EdgeInsets.all(8),
+                child: MyIcon.icon(Icons.add, color: R.colors.appBarColor, size: 24),
+              ),
+            ),
+          ),
+          alignment: Alignment.bottomRight,
+        ),
+      ],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      borderRadius: BorderRadius.circular(4),
+      elevation: 1,
+      onTapCallback: () {
+        MedicineListFragment.open(
+            getContext(), ArgMedicineList.boxGroupId(item.medicineName, item.boxGroupId));
+      },
+      margin: EdgeInsets.all(4),
+      background: Color(0xFFE8EDEF),
+    );
   }
 
   Widget _buildAnalogMedicineWidget(AnalogMedicineItem analog) {

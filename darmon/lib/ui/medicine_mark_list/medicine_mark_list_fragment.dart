@@ -67,7 +67,6 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
   }
 
   void _clearSearchQuery() {
-    print("close search box");
     _searchQuery.clear();
     viewmodel.setSearchText("");
   }
@@ -176,7 +175,6 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, i) {
-            print(histories.length);
             if (i == histories.length) {
               if (viewmodel.hasHistoryListNextPage)
                 return buildMoreButtonWidget(() {
@@ -259,7 +257,6 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, i) {
-            print(names.length);
             if (i == names.length) {
               if (viewmodel.hasMarkNameListNextPage)
                 return buildMoreButtonWidget(() {

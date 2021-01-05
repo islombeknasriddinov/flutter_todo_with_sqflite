@@ -24,6 +24,7 @@ class MedicineItem {
   );
 
   factory MedicineItem.fromData(Map<String, dynamic> data) {
+    print(data);
     List<dynamic> analogsJson = data['similar_box_groups'] ?? [];
 
     List<AnalogMedicineItem> analogs = [];

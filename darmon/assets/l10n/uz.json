@@ -81,6 +81,7 @@
   "medicine_item:producer": "Ishlab chiqaruvchi: ",
   "medicine_item:not_found_price": "o'rnatilmagan",
   "medicine_item:medicine_marginal_price": "Cheklangan narxi: %1s",
+  "medicine_item:show_all": "Barchasini ko'rish",
 
   "medicine_instruction:reload": "Qayta yuklash",
   "medicine_instruction:mnn": "MNN: ",
