@@ -1,6 +1,6 @@
 import 'package:darmon/common/result.dart';
 import 'package:darmon/network/network_manager.dart';
-import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/repository/bean.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:gwslib/gwslib.dart';

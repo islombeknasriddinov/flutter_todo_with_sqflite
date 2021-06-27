@@ -6,6 +6,11 @@
   "unknown": "неизвестно",
   "please_wait":"Пожалуйста, подождите",
 
+  "internet_connection_error_title":"Ошибка подключения",
+  "internet_connection_error_message":"Пожалуйста, проверьте подключение к интернету",
+  "internet_connection_error_btn_positive":"Попробуй снова",
+  "internet_connection_error_btn_negative":"Выход",
+
   "hour": "%1s ч",
   "minute": "%1s мин",
   "hour_minute": "%1s ч %2s мин",

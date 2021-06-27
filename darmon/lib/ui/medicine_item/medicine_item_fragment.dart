@@ -3,6 +3,7 @@ import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/main.dart';
 import 'package:darmon/ui/medicine_item/instructions/medicine_instructions_fragment.dart';
+import 'package:darmon/custom/expansion_title.dart' as wid;
 import 'package:darmon/ui/medicine_item/medicine_item_models.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_viewmodel.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
@@ -83,7 +84,8 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                   child: MyTable.vertical(
                     [
                       _buildBodyWidget(snapshot.data),
-                      _buildAnalogMedicinesListWidgets(snapshot.data)
+                      _buildAnalogMedicinesListWidgets(snapshot.data),
+                      _buildInstruction()
                     ],
                     width: double.infinity,
                   ),
@@ -167,7 +169,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
               fontFamily: "SourceSansPro",
               fontWeight: FontWeight.w400),
         ),
-        SizedBox(height: 6),
+        /*   SizedBox(height: 6),
         MyText(
           item.medicineMnn,
           style: TextStyle(
@@ -175,7 +177,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
               fontSize: 16,
               fontFamily: "SourceSansPro",
               fontWeight: FontWeight.w400),
-        ),
+        ),*/
         SizedBox(height: 14),
         MyTable.horizontal(
           [
@@ -207,7 +209,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
               ],
               flex: 1,
             ),
-            MyTable.horizontal(
+            /*         MyTable.horizontal(
               [
                 MyText(
                   R.strings.medicine_item.instructions,
@@ -223,7 +225,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                 MedicineInstructionFragment.open(getContext(), argMedicineItem);
               },
               padding: EdgeInsets.symmetric(vertical: 9, horizontal: 16),
-            )
+            )*/
           ],
           crossAxisAlignment: CrossAxisAlignment.center,
         )
@@ -369,6 +371,111 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
       },
       margin: EdgeInsets.all(4),
       background: Color(0xFF39B070),
+    );
+  }
+
+  Widget _buildInstruction() {
+    return StreamBuilder<MedicineItemInstruction>(
+        stream: viewmodel.instruction,
+        builder: (_, snapshot) {
+          if (snapshot?.data != null) {
+            MedicineItemInstruction instruction = snapshot.data;
+            return SingleChildScrollView(
+              child: MyTable.vertical(
+                [
+                  _buildHeaderWidget(instruction),
+                  MyTable.vertical([
+                    _buildInstructionWidget(
+                        R.strings.medicine_instructions.spread_kind, instruction.getSpreadInfo),
+                    _buildInstructionWidget(
+                        R.strings.medicine_instructions.shelf_life, instruction.getShelfLifeInfo),
+                    _buildInstructionWidget(
+                        R.strings.medicine_instructions.atc_name, instruction.atcName),
+                    _buildInstructionWidget(R.strings.medicine_instructions.opened_shelf_life,
+                        instruction.getOpenedShelfLifeInfo),
+                    _buildInstructionWidget(R.strings.medicine_instructions.pharmacologic_action,
+                        instruction.pharmacologicAction),
+                    _buildInstructionWidget(
+                        R.strings.medicine_instructions.scope, instruction.scope),
+                    _buildInstructionWidget(
+                        R.strings.medicine_instructions.storage, instruction.storage),
+                    _buildInstructionWidget(R.strings.medicine_instructions.medicine_product,
+                        instruction.medicineProduct),
+                    _buildInstructionWidget(R.strings.medicine_instructions.route_of_administration,
+                        instruction.routeAdministration),
+                    _buildInstructionWidget(
+                        R.strings.medicine_instructions.pharmacotherapeutic_group,
+                        instruction.pharmacotherapeuticGroup),
+                    _buildInstructionWidget(
+                        R.strings.medicine_instructions.clinical_pharmacological_group,
+                        instruction.clinicalPharmacologicalGroup),
+                  ])
+                ],
+                width: double.infinity,
+              ),
+            );
+          } else {
+            return Container();
+          }
+        });
+  }
+
+  Widget _buildHeaderWidget(MedicineItemInstruction data) {
+    return MyTable.vertical(
+      [
+        RichText(
+            text: TextSpan(
+                text: R.strings.medicine_instructions.mnn.translate(),
+                style: TextStyle(
+                    fontFamily: "SourceSansPro",
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14),
+                children: <TextSpan>[
+              TextSpan(text: data.medicineInn, style: TextStyle(fontWeight: FontWeight.w400)),
+            ])),
+        RichText(
+            text: TextSpan(
+                text: R.strings.medicine_instructions.producer.translate(),
+                style: TextStyle(
+                    fontFamily: "SourceSansPro",
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14),
+                children: <TextSpan>[
+              TextSpan(text: data.producerGenName, style: TextStyle(fontWeight: FontWeight.w400)),
+            ]))
+      ],
+      padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+    );
+  }
+
+  Widget _buildInstructionWidget(String header, String body) {
+    if (header == null || header.isEmpty || body == null || body.isEmpty) return Container();
+    return MyTable.vertical(
+      [
+        wid.MyExpansionTile(
+          hasBorder: false,
+          title: MyText(
+            header,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 16.0,
+                fontFamily: "SourceSansPro",
+                fontWeight: FontWeight.w400),
+          ),
+          initiallyExpanded: false,
+          children: [
+            MyText(
+              body,
+              style: TS_List_Subtitle_1(Colors.black),
+              padding: EdgeInsets.all(16),
+            )
+          ],
+        ),
+        Divider(height: 0.5, color: Colors.grey)
+      ],
+      background: Colors.white,
     );
   }
 }

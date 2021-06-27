@@ -11,6 +11,10 @@ class MedicineItemViewModel extends ViewModel<ArgMedicineItem> {
 
   LazyStream<MedicineItem> _item = LazyStream();
 
+  LazyStream<MedicineItemInstruction> _instruction = LazyStream();
+
+  Stream<MedicineItemInstruction> get instruction => _instruction.stream;
+
   Stream<MedicineItem> get item => _item.stream;
 
   @override
@@ -19,16 +23,20 @@ class MedicineItemViewModel extends ViewModel<ArgMedicineItem> {
     reloadModel();
   }
 
-  void reloadModel() {
-    setProgress(PROGRESS, true);
-    setError(ErrorMessage(""));
-    _repository.loadMedicineItem(argument.medicineId).then((value) {
+  void reloadModel() async {
+    try {
+      setProgress(PROGRESS, true);
+      setError(ErrorMessage(""));
+      final medicineItem = await _repository.loadMedicineItem(argument.medicineId);
+      final instruction = await _repository.loadMedicineInstruction(argument.medicineId);
       setProgress(PROGRESS, false);
-      _item.add(value);
-    }).catchError((e, st) {
+      _item.add(medicineItem);
+      _instruction.add(instruction);
+    } catch (error, st) {
+      Log.error("Error($error)\n$st");
       setProgress(PROGRESS, false);
-      setError(e);
-    });
+      setError(error, st);
+    }
   }
 
   @override

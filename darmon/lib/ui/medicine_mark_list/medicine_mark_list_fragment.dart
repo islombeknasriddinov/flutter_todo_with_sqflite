@@ -3,6 +3,7 @@ import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/routes/size_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/main.dart';
+import 'package:darmon/repository/bean.dart';
 import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';

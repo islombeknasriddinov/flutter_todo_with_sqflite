@@ -1,6 +1,6 @@
 import 'package:darmon/common/resources.dart';
-import 'package:darmon/kernel/uis/ui_damon_dao.dart';
 import 'package:darmon/kernel/uis/ui_search_history_dao.dart';
+import 'package:darmon/repository/bean.dart';
 import 'package:darmon/repository/darmon_repository.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';

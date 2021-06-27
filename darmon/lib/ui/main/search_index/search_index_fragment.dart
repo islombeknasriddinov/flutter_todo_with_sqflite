@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/main.dart';
-import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/repository/bean.dart';
 import 'package:darmon/ui/main/search_index/search_index_viewmodel.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
 import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
@@ -19,8 +19,9 @@ class SearchIndexFragment extends ViewModelFragment<SearchIndexViewModel> {
   }
 
   @override
-  SearchIndexViewModel onCreateViewModel(BuildContext buildContext) =>
-      SearchIndexViewModel(DarmonApp.instance.darmonServiceLocator.darmonRepository);
+  SearchIndexViewModel onCreateViewModel(BuildContext buildContext) => SearchIndexViewModel(
+      DarmonApp.instance.darmonServiceLocator.darmonRepository,
+      DarmonApp.instance.darmonServiceLocator.syncRepository);
 
   final ScrollController scrollController = ScrollController();
 

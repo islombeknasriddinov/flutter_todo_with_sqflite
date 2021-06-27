@@ -2,7 +2,7 @@ import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/result.dart';
 import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
-import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/repository/bean.dart';
 import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_modules.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_viewmodel.dart';

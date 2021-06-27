@@ -132,7 +132,8 @@ class MedicineInstructionFragment
                   ]),
                 );
               }
-            }));
+            })
+    );
   }
 
   Widget _buildHeaderWidget(MedicineItemInstruction data) {

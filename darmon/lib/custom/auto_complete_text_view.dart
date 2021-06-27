@@ -2,7 +2,7 @@ import 'dart:async' as async;
 
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
-import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/repository/bean.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';

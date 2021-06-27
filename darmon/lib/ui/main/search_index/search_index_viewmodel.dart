@@ -1,11 +1,14 @@
+import 'package:darmon/repository/bean.dart';
 import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/repository/sync_repository.dart';
 import 'package:gwslib/gwslib.dart';
 
 class SearchIndexViewModel extends ViewModel {
   static const int SYNC_PROGRESS = 1;
   DarmonRepository repository;
+  SyncRepository syncRepository;
 
-  SearchIndexViewModel(this.repository);
+  SearchIndexViewModel(this.repository,this.syncRepository);
 
   LazyStream<String> _searchText = LazyStream();
   LazyStream<List<String>> _menuItems = LazyStream();
@@ -65,7 +68,7 @@ class SearchIndexViewModel extends ViewModel {
   void checkSync() async {
     try {
       setProgress(SYNC_PROGRESS, true);
-      await repository.checkSync();
+      await syncRepository.checkSync();
       setProgress(SYNC_PROGRESS, false);
     } catch (error, st) {
       setProgress(SYNC_PROGRESS, false);

@@ -43,6 +43,7 @@ dependencies:
   sprintf: ^4.1.0
   percent_indicator: ^2.1.7+1
   lottie: ^0.7.0+1
+  connectivity: ^2.0.2
 
   # for test database
   sqflite_common_ffi: ^1.1.1

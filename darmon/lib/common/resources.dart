@@ -43,18 +43,14 @@ class ResourceColors {
   final Color server_hint = Color(0xFF9AA4A8);
   final Color fabColor = Color(0xFFE15A5A);
 
-  Color get app_color =>
-      AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF489FCA);
+  Color get app_color => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF489FCA);
 
-  Color get statusBarColor =>
-      AppLang.instance.isDarkMode ? Colors.black87 : Color(0xFF489FCA);
+  Color get statusBarColor => AppLang.instance.isDarkMode ? Colors.black87 : Color(0xFF489FCA);
 
-  Color get appBarColor => AppLang.instance.isDarkMode
-      ? ThemeData.dark().appBarTheme.color
-      : Color(0xFF489FCA);
+  Color get appBarColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().appBarTheme.color : Color(0xFF489FCA);
 
-  Color get background =>
-      AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
+  Color get background => AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFF1F5F8);
 
   Color get medicineMarkBackground =>
       AppLang.instance.isDarkMode ? Colors.grey[800] : Color(0xFFE5E5E5);
@@ -63,45 +59,34 @@ class ResourceColors {
       ? ThemeData.dark().backgroundColor
       : ThemeData.light().backgroundColor;
 
-  Color get statusError =>
-      AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFE93558);
+  Color get statusError => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFE93558);
 
-  Color get cardColor => AppLang.instance.isDarkMode
-      ? ThemeData.dark().cardColor
-      : ThemeData.light().cardColor;
+  Color get cardColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().cardColor : ThemeData.light().cardColor;
 
-  Color get dividerColor => AppLang.instance.isDarkMode
-      ? ThemeData.dark().dividerColor
-      : ThemeData.light().dividerColor;
+  Color get dividerColor =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().dividerColor : ThemeData.light().dividerColor;
 
-  Color get textColorOpposite =>
-      AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
+  Color get textColorOpposite => AppLang.instance.isDarkMode ? Colors.black87 : Colors.white;
 
-  Color get iconColors => AppLang.instance.isDarkMode
-      ? ThemeData.dark().iconTheme.color
-      : Colors.black54;
+  Color get iconColors =>
+      AppLang.instance.isDarkMode ? ThemeData.dark().iconTheme.color : Colors.black54;
 
   Color get unselectedItemColor => AppLang.instance.isDarkMode
       ? ThemeData.dark().unselectedWidgetColor
       : ThemeData.light().unselectedWidgetColor;
 
-  Color get textColor =>
-      AppLang.instance.isDarkMode ? Colors.white : Colors.black87;
+  Color get textColor => AppLang.instance.isDarkMode ? Colors.white : Colors.black87;
 
-  Color get hintTextColor =>
-      AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
+  Color get hintTextColor => AppLang.instance.isDarkMode ? Colors.white38 : Colors.black38;
 
-  Color get priceTitleTextColor =>
-      AppLang.instance.isDarkMode ? Colors.white60 : Colors.black54;
+  Color get priceTitleTextColor => AppLang.instance.isDarkMode ? Colors.white60 : Colors.black54;
 
-  Color get switchColor =>
-      AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
+  Color get switchColor => AppLang.instance.isDarkMode ? Colors.blue[200] : Color(0xFF007BCF);
 
-  Color get stickHeaderColor =>
-      AppLang.instance.isDarkMode ? Colors.grey[700] : Color(0xFF489FCA);
+  Color get stickHeaderColor => AppLang.instance.isDarkMode ? Colors.grey[700] : Color(0xFF489FCA);
 
-  Color get priceColor =>
-      AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFda5b58);
+  Color get priceColor => AppLang.instance.isDarkMode ? Color(0xFFCF6679) : Color(0xFFda5b58);
 }
 
 class ResourceStrings {
@@ -111,17 +96,20 @@ class ResourceStrings {
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
   final MedicineItemStrings medicine_item = new MedicineItemStrings();
-  final MedicineInstructionStrings medicine_instructions =
-      new MedicineInstructionStrings();
+  final MedicineInstructionStrings medicine_instructions = new MedicineInstructionStrings();
   final MedicineListStrings medicine_list = new MedicineListStrings();
 
   final AboutStrings about = new AboutStrings();
-  final MedicineMarkListStrings medicine_mark_list =
-      new MedicineMarkListStrings();
+  final MedicineMarkListStrings medicine_mark_list = new MedicineMarkListStrings();
 
   final FilterStrings filter = FilterStrings();
   final String more = "more";
   final String please_wait = "please_wait";
+
+  final String internet_connection_error_title = "internet_connection_error_title";
+  final String internet_connection_error_message = "internet_connection_error_message";
+  final String internet_connection_error_btn_positive = "internet_connection_error_btn_positive";
+  final String internet_connection_error_btn_negative = "internet_connection_error_btn_negative";
 }
 
 class PresentationStrings {
@@ -192,20 +180,17 @@ class MedicineInstructionStrings {
   final String producer = "medicine_instruction:producer";
   final String scope = "medicine_instruction:scope";
   final String storage = "medicine_instruction:storage";
-  final String pharmacologic_action =
-      "medicine_instruction:pharmacologic_action";
+  final String pharmacologic_action = "medicine_instruction:pharmacologic_action";
   final String atc_name = "medicine_instruction:atc_name";
   final String shelf_life = "medicine_instruction:shelf_life";
   final String opened_shelf_life = "medicine_instruction:opened_shelf_life";
   final String spread_kind = "medicine_instruction:spread_kind";
   final String clinical_pharmacological_group =
       "medicine_instruction:clinical_pharmacological_group";
-  final String pharmacotherapeutic_group =
-      "medicine_instruction:pharmacotherapeutic_group";
+  final String pharmacotherapeutic_group = "medicine_instruction:pharmacotherapeutic_group";
   final String color = "medicine_instruction:color";
   final String taste = "medicine_instruction:taste";
-  final String route_of_administration =
-      "medicine_instruction:route_of_administration";
+  final String route_of_administration = "medicine_instruction:route_of_administration";
   final String medicine_product = "medicine_instruction:medicine_product";
   final String year = "medicine_instruction:year";
   final String month = "medicine_instruction:month";

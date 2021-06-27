@@ -5,6 +5,10 @@
   "no_internet_connect": "Internetga ulanmagan",
   "unknown": "noma`lum",
   "please_wait":"Iltimos kuting",
+  "internet_connection_error_title":"Ulanish amalga oshmadi",
+  "internet_connection_error_message":"Iltimos, Internet aloqangizni tekshiring",
+  "internet_connection_error_btn_positive":"Qayta urinib ko'rish",
+  "internet_connection_error_btn_negative":"Chiqish",
 
   "hour": "%1s soat",
   "minute": "%1s minut",

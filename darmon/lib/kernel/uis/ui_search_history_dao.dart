@@ -2,7 +2,7 @@ import 'package:darmon/kernel/medicine/medicine_api.dart';
 import 'package:darmon/kernel/medicine/medicine_pref.dart';
 import 'package:darmon/kernel/medicine/medicine_util.dart';
 import 'package:darmon/kernel/medicine/tables/medicine_mark_search_history.dart';
-import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/repository/bean.dart';
 import 'package:gwslib/localization/pref.dart';
 import 'package:sqflite/sqflite.dart';
 

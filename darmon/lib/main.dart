@@ -1,5 +1,7 @@
 import 'package:darmon/darmon_service_locator.dart';
 import 'package:darmon/kernel/database_factory.dart';
+import 'package:darmon/kernel/uis/ui_damon_dao.dart';
+import 'package:darmon/repository/sync_repository.dart';
 import 'package:darmon/ui/about/about_program_fragment.dart';
 import 'package:darmon/ui/barcode/barcode_fragment.dart';
 import 'package:darmon/ui/intro/intro_content.dart';
@@ -23,6 +25,12 @@ void main() async {
 
 class DarmonApp extends MoldApplication {
   static final DarmonApp instance = DarmonApp();
+
+  @override
+  void onCreate() {
+    super.onCreate();
+    SyncRepository.init(UIDarmonDao(getDatabase()));
+  }
 
   @override
   Map<String, WidgetBuilder> getRoutes() => {

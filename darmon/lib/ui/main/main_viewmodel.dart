@@ -1,13 +1,12 @@
-import 'package:darmon/repository/darmon_repository.dart';
+import 'package:darmon/repository/sync_repository.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:gwslib/localization/pref.dart';
 
 class MainViewModel extends ViewModel {
   static const int SYNC_PROGRESS = 1;
-  DarmonRepository repository;
+  SyncRepository syncRepository;
 
-
-  MainViewModel(this.repository);
+  MainViewModel(this.syncRepository);
 
   LazyStream<String> _currentLangCode = LazyStream(() => null);
 
@@ -23,14 +22,19 @@ class MainViewModel extends ViewModel {
   }
 
   void checkSync() async {
-    try {
+    Stream<bool> progress = syncRepository.syncInProgress;
+    if (progress != null) {
       setProgress(SYNC_PROGRESS, true);
-      await repository.checkSync();
-      setProgress(SYNC_PROGRESS, false);
-    } catch (error, st) {
-      setProgress(SYNC_PROGRESS, false);
-      setError(error);
-      Log.error("Error($error)\n$st");
+      progress?.listen((event) {
+        if (event == false) {
+          setProgress(SYNC_PROGRESS, false);
+          if (syncRepository.error != null) {
+            setError(syncRepository.error);
+          }
+        }
+      });
+    } else if (syncRepository.error != null) {
+      setError(syncRepository.error);
     }
   }
 
