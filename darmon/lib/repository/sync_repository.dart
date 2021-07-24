@@ -36,7 +36,7 @@ class SyncRepository {
 
   Exception get error => _error;
 
-  void sync() async {
+  Future<void> sync() async {
     LazyStream<bool> _sync = LazyStream();
     _syncStatus = _sync.stream;
     _sync.add(true);

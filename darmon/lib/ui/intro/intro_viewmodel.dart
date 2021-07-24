@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:darmon/repository/sync_job.dart';
 import 'package:darmon/repository/sync_repository.dart';
 import 'package:darmon/ui/intro/intro_pref.dart';
 import 'package:gwslib/gwslib.dart';
@@ -8,6 +9,8 @@ import 'package:gwslib/localization/pref.dart';
 
 class IntroViewModel extends ViewModel {
   final SyncRepository _syncRepository;
+
+  //final SyncJob _syncJob;
 
   IntroViewModel(this._syncRepository);
 
@@ -22,6 +25,7 @@ class IntroViewModel extends ViewModel {
     super.onCreate();
     checkConnection();
     _syncRepository.sync();
+    //  _syncJob.start();
   }
 
   Future<bool> isSelectedSystemLanguage() async {
@@ -38,6 +42,7 @@ class IntroViewModel extends ViewModel {
       if ((result == ConnectivityResult.wifi || result == ConnectivityResult.mobile) &&
           (!(await isSelectedSystemLanguage()) || !(await isShowedPresentation()))) {
         _syncRepository.sync();
+        // _syncJob.start();
       }
     } catch (error, st) {
       Log.error("Error($error)\n$st");

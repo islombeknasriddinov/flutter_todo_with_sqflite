@@ -123,6 +123,12 @@ class AboutStrings {
   final String site = "about:site";
   final String mail = "about:mail";
   final String fax = "about:fax";
+
+  final String addressText = "about:address_text";
+  final String phoneText = "about:phone_text";
+  final String faxText = "about:fax_text";
+  final String siteText = "about:site_text";
+  final String mailText = "about:mail_text";
 }
 
 class LanguageStrings {

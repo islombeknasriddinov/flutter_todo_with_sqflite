@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
-TextStyle TS_ErrorText({Color textColor = Colors.redAccent, double fontSize = 12.0}) {
+TextStyle TS_ErrorText({Color textColor = Colors.redAccent, double fontSize = 14.0}) {
   return TextStyle(color: textColor, fontSize: fontSize, letterSpacing: 0.4);
 }
 
 TextStyle TS_LANG_TITLE([Color textColor = Colors.black87]) {
-  return TextStyle(color: textColor, fontSize: 28.0, fontFamily: "SourceSansPro");
+  return TextStyle(color: textColor, fontSize: 30.0, fontFamily: "SourceSansPro");
 }
 
 TextStyle TS_LANG([Color textColor = Colors.black87]) {
-  return TextStyle(color: textColor, fontSize: 24.0, fontFamily: "SourceSansPro");
+  return TextStyle(color: textColor, fontSize: 26.0, fontFamily: "SourceSansPro");
 }
 
 TextStyle TS_HeadLine6([Color textColor = Colors.black87]) {
   return TextStyle(
-      color: textColor, fontSize: 20.0, fontFamily: "SourceSansPro", fontWeight: FontWeight.w500);
+      color: textColor, fontSize: 22.0, fontFamily: "SourceSansPro", fontWeight: FontWeight.w500);
 }
 
 TextStyle TS_HeadLine5([Color textColor = Colors.black87]) {
   return TextStyle(
-      color: textColor, fontSize: 24.0, fontFamily: "SourceSansPro", fontWeight: FontWeight.w300);
+      color: textColor, fontSize: 24.0, fontFamily: "SourceSansPro", fontWeight: FontWeight.w400);
 }
 
 TextStyle TS_HeadLine4([Color textColor = Colors.black87]) {
@@ -30,7 +30,7 @@ TextStyle TS_HeadLine4([Color textColor = Colors.black87]) {
 TextStyle TS_Body_2([Color textColor = Colors.black87]) {
   return TextStyle(
       color: textColor,
-      fontSize: 14.0,
+      fontSize: 16.0,
       letterSpacing: 0.25,
       fontFamily: "SourceSansPro",
       fontWeight: FontWeight.w400);
@@ -38,12 +38,12 @@ TextStyle TS_Body_2([Color textColor = Colors.black87]) {
 
 TextStyle TS_Body_1([Color textColor = Colors.black87]) {
   return TextStyle(
-      color: textColor, fontSize: 16.0, letterSpacing: 0.5, fontFamily: "SourceSansPro");
+      color: textColor, fontSize: 18.0, letterSpacing: 0.5, fontFamily: "SourceSansPro");
 }
 
 TextStyle TS_Overline({Color textColor = Colors.black87}) {
   return TextStyle(
-      color: textColor, fontSize: 10.0, letterSpacing: 1.5, fontFamily: "SourceSansPro");
+      color: textColor, fontSize: 12.0, letterSpacing: 1.5, fontFamily: "SourceSansPro");
 }
 
 TextStyle TS_Caption([Color color, bool underLine = false]) {
@@ -51,7 +51,7 @@ TextStyle TS_Caption([Color color, bool underLine = false]) {
   if (underLine) {
     return TextStyle(
         color: textColor,
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "SourceSansPro",
         fontWeight: FontWeight.w400,
         letterSpacing: 0.4,
@@ -59,7 +59,7 @@ TextStyle TS_Caption([Color color, bool underLine = false]) {
   } else {
     return TextStyle(
       color: textColor,
-      fontSize: 12,
+      fontSize: 14,
       fontFamily: "SourceSansPro",
       fontWeight: FontWeight.w400,
       letterSpacing: 0.4,
@@ -67,31 +67,31 @@ TextStyle TS_Caption([Color color, bool underLine = false]) {
   }
 }
 
-TextStyle TS_Subtitle_1([Color textColor = Colors.black87]) {
+TextStyle TS_Subtitle_1([Color textColor = Colors.black87,FontWeight fontWeight= FontWeight.w300]) {
   return TextStyle(
-      color: textColor, fontSize: 16.0, fontFamily: "SourceSansPro", fontWeight: FontWeight.w300);
+      color: textColor, fontSize: 18.0, fontFamily: "SourceSansPro", fontWeight: fontWeight);
 }
 
 TextStyle TS_List_Subtitle_1(
     [Color textColor = Colors.black87, FontWeight fontWeight = FontWeight.w300]) {
   return TextStyle(
-      color: textColor, fontSize: 14.0, fontFamily: "SourceSansPro", fontWeight: fontWeight);
+      color: textColor, fontSize: 16.0, fontFamily: "SourceSansPro", fontWeight: fontWeight);
 }
 
 TextStyle TS_Subtitle_2([Color textColor = Colors.black]) {
   return TextStyle(
-      color: textColor, fontSize: 14.0, letterSpacing: 0.1, fontFamily: "SourceSansPro");
+      color: textColor, fontSize: 16.0, letterSpacing: 0.1, fontFamily: "SourceSansPro");
 }
 
-TextStyle TS_CAPTION([Color textColor = Colors.black]) {
+TextStyle TS_CAPTION([Color textColor = Colors.black, double fontSize = 12]) {
   return TextStyle(
-      color: textColor, fontSize: 10, fontFamily: "SourceSansPro", fontWeight: FontWeight.w600);
+      color: textColor, fontSize: 12, fontFamily: "SourceSansPro", fontWeight: FontWeight.w600);
 }
 
 TextStyle TS_Button([Color textColor = Colors.black87]) {
   return TextStyle(
       color: textColor,
-      fontSize: 14,
+      fontSize: 16,
       letterSpacing: 0.4,
       fontFamily: "SourceSansPro",
       fontWeight: FontWeight.w500);

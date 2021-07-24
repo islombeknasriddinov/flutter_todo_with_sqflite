@@ -29,7 +29,6 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
         SizeRoute(
             routeName: ROUTE_NAME,
             page: Mold.newInstance(MedicineMarkListFragment()..argument = arg)));
-    // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
   static void popUntil(BuildContext context) {
@@ -269,7 +268,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
             }
 
             UIMedicineMark name = names[i];
-            return populateListItem(name.title, () {
+            return populateListItem(name, () {
               openMedicineListFragment(name);
             });
           },
@@ -305,7 +304,7 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
               }
             }
             UIMedicineMark inn = inns[i];
-            return populateListItem(inn.title, () {
+            return populateListItem(inn, () {
               openMedicineListFragment(inn);
             });
           },
@@ -315,17 +314,38 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
     );
   }
 
-  Widget populateListItem(String title, Function onTapCallback) {
+  Widget populateListItem(UIMedicineMark item, Function onTapCallback) {
     return MyTable.vertical(
       [
         MyTable.horizontal(
           [
-            MyText(
-              title,
-              flex: 1,
-              style: TS_Subtitle_1(R.colors.textColor),
-              padding: EdgeInsets.symmetric(vertical: 8),
-            ),
+            item.titleSplitted == true
+                ? Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: RichText(
+                          text: TextSpan(
+                              text: item.beginTitle,
+                              style: TS_Subtitle_1(R.colors.textColor),
+                              children: [
+                            TextSpan(
+                                text: item.middleTitle,
+                                style: TextStyle(
+                                    color: R.colors.textColor,
+                                    backgroundColor: Color(0x4D489FCA),
+                                    fontSize: 18.0,
+                                    fontFamily: "SourceSansPro",
+                                    fontWeight: FontWeight.w300)),
+                            TextSpan(text: item.endTitle, style: TS_Subtitle_1(R.colors.textColor)),
+                          ])),
+                    ),
+                  )
+                : MyText(
+                    item.title,
+                    flex: 1,
+                    style: TS_Subtitle_1(R.colors.textColor),
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                  ),
             MyIcon.icon(
               Icons.arrow_forward_ios_rounded,
               color: R.colors.iconColors,

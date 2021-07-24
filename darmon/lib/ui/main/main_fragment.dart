@@ -35,18 +35,18 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
             Align(
               child: MyTable.horizontal(
                 [
+                  Expanded(child: Container()),
                   StreamBuilder<String>(
                     stream: viewmodel.currentLangCode,
                     builder: (_, snapshot) {
                       return buildChooseLangWidget(snapshot?.data);
                     },
                   ),
-                  Expanded(child: Container())
                 ],
                 width: double.infinity,
                 padding: EdgeInsets.all(12),
               ),
-              alignment: Alignment.topCenter,
+              alignment: Alignment.topLeft,
             ),
             Align(
               child: SingleChildScrollView(
@@ -118,7 +118,7 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
   Widget buildMenu(String title, String icon, {void Function() onTapAction}) {
     return MyTable.horizontal(
       [
-        MyIcon.svg(icon, size: 32, padding: EdgeInsets.only(left: 4)),
+        MyIcon.svg(icon, size: 24, padding: EdgeInsets.only(left: 4)),
         MyText(title,
             style: TS_Subtitle_1(Colors.black), padding: EdgeInsets.only(left: 16), flex: 1),
         if (onTapAction != null) MyIcon.svg(R.asserts.arrow_forward, size: 16)
@@ -142,10 +142,6 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
     return Container(
       height: 40,
       padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white, width: 1),
-        borderRadius: BorderRadius.circular(8),
-      ),
       child: DropdownButton(
         value: lang,
         icon: MyIcon.icon(Icons.arrow_drop_down, size: 16, color: Colors.white),

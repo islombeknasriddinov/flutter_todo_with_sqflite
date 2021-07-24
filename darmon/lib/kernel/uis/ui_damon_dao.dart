@@ -9,12 +9,11 @@ class UIDarmonDao {
 
   UIDarmonDao(this.db);
 
-  Future<List<ZMedicineMarkName>> searchMedicineMarkName(String query, {int limit}) async {
+  Future<List<ZMedicineMarkName>> searchMedicineMarkName(String query, String latinQuery,
+      {int limit}) async {
     if (query == null || query.isEmpty) return [];
     String querySoundex = Phonex.calculate(query);
 
-    String latinQuery = StringUtil.cyrillToLatin(query);
-    // String latinSoundex = Phonex.calculate(latinQuery);
     final sql = """
     SELECT t.* 
           FROM ${ZMedicineMarkName.TABLE_NAME} t
@@ -30,11 +29,10 @@ class UIDarmonDao {
         .then((value) => value.map((e) => ZMedicineMarkName.fromData(e)).toList());
   }
 
-  Future<List<ZMedicineMarkInn>> searchMedicineMarkInn(String query, {int limit}) async {
+  Future<List<ZMedicineMarkInn>> searchMedicineMarkInn(String query, String latinQuery,
+      {int limit}) async {
     if (query == null || query.isEmpty) return [];
     String querySoundex = Phonex.calculate(query);
-
-    String latinQuery = StringUtil.cyrillToLatin(query);
 
     final sql = """
     SELECT t.* 

@@ -118,5 +118,11 @@
   "about:site": "https://www.uzpharm-control.uz",
   "about:mail": "farmkomitet@minzdrav.uz",
 
+  "about:address_text": "Manzil",
+  "about:phone_text": "Telefon",
+  "about:fax_text": "Faks",
+  "about:site_text": "Web-sayt",
+  "about:mail_text": "Elektron pochta",
+
   "z": "z"
 }

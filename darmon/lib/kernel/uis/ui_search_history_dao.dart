@@ -32,6 +32,7 @@ class UISearchHistoryDao {
             langCode == 'ru'
                 ? e.titleRu
                 : (langCode == 'uz' ? e.titleUz : (langCode == 'en' ? e.titleEn : e.titleRu)),
+            null,
             e.titleRu,
             e.titleUz,
             e.titleEn,

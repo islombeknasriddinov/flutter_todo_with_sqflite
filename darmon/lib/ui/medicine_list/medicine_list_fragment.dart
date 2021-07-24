@@ -35,7 +35,6 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
         context,
         SlideLeftRoute(
             routeName: ROUTE_NAME, page: Mold.newInstance(MedicineListFragment()..argument = arg)));
-    // Mold.openContent(context, ROUTE_NAME, arguments: medicineName);
   }
 
   ArgMedicineList get arg => argument as ArgMedicineList;
@@ -72,7 +71,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
           elevation: 0,
           title: MyText(
             arg.medicineMark,
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: TextStyle(color: Colors.white, fontSize: 16),
           ),
           backgroundColor: R.colors.appBarColor,
         ),
@@ -100,7 +99,6 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
               child: StreamBuilder<List<ProducerListItem>>(
                 stream: viewmodel.items,
                 builder: (_, snapshot) {
-
                   if (snapshot?.data?.isNotEmpty == true) {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
@@ -218,13 +216,13 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                     R.strings.medicine_list.price
                         .translate(args: [item.retailBasePrice.toMoneyFormat()]),
                     padding: EdgeInsets.only(left: 16, right: 16),
-                    style: TS_List_Subtitle_1(),
+                    style: TS_List_Subtitle_1(R.colors.app_color, FontWeight.w600),
                   )
                 else
                   MyText(
                     R.strings.medicine_list.not_found_price,
                     padding: EdgeInsets.only(left: 16, right: 16),
-                    style: TS_List_Subtitle_1(),
+                    style:TS_List_Subtitle_1(R.colors.app_color, FontWeight.w600),
                   ),
                 SizedBox(height: 12)
               ],

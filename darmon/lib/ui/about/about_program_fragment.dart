@@ -60,15 +60,19 @@ class AboutProgramFragment extends ViewModelFragment<AboutProgramViewModel> {
               child: SingleChildScrollView(
                   child: MyTable.vertical(
                 [
-                  buildMenu(R.strings.about.address, R.asserts.home, onTapAction: openMap),
+                  buildMenu(R.strings.about.address, R.strings.about.addressText, R.asserts.home,
+                      onTapAction: openMap),
                   Divider(height: 0.5, color: Colors.grey),
-                  buildMenu(R.strings.about.phone, R.asserts.phone, onTapAction: openPhone),
+                  buildMenu(R.strings.about.phone, R.strings.about.phoneText, R.asserts.phone,
+                      onTapAction: openPhone),
                   Divider(height: 0.5, color: Colors.grey),
-                  buildMenu(R.strings.about.fax, R.asserts.fax),
+                  buildMenu(R.strings.about.fax, R.strings.about.faxText, R.asserts.fax),
                   Divider(height: 0.5, color: Colors.grey),
-                  buildMenu(R.strings.about.site, R.asserts.pager, onTapAction: openSite),
+                  buildMenu(R.strings.about.site, R.strings.about.siteText, R.asserts.pager,
+                      onTapAction: openSite),
                   Divider(height: 0.5, color: Colors.grey),
-                  buildMenu(R.strings.about.mail, R.asserts.envelope, onTapAction: openMail),
+                  buildMenu(R.strings.about.mail, R.strings.about.mailText, R.asserts.envelope,
+                      onTapAction: openMail),
                   SizedBox(height: 50),
                 ],
                 width: double.infinity,
@@ -81,14 +85,24 @@ class AboutProgramFragment extends ViewModelFragment<AboutProgramViewModel> {
         ));
   }
 
-  Widget buildMenu(String title, String icon, {void Function() onTapAction}) {
+  Widget buildMenu(String title, String subtitle, String icon, {void Function() onTapAction}) {
     return MyTable.horizontal(
       [
         MyIcon.svg(icon, size: 20, padding: EdgeInsets.only(left: 4)),
-        MyText(title,
-            style: TS_Subtitle_1(Colors.black), padding: EdgeInsets.only(left: 16), flex: 1),
+        MyTable.vertical([
+          MyText(title,
+              style: TS_Subtitle_1(R.colors.textColor), padding: EdgeInsets.only(left: 16)),
+          MyText(subtitle,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                  fontFamily: "SourceSansPro",
+                  fontWeight: FontWeight.w300),
+              singleLine: true,
+              padding: EdgeInsets.only(left: 16)),
+        ], flex: 1)
       ],
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       crossAxisAlignment: CrossAxisAlignment.center,
       onTapCallback: onTapAction,
     );
