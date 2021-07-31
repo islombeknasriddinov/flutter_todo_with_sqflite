@@ -19,6 +19,13 @@
   "presentation:done": "Tugatish",
 
   "lang:select_language":"Tilni tanlang",
+  "lang:ru": "Русский",
+  "lang:uz": "O`zbekcha",
+
+  "error:error_conection_fail": "Internet aloqasi yo`q (connection fail)",
+  "error:error_conection_refused": "Internet aloqasi yo`q (connection refused)",
+  "error:error_http_not_found": "Internet aloqasi yo`q (http not found)",
+  "error:error_connection_timeout": "Internet tezligi juda past yoki Internet aloqasi yo`q (connection timeout)",
 
   "main:medicine": "Dorilar",
   "main:pharmacy": "Dorixona (tez orada)",

@@ -13,12 +13,4 @@ class IntroPref {
   static Future<void> setEnableFingerprint(String serverId, bool enable) async {
     await Pref.save(_MODULE, "$_FINGERPRINT:$serverId", enable ? "Y" : "N");
   }
-
-  //------------------------------------------------------------------------------------------------
-  static Future<bool> isPresentationShowed() =>
-      Pref.load(_MODULE, _PRESENTATION).then((it) => "Y" == it);
-
-  static Future<void> setPresentationShowed(bool isShow) async {
-    await Pref.save(_MODULE, _PRESENTATION, isShow ? "Y" : "N");
-  }
 }

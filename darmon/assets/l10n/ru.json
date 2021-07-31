@@ -5,7 +5,6 @@
   "no_internet_connect": "Нет соединения с интернетом",
   "unknown": "неизвестно",
   "please_wait":"Пожалуйста, подождите",
-
   "internet_connection_error_title":"Ошибка подключения",
   "internet_connection_error_message":"Пожалуйста, проверьте подключение к интернету",
   "internet_connection_error_btn_positive":"Попробуй снова",
@@ -20,6 +19,13 @@
   "presentation:done": "Готово",
 
   "lang:select_language":"Выбрать язык",
+  "lang:ru": "Русский",
+  "lang:uz": "O`zbekcha",
+
+  "error:error_conection_fail": "Нет соединения с интернетом (connection fail)",
+  "error:error_conection_refused": "Нет соединения с интернетом (connection refused)",
+  "error:error_http_not_found": "Нет соединения с интернетом (http not found)",
+  "error:error_connection_timeout": "Скорост интернет не поддерживается или нет интернета(connection timeout)",
 
   "main:medicine": "Лекарства",
   "main:pharmacy": "Аптеки (скоро)",

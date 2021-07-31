@@ -47,7 +47,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
     viewmodel.connectionState.listen((event) async {
       if (event == ConnectivityResult.none &&
           (!(await viewmodel.isSelectedSystemLanguage()) ||
-              !(await viewmodel.isShowedPresentation()))) {
+              !(await viewmodel.isSynced()))) {
         MyDialog.alert()
             .title(R.strings.internet_connection_error_title)
             .message(R.strings.internet_connection_error_message)
@@ -58,7 +58,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
         }).show(getContext());
       } else if ((event == ConnectivityResult.wifi || event == ConnectivityResult.mobile) &&
           (!(await viewmodel.isSelectedSystemLanguage()) ||
-              !(await viewmodel.isShowedPresentation()))) {
+              !(await viewmodel.isSynced()))) {
         nextWork?.call();
       }
     });
@@ -70,7 +70,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
     }
 
     if (!(await viewmodel.isSelectedSystemLanguage()) ||
-        !(await viewmodel.isShowedPresentation())) {
+        !(await viewmodel.isSynced())) {
       if (viewmodel.getConnectionState == ConnectivityResult.none) {
         nextWork = () => LangContentFragment.replace(getContext());
       } else {

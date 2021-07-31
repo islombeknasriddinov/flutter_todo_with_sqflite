@@ -1,16 +1,11 @@
-import 'dart:math';
-
 import 'package:connectivity/connectivity.dart';
-import 'package:darmon/repository/sync_job.dart';
+import 'package:darmon/common/darmon_pref.dart';
 import 'package:darmon/repository/sync_repository.dart';
-import 'package:darmon/ui/intro/intro_pref.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:gwslib/localization/pref.dart';
 
 class IntroViewModel extends ViewModel {
   final SyncRepository _syncRepository;
-
-  //final SyncJob _syncJob;
 
   IntroViewModel(this._syncRepository);
 
@@ -24,8 +19,6 @@ class IntroViewModel extends ViewModel {
   void onCreate() {
     super.onCreate();
     checkConnection();
-    _syncRepository.sync();
-    //  _syncJob.start();
   }
 
   Future<bool> isSelectedSystemLanguage() async {
@@ -33,16 +26,15 @@ class IntroViewModel extends ViewModel {
     return langCode != null && langCode.isNotEmpty;
   }
 
-  Future<bool> isShowedPresentation() => IntroPref.isPresentationShowed();
+  Future<bool> isSynced() => DarmonPref.getLastVisitTimestamp().then((v) => v?.isNotEmpty == true);
 
   void checkConnection() async {
     try {
       final result = await Connectivity().checkConnectivity();
       _connectionState.add(result);
       if ((result == ConnectivityResult.wifi || result == ConnectivityResult.mobile) &&
-          (!(await isSelectedSystemLanguage()) || !(await isShowedPresentation()))) {
+          (!(await isSelectedSystemLanguage()) || !(await isSynced()))) {
         _syncRepository.sync();
-        // _syncJob.start();
       }
     } catch (error, st) {
       Log.error("Error($error)\n$st");

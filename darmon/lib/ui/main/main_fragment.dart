@@ -81,7 +81,7 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                         MyIcon.svg(R.asserts.search, size: 20),
                         MyText(
                           R.strings.main.search_hint,
-                          padding: EdgeInsets.only(left: 8),
+                          padding: EdgeInsets.only(left: 16),
                           style: TS_Subtitle_1(Colors.black54),
                         )
                       ],
@@ -118,7 +118,7 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
   Widget buildMenu(String title, String icon, {void Function() onTapAction}) {
     return MyTable.horizontal(
       [
-        MyIcon.svg(icon, size: 24, padding: EdgeInsets.only(left: 4)),
+        MyIcon.svg(icon, size: 24, padding: EdgeInsets.only(left: 8)),
         MyText(title,
             style: TS_Subtitle_1(Colors.black), padding: EdgeInsets.only(left: 16), flex: 1),
         if (onTapAction != null) MyIcon.svg(R.asserts.arrow_forward, size: 16)
