@@ -153,6 +153,8 @@ class MainStrings {
   final String title = "main:title";
   final String search_hint = "main:search_hint";
   final String about = "main:about";
+  final String app_update_available = "main:app_update_available";
+  final String update = "main:update";
 }
 
 class SettingStrings {

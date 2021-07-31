@@ -34,6 +34,8 @@
   "main:title":"Поиск лекарств, аптек и больниц",
   "main:search_hint":"Что ищем?",
   "main:about":"О программе",
+  "main:app_update_available": "Доступно обновление приложения",
+  "main:update": "Обновить сейчас",
 
   "setting:change_lang":"Изменить язык",
   "setting:help":"Помощь",

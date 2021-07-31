@@ -34,6 +34,8 @@
   "main:title":"Dori-darmonlarni, dorixonalarni va shifoxonalarni qidiring",
   "main:search_hint":"Nimani qidirmoqchisiz?",
   "main:about":"Haqida",
+  "main:app_update_available": "Ilovada yangilanish mavjud",
+  "main:update": "Yangilash",
 
   "setting:change_lang":"Tilni o'zgartirish",
   "setting:help":"Yordam",

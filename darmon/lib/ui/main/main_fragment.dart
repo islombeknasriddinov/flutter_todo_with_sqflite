@@ -15,15 +15,37 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
     Mold.replaceContent(context, ROUTE_NAME);
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   @override
   MainViewModel onCreateViewModel(BuildContext buildContext) =>
       MainViewModel(DarmonApp.instance.darmonServiceLocator.syncRepository);
+
+  @override
+  void onCreate(BuildContext context) {
+    super.onCreate(context);
+
+    viewmodel.appUpdateInfoStream.listen((info) {
+      if (info?.updateAvailable == true && _scaffoldKey?.currentState != null) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          action: SnackBarAction(
+              label: R.strings.main.update.translate(),
+              onPressed: () {
+                viewmodel.performImmediateUpdate();
+              }),
+          content: MyText(R.strings.main.app_update_available),
+          duration: Duration(days: 1),
+        ));
+      }
+    });
+  }
 
   @override
   Widget onCreateWidget(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+        key: _scaffoldKey,
         backgroundColor: R.colors.appBarColor,
         body: SafeArea(
           child: MyTable([
