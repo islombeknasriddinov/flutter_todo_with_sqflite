@@ -12,6 +12,7 @@ import 'package:gwslib/gwslib.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter/services.dart';
 
 class IntroFragment extends ViewModelFragment<IntroViewModel> {
   static final String ROUTE_NAME = "/";
@@ -46,19 +47,21 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
     }
     viewmodel.connectionState.listen((event) async {
       if (event == ConnectivityResult.none &&
-          (!(await viewmodel.isSelectedSystemLanguage()) ||
-              !(await viewmodel.isShowedPresentation()))) {
+          (!(await viewmodel.isSelectedSystemLanguage()) || !(await viewmodel.isSynced()))) {
         MyDialog.alert()
             .title(R.strings.internet_connection_error_title)
             .message(R.strings.internet_connection_error_message)
             .positive(R.strings.internet_connection_error_btn_positive, () {
           viewmodel.checkConnection();
         }).negative(R.strings.internet_connection_error_btn_negative, () {
-          exit(0);
+          if (Platform.isAndroid) {
+            SystemNavigator.pop();
+          } else {
+            exit(0);
+          }
         }).show(getContext());
       } else if ((event == ConnectivityResult.wifi || event == ConnectivityResult.mobile) &&
-          (!(await viewmodel.isSelectedSystemLanguage()) ||
-              !(await viewmodel.isShowedPresentation()))) {
+          (!(await viewmodel.isSelectedSystemLanguage()) || !(await viewmodel.isSynced()))) {
         nextWork?.call();
       }
     });
@@ -69,8 +72,7 @@ class IntroFragment extends ViewModelFragment<IntroViewModel> {
       return;
     }
 
-    if (!(await viewmodel.isSelectedSystemLanguage()) ||
-        !(await viewmodel.isShowedPresentation())) {
+    if (!(await viewmodel.isSelectedSystemLanguage()) || !(await viewmodel.isSynced())) {
       if (viewmodel.getConnectionState == ConnectivityResult.none) {
         nextWork = () => LangContentFragment.replace(getContext());
       } else {

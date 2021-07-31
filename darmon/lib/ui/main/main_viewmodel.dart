@@ -1,6 +1,7 @@
 import 'package:darmon/repository/sync_repository.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:gwslib/localization/pref.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 class MainViewModel extends ViewModel {
   static const int SYNC_PROGRESS = 1;
@@ -9,6 +10,9 @@ class MainViewModel extends ViewModel {
   MainViewModel(this.syncRepository);
 
   LazyStream<String> _currentLangCode = LazyStream(() => null);
+  LazyStream<AppUpdateInfo> _appUpdateInfo = new LazyStream();
+
+  Stream<AppUpdateInfo> get appUpdateInfoStream => _appUpdateInfo.stream;
 
   Stream<String> get currentLangCode => _currentLangCode.stream;
 
@@ -19,6 +23,7 @@ class MainViewModel extends ViewModel {
       _currentLangCode.add(value);
     });
     checkSync();
+    checkHasAppUpdate();
   }
 
   void checkSync() async {
@@ -38,9 +43,28 @@ class MainViewModel extends ViewModel {
     }
   }
 
+  void checkHasAppUpdate() async {
+    try {
+      await Future.delayed(Duration(seconds: 1));
+      final info = await InAppUpdate.checkForUpdate();
+      _appUpdateInfo.add(info);
+    } catch (error, st) {
+      Log.error(error, st);
+    }
+  }
+
+  void performImmediateUpdate() async {
+    try {
+      await InAppUpdate.performImmediateUpdate();
+    } catch (error, st) {
+      Log.error(error, st);
+    }
+  }
+
   @override
   void onDestroy() {
     _currentLangCode.close();
+    _appUpdateInfo.close();
     super.onDestroy();
   }
 }

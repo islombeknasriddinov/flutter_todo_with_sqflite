@@ -12,7 +12,6 @@ import 'package:darmon/ui/medicine_item/instructions/medicine_instructions_fragm
 import 'package:darmon/ui/medicine_item/medicine_item_fragment.dart';
 import 'package:darmon/ui/medicine_list/medicine_list_fragment.dart';
 import 'package:darmon/ui/medicine_mark_list/medicine_mark_list_fragment.dart';
-import 'package:darmon/ui/presentation/presentation_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';
 import 'package:sqflite/sqflite.dart';
@@ -37,7 +36,6 @@ class DarmonApp extends MoldApplication {
         IntroFragment.ROUTE_NAME: (context) => IntroFragment().toFragment(),
         LangContentFragment.ROUTE_NAME: (context) => LangContentFragment().toFragment(),
         AboutProgramFragment.ROUTE_NAME: (context) => AboutProgramFragment().toFragment(),
-        PresentationFragment.ROUTE_NAME: (context) => PresentationFragment().toFragment(),
         MainFragment.ROUTE_NAME: (context) => MainFragment().toFragment(),
         MedicineInstructionFragment.ROUTE_NAME: (context) =>
             MedicineInstructionFragment().toFragment(),

@@ -92,6 +92,7 @@ class ResourceColors {
 class ResourceStrings {
   final PresentationStrings intro = PresentationStrings();
   final LanguageStrings lang = LanguageStrings();
+  final ErrorStrings error = ErrorStrings();
   final MainStrings main = MainStrings();
   final SettingStrings setting = SettingStrings();
   final SearchIndexStrings search_index = new SearchIndexStrings();
@@ -133,6 +134,15 @@ class AboutStrings {
 
 class LanguageStrings {
   final String select_language = "lang:select_language";
+  final String ru = "lang:ru";
+  final String uz = "lang:uz";
+}
+
+class ErrorStrings {
+  final String error_conection_fail = "error:error_conection_fail";
+  final String error_conection_refused = "error:error_conection_refused";
+  final String error_http_not_found = "error:error_http_not_found";
+  final String error_connection_timeout = "error:error_connection_timeout";
 }
 
 class MainStrings {
@@ -143,6 +153,8 @@ class MainStrings {
   final String title = "main:title";
   final String search_hint = "main:search_hint";
   final String about = "main:about";
+  final String app_update_available = "main:app_update_available";
+  final String update = "main:update";
 }
 
 class SettingStrings {

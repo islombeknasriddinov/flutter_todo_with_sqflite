@@ -1,6 +1,5 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
-import 'package:darmon/ui/intro/intro_pref.dart';
 import 'package:darmon/ui/lang/lang_viewmodel.dart';
 import 'package:darmon/ui/main/main_fragment.dart';
 import 'package:flutter/material.dart';
@@ -21,14 +20,12 @@ class LangContentFragment extends ViewModelFragment<LangViewModel> {
   Widget onCreateWidget(BuildContext context) {
     List<Widget> langs = AppLang.instance
         .getSupportLangText()
-        .map((e) => _buildItem(
-            e.first, e.second, true, (lang) => setSelectLocale(lang)))
+        .map((e) => _buildItem(e.first, e.second, true, (lang) => setSelectLocale(lang)))
         .toList();
 
     final row = <Widget>[
       Padding(
-          child: MyText(R.strings.lang.select_language,
-              style: TS_LANG_TITLE(Colors.white)),
+          child: MyText(R.strings.lang.select_language, style: TS_LANG_TITLE(Colors.white)),
           padding: EdgeInsets.only(bottom: 36))
     ];
 
@@ -51,8 +48,13 @@ class LangContentFragment extends ViewModelFragment<LangViewModel> {
     );
   }
 
-  Widget _buildItem(
-      String lang, String title, bool hasDivider, void callback(String lang)) {
+  Widget _buildItem(String lang, String title, bool hasDivider, void callback(String lang)) {
+    if (lang == "uz") {
+      title = R.strings.lang.uz;
+    } else if (lang == "ru") {
+      title = R.strings.lang.ru;
+    }
+
     List<Widget> listColumn = [];
     if (hasDivider) {
       listColumn.add(Divider(color: Colors.white30, height: 1.5));
@@ -73,11 +75,7 @@ class LangContentFragment extends ViewModelFragment<LangViewModel> {
 
   void setSelectLocale(String lang) {
     AppLang.instance.changeLanguage(lang).then((value) async {
-//vaqtinchalik
-      await IntroPref.setPresentationShowed(true);
-
       MainFragment.replace(getContext());
-      //   PresentationFragment.replace(getContext(), openMainFragment: true);
     }).catchError((error) {
       viewmodel.setError(error);
     });

@@ -1,3 +1,4 @@
+import 'package:darmon/common/error_translator.dart';
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/result.dart';
 import 'package:darmon/common/routes/slide_left_route.dart';
@@ -120,7 +121,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                   return MyTable.vertical(
                     [
                       MyText(
-                        viewmodel?.errorMessageValue?.message ?? "",
+                        ErrorTranslator.translateError(viewmodel?.errorMessageValue?.message ?? ""),
                         style: TS_ErrorText(),
                       ),
                       Padding(
@@ -222,7 +223,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
                   MyText(
                     R.strings.medicine_list.not_found_price,
                     padding: EdgeInsets.only(left: 16, right: 16),
-                    style:TS_List_Subtitle_1(R.colors.app_color, FontWeight.w600),
+                    style: TS_List_Subtitle_1(R.colors.app_color, FontWeight.w600),
                   ),
                 SizedBox(height: 12)
               ],

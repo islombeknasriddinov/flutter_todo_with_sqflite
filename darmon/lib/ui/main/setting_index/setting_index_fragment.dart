@@ -1,7 +1,6 @@
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/ui/main/setting_index/setting_index_viewmodel.dart';
-import 'package:darmon/ui/presentation/presentation_fragment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gwslib/gwslib.dart';

@@ -1,3 +1,4 @@
+import 'package:darmon/common/error_translator.dart';
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
@@ -161,7 +162,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                                 MyIcon.icon(Icons.error_outlined,
                                     size: 60, color: R.colors.fabColor),
                                 SizedBox(height: 16),
-                                MyText(viewmodel.errorMessageValue.message,
+                                MyText(ErrorTranslator.translateError(viewmodel.errorMessageValue.message),
                                     style: TS_ErrorText(),
                                     textAlign: TextAlign.center,
                                     padding: EdgeInsets.symmetric(horizontal: 12)),
