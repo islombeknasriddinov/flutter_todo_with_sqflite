@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/routes/slide_left_route.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
@@ -23,6 +25,8 @@ class AboutProgramFragment extends ViewModelFragment<AboutProgramViewModel> {
 
   @override
   Widget onCreateWidget(BuildContext context) {
+    final safeAreaBottomPadding= MediaQuery.of(context)?.padding?.bottom??0.0;
+
     return Scaffold(
         backgroundColor: R.colors.appBarColor,
         appBar: AppBar(
@@ -47,6 +51,7 @@ class AboutProgramFragment extends ViewModelFragment<AboutProgramViewModel> {
           ),
         ),
         body: SafeArea(
+          bottom: !Platform.isIOS,
           child: MyTable([
             Align(
               child: Container(
@@ -79,6 +84,7 @@ class AboutProgramFragment extends ViewModelFragment<AboutProgramViewModel> {
                 background: Colors.white,
                 borderRadius:
                     BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                    padding: Platform.isIOS?EdgeInsets.only(bottom: safeAreaBottomPadding):null,
               )),
             )
           ]),
