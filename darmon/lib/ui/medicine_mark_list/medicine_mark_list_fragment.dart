@@ -60,10 +60,10 @@ class MedicineMarkListFragment extends ViewModelFragment<MedicineMarkListViewMod
           title: _buildSearchField(),
           backgroundColor: R.colors.appBarColor,
         ),
-        body: Container(
+        body:SafeArea(child: Container(
           child: _buildListWidget(),
           color: R.colors.background,
-        ));
+        )));
   }
 
   void _clearSearchQuery() {
