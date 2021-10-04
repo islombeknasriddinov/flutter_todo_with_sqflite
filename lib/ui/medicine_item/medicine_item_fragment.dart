@@ -122,7 +122,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
             MedicineMarkListFragment.popUntil(getContext());
           },
         ),
-        body: StreamBuilder<MedicineItem>(
+        body: SafeArea(child: StreamBuilder<MedicineItem>(
             stream: viewmodel.item,
             builder: (_, snapshot) {
               if (snapshot?.data != null) {
@@ -156,30 +156,30 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                           if (snapshot?.data?.messageText?.isNotEmpty == true) {
                             return Center(
                                 child: MyTable.vertical(
-                              [
-                                MyIcon.icon(Icons.error_outlined,
-                                    size: 60, color: R.colors.fabColor),
-                                SizedBox(height: 16),
-                                MyText(ErrorTranslator.translateError(snapshot.data.messageText),
-                                    style: TS_ErrorText(),
-                                    textAlign: TextAlign.center,
-                                    padding: EdgeInsets.symmetric(horizontal: 12)),
-                                SizedBox(height: 8),
-                                MyTable.horizontal(
                                   [
-                                    MyText(R.strings.medicine_item.reload,
-                                        style: TS_Button(Colors.white))
+                                    MyIcon.icon(Icons.error_outlined,
+                                        size: 60, color: R.colors.fabColor),
+                                    SizedBox(height: 16),
+                                    MyText(ErrorTranslator.translateError(snapshot.data.messageText),
+                                        style: TS_ErrorText(),
+                                        textAlign: TextAlign.center,
+                                        padding: EdgeInsets.symmetric(horizontal: 12)),
+                                    SizedBox(height: 8),
+                                    MyTable.horizontal(
+                                      [
+                                        MyText(R.strings.medicine_item.reload,
+                                            style: TS_Button(Colors.white))
+                                      ],
+                                      padding: EdgeInsets.all(12),
+                                      borderRadius: BorderRadius.circular(8),
+                                      background: R.colors.appBarColor,
+                                      onTapCallback: () {
+                                        viewmodel.reloadModel();
+                                      },
+                                    )
                                   ],
-                                  padding: EdgeInsets.all(12),
-                                  borderRadius: BorderRadius.circular(8),
-                                  background: R.colors.appBarColor,
-                                  onTapCallback: () {
-                                    viewmodel.reloadModel();
-                                  },
-                                )
-                              ],
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                            ));
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                ));
                           } else {
                             return Container();
                           }
@@ -187,7 +187,7 @@ class MedicineItemFragment extends ViewModelFragment<MedicineItemViewModel> {
                   ]),
                 );
               }
-            }));
+            })));
   }
 
   Widget _buildBodyWidget(MedicineItem item) {

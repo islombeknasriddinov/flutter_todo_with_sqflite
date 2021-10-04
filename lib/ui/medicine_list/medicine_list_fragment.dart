@@ -82,7 +82,7 @@ class MedicineListFragment extends ViewModelFragment<MedicineListViewModel> {
             Mold.onBackPressed(this);
           },
         ),
-        body: _buildListWidget());
+        body: SafeArea(child:_buildListWidget()));
   }
 
   Widget _buildListWidget() {

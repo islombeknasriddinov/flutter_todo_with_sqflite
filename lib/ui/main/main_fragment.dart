@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:darmon/common/resources.dart';
 import 'package:darmon/common/smartup5x_styles.dart';
 import 'package:darmon/main.dart';
@@ -44,10 +46,14 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
   Widget onCreateWidget(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+   final safeAreaBottomPadding= MediaQuery.of(context)?.padding?.bottom??0.0;
+
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: R.colors.appBarColor,
         body: SafeArea(
+          bottom: !Platform.isIOS,
           child: MyTable([
             Align(
               child: Image.asset(width >= height ? R.asserts.pills_horizontal : R.asserts.pills,
@@ -125,7 +131,10 @@ class MainFragment extends ViewModelFragment<MainViewModel> {
                       width: double.infinity,
                       background: Colors.white,
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8)
+                      ),
+                      padding:Platform.isIOS? EdgeInsets.only(bottom: safeAreaBottomPadding):null,
                     )
                   ],
                   width: double.infinity,
