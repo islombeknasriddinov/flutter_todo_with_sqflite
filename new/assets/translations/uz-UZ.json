@@ -1,0 +1,33 @@
+{
+  "language": "Uz",
+  "homeText": "Dori-darmonlarni, dorixonalarni va shifoxonalarni qidiring",
+  "search": "Nimani qidirmoqchisiz?",
+  "about": "Haqida",
+  "searchText": "Qidirish...",
+
+  "about_address":"Manzil",
+  "about_phone":"Telefon",
+  "about_fax": "Faks",
+  "about_website": "Web-sayt",
+  "about_email": "Elektron pochta",
+
+  "search_history": "Qidiruv tarixi",
+
+  "dialog_title": "Siz internetga ulanmaganga o'xshaysiz",
+  "dialog_context": "Internet bor yoki yoqligini tekshiring va davom etish uchun sahifani yangilang.",
+  "dialog_cancel": "Chiqish",
+  "dialog_again": "Yangilash",
+  "dialog_back":"Orqaga",
+
+  "item_price": "Cheklangan narxi",
+  "item_som": " so'm",
+  "item_price_null": "o'rnatilinmagan",
+  "item_spreadKind_o": "retseptsiz",
+  "item_spreadKind_w": "retsept bo'yicha",
+
+  "mark_name": "Ism",
+  "inn_name": "MNN",
+  "btn_more": "Ko'proq ko'rsatish",
+
+  "manufacturer": "Ishlab chiqaruvchi"
+}
