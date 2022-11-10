@@ -1,0 +1,32 @@
+{
+  "language": "Ру",
+  "homeText": "Поиск лекарств, аптек и больниц",
+  "search": "Что ищем?",
+  "about": "О программе",
+  "searchText": "Поиск...",
+
+  "about_address":"Адрес",
+  "about_phone":"Телефон",
+  "about_fax": "Факс",
+  "about_website": "Сайт",
+  "about_email": "Электронная почта",
+
+  "search_history": "История поиска",
+
+  "dialog_title": "Похоже, вы не подключены к интернету",
+  "dialog_context": "Проверьте ваше интернет-соединение и обновите страницу, чтобы продолжить.",
+  "dialog_cancel": "Выход",
+  "dialog_again": "Обновить",
+
+  "item_price": "Ограниченная цена",
+  "item_som": " сум",
+  "item_price_null": "не установлен",
+  "item_spreadKind_o": "без рецепта",
+  "item_spreadKind_w": "по рецепту",
+
+  "mark_name": "Названия",
+  "inn_name": "МНН",
+  "btn_more": "Показать больше",
+
+  "manufacturer": "Производитель"
+}

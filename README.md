@@ -1,1 +1,0 @@
-# smartup5x_darmon_mobile
