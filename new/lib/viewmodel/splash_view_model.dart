@@ -52,19 +52,22 @@ class SplashViewModel extends ChangeNotifier {
     subscription.cancel();
   }
 
-  void checkStatus() async{
+  Future<bool?> checkStatus() async{
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
       await apiMedicineList().then((value) =>
-          hasData = value!
+      hasData = value!
       );
-      print(hasData);
       isConnected = false;
       notifyListeners();
+      return hasData;
     } else if (connectivityResult == ConnectivityResult.wifi) {
-      await apiMedicineList();
+      await apiMedicineList().then((value) =>
+      hasData = value!
+      );
       isConnected = false;
       notifyListeners();
+      return hasData;
     }else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();

@@ -31,7 +31,9 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void loadDates() {
-    viewModel.checkStatus();
+    viewModel.checkStatus().then((value) =>
+        hideSplashPage(value!)
+    );
   }
 
   @override
@@ -86,5 +88,11 @@ class _SplashPageState extends State<SplashPage> {
           ),
         )
     );
+  }
+
+  hideSplashPage(bool value) {
+    if(value){
+      Navigator.pushReplacementNamed(context, HomePage.id);
+    }
   }
 }
