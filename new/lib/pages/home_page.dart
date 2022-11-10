@@ -9,6 +9,7 @@ import 'package:uzphariminfo/utils/prefs.dart';
 class HomePage extends StatefulWidget {
   static final String id = "home_page";
 
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
