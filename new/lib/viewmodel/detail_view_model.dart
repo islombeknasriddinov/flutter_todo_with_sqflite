@@ -29,7 +29,6 @@ class DetailViewModel extends ChangeNotifier{
     isLoading = true;
     notifyListeners();
 
-
     try{
       var response = await Network.getDetailList(Network.API_DETAIL, Network.paramsGetDetails(query, langCode, type));
       if(response != null){

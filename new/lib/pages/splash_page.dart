@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:uzphariminfo/utils/colors.dart';
+import 'package:uzphariminfo/utils/prefs.dart';
 import 'package:uzphariminfo/viewmodel/splash_view_model.dart';
 
 import 'home_page.dart';
@@ -18,28 +20,32 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   SplashViewModel viewModel = SplashViewModel();
 
-
   @override
   void initState() {
     reloadDates();
+    viewModel.addListener(viewModelListener);
     super.initState();
-    loadDates();
   }
 
-  void reloadDates(){
+  void reloadDates() {
     viewModel.checkInternetConnection();
   }
 
   void loadDates() {
-    viewModel.checkStatus().then((value) =>
-        hideSplashPage(value!)
-    );
+    viewModel.checkStatus();
+  }
+
+  void viewModelListener() {
+    if(viewModel.hasData == true){
+      hideSplashPage(true);
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
     viewModel.checkInternetConnectionCansel();
+    viewModel.removeListener(viewModelListener);
   }
 
   @override
@@ -50,48 +56,75 @@ class _SplashPageState extends State<SplashPage> {
         backgroundColor: BColors.backgroundColor,
         body: ChangeNotifierProvider(
           create: (context) => viewModel,
-          child: Consumer<SplashViewModel>(
-            builder: (ctx, model, index) => Stack(
+          child: Consumer<SplashViewModel>(builder: (ctx, model, index) {
+            return Stack(
               children: [
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Lottie.asset("assets/animations/intro_anim.json"),
-                      SizedBox(
-                        height: 50,
-                      )
-                    ],
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Lottie.asset("assets/animations/intro_anim.json"),
+                    const SizedBox(
+                      height: 50,
+                    )
+                  ],
                 ),
                 viewModel.isConnected
-                    ? AlertDialog(
-                  title: Text('dialog_title', textAlign: TextAlign.start, style: TextStyle(fontSize: 17),).tr(),
-                  content: Text('dialog_context', textAlign: TextAlign.start, style: TextStyle(fontSize: 15)).tr(),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          exit(0);
-                        },
-                        child: Text('dialog_cancel').tr()),
-                    TextButton(
-                        onPressed: () {
-                          loadDates();
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('dialog_again').tr()),
-                  ],
+                    ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    width: MediaQuery.of(context).size.width,
+                    height:  MediaQuery.of(context).size.height,
+                    color: BColors.backgroundColor,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Column(
+                              children: [
+                                Icon(Icons.warning_amber_rounded, color: Colors.white70, size: 100,),
+                                SizedBox(height: 10,),
+                                Text('dialog_title', style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,).tr(),
+                                SizedBox(height: 10,),
+                                Text('dialog_context', style: TextStyle(color: Colors.white70, fontSize: 16), textAlign: TextAlign.center,).tr(),
+                                SizedBox(height: 10,),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20, right: 20, top: 15),
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  backgroundColor: Colors.white
+                              ),
+                              onPressed: () {
+                                loadDates();
+                              },
+                              child: Text(
+                                'dialog_again',
+                                style: TextStyle(color: Colors.black54, fontSize: 16),
+                              ).tr(),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                 )
-                    : Container()
+                    : Container(),
               ],
-            ),
-          ),
-        )
-    );
+            );
+          }),
+        ));
+
   }
 
-  hideSplashPage(bool value) {
-    if(value){
+  void hideSplashPage(bool hasData){
+    if(hasData){
       Navigator.pushReplacementNamed(context, HomePage.id);
     }
   }

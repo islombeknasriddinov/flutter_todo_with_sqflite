@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                         topRight: Radius.circular(10))),
                 child: TextButton(
                   onPressed: () {
-                    slideRightWidget(newPage: AboutPage(), context: context);
+                    Navigator.pushNamed(context, AboutPage.id);
                   },
                   child: Container(
                     padding: EdgeInsets.only(right: 15, left: 20),
