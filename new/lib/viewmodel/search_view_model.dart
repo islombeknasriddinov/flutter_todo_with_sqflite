@@ -20,7 +20,7 @@ class SearchViewModel extends ChangeNotifier {
   List<SearchHistory> history = [];
 
   bool isVisible = false;
-  bool isGone = false;
+  bool isGone = true;
 
   int medicineListLimit = 5;
   int innListLimit = 5;
@@ -30,7 +30,7 @@ class SearchViewModel extends ChangeNotifier {
     name = response!.medicineMarkName;
     notifyListeners();
 
-    inn = response!.medicineMarkInn;
+    inn = response.medicineMarkInn;
     notifyListeners();
 
     var res = await Prefs.loadSearchHistory(Prefs.KEY_HISTORY);

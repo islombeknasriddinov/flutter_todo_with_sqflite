@@ -20,16 +20,19 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   SplashViewModel viewModel = SplashViewModel();
 
+  void reloadDates() {
+    viewModel.checkInternetConnection();
+  }
+
   @override
   void initState() {
     reloadDates();
     viewModel.addListener(viewModelListener);
     super.initState();
+    loadDates();
   }
 
-  void reloadDates() {
-    viewModel.checkInternetConnection();
-  }
+
 
   void loadDates() {
     viewModel.checkStatus();

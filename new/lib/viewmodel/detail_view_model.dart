@@ -47,7 +47,8 @@ class DetailViewModel extends ChangeNotifier{
 
   checkInternetConnection(String query, String langCode, String type){
     subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-        if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi){
+        if(result == ConnectivityResult.mobile
+            || result == ConnectivityResult.wifi){
           checkStatus(query, langCode, type);
         }
     });
@@ -59,17 +60,13 @@ class DetailViewModel extends ChangeNotifier{
 
   void checkStatus(String query, String langCode, String type) async{
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult == ConnectivityResult.mobile
+        || connectivityResult == ConnectivityResult.wifi) {
       loadList(query, langCode, type);
       notifyListeners();
       isConnected = false;
       notifyListeners();
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      loadList(query, langCode, type);
-      notifyListeners();
-      isConnected = false;
-      notifyListeners();
-    }else if(connectivityResult == ConnectivityResult.none){
+    } else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();
     }

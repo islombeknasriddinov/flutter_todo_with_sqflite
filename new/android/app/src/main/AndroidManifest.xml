@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uz.greenwhite.darmon.uzphariminfo">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="uzphariminfo"
         android:name="${applicationName}"

@@ -38,12 +38,7 @@ class SplashViewModel extends ChangeNotifier {
 
   void checkInternetConnection(){
     subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      if(result == ConnectivityResult.none){
-        isConnected = true;
-        notifyListeners();
-      }else{
-        checkStatus();
-      }
+      checkStatus();
     });
   }
 
@@ -53,13 +48,13 @@ class SplashViewModel extends ChangeNotifier {
 
   void checkStatus() async{
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult == ConnectivityResult.mobile
+        || connectivityResult == ConnectivityResult.wifi) {
       apiMedicineList();
       isConnected = false;
       notifyListeners();
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      apiMedicineList();
-      isConnected = false;
+    } else if(connectivityResult == ConnectivityResult.none){
+      isConnected = true;
       notifyListeners();
     }
   }

@@ -40,13 +40,15 @@ class Prefs{
         return SyncMedicine.fromJson(map);
     }
 
-    static Future<List<SearchHistory>> loadSearchHistory(String key) async{
+    static Future<List<SearchHistory>?> loadSearchHistory(String key) async{
         SharedPreferences preferences = await SharedPreferences.getInstance();
         String? stringHistory = preferences.getString(key);
-        List<dynamic> data = jsonDecode(stringHistory!);
         List<SearchHistory> list = [];
-        list = data.map((e) => SearchHistory.fromJson(e)).toList();
-        return list;
+        if(stringHistory != null){
+            List<dynamic> data = jsonDecode(stringHistory);
+            list = data.map((e) => SearchHistory.fromJson(e)).toList();
+            return list;
+        }
     }
 
     static Future<bool> remove(String key) async{

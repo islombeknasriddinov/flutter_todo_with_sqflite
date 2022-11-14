@@ -31,7 +31,6 @@ class PreparationViewModel extends ChangeNotifier{
 
     try{
       var response = await Network.getPreparationList(Network.API_PREPARATION, Network.paramsPreparation(boxGroupId, lang));
-      print(response);
       if(response != null){
         preparation = Network.parsePreparationList(response);
         notifyListeners();
@@ -60,17 +59,12 @@ class PreparationViewModel extends ChangeNotifier{
 
   void checkStatus(String boxGroupId, String langCode) async{
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult == ConnectivityResult.mobile
+        || connectivityResult == ConnectivityResult.wifi) {
       loadList(boxGroupId, langCode);
-      notifyListeners();
       isConnected = false;
       notifyListeners();
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      loadList(boxGroupId, langCode);
-      notifyListeners();
-      isConnected = false;
-      notifyListeners();
-    }else if(connectivityResult == ConnectivityResult.none){
+    } else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();
     }
