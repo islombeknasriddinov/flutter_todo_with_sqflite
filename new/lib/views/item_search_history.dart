@@ -44,6 +44,7 @@ Widget itemSearchHistory(
         ),
         child: TextButton(
           onPressed: (){
+
             Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -1,12 +1,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="uz.greenwhite.darmon.uzphariminfo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- Provide required visibility configuration for API level 30 and above -->
+    <queries>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="mailto" />
+        </intent>
+        <!-- If your app checks for call support -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+    </queries>
+
    <application
         android:label="uzphariminfo"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+       android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher"
+       tools:targetApi="m">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,6 +48,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

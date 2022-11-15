@@ -21,7 +21,7 @@ class Prefs{
 
     static Future<SyncMedicine?> loadListFromPrefs(String key) async{
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        String stringUser = preferences.getString(key)!;
+        String? stringUser = preferences.getString(key);
         if(stringUser == null || stringUser.isEmpty){
             return null;
         }
@@ -30,7 +30,7 @@ class Prefs{
         return SyncMedicine.fromJson(map);
     }
 
-    static Future<List<SearchHistory>?> loadSearchHistory(String key) async{
+    static Future<List<SearchHistory>> loadSearchHistory(String key) async{
         SharedPreferences preferences = await SharedPreferences.getInstance();
         String? stringHistory = preferences.getString(key);
         List<SearchHistory> list = [];
@@ -38,6 +38,8 @@ class Prefs{
             List<dynamic> data = jsonDecode(stringHistory);
             list = data.map((e) => SearchHistory.fromJson(e)).toList();
             return list;
+        }else{
+            return [];
         }
     }
 
