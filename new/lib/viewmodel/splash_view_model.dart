@@ -9,6 +9,7 @@ class SplashViewModel extends ChangeNotifier {
   bool hasData = false;
   bool _disposed = false;
   bool isConnected = false;
+  bool isLoading = false;
   late StreamSubscription subscription;
 
 
@@ -20,6 +21,7 @@ class SplashViewModel extends ChangeNotifier {
   }
 
   Future<bool?> apiMedicineList() async {
+
     try{
       var response = await Network.getList(Network.API_SYNC);
       if (response != null){
@@ -47,15 +49,23 @@ class SplashViewModel extends ChangeNotifier {
   }
 
   void checkStatus() async{
+    isLoading = true;
+    notifyListeners();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile
         || connectivityResult == ConnectivityResult.wifi) {
       apiMedicineList();
       isConnected = false;
       notifyListeners();
+      isLoading = false;
+      notifyListeners();
     } else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();
+      Timer(const Duration(milliseconds: 200), () {
+        isLoading = false;
+        notifyListeners();
+      });
     }
   }
 

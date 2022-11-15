@@ -14,16 +14,6 @@ class Prefs{
         preferences.setString(key, list);
     }
 
-    static void save(dynamic list, String key) async{
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.setBool(key, list);
-    }
-
-    static Future<bool> load(String key) async{
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        return preferences.getBool(key)!;
-    }
-
     static Future<String> loadFromPrefs(String key) async{
         SharedPreferences preferences = await SharedPreferences.getInstance();
         return preferences.getString(key)!;

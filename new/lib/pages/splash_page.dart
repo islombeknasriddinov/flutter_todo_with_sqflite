@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +86,21 @@ class _SplashPageState extends State<SplashPage> {
                           Container(
                             child: Column(
                               children: [
-                                Icon(Icons.warning_amber_rounded, color: Colors.white70, size: 100,),
+                                Container(
+                                  height: 100,
+                                  width: 100,
+                                  child:  viewModel.isLoading
+                                      ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      CupertinoActivityIndicator(
+                                          radius: 15.0,
+                                          color: CupertinoColors.white
+                                      ),
+                                    ],
+                                  )
+                                      : Icon(Icons.warning_amber_rounded, color: Colors.white70, size: 100,),
+                                ),
                                 SizedBox(height: 10,),
                                 Text('dialog_title', style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,).tr(),
                                 SizedBox(height: 10,),
@@ -129,6 +144,8 @@ class _SplashPageState extends State<SplashPage> {
   void hideSplashPage(bool hasData){
     if(hasData){
       Navigator.pushReplacementNamed(context, HomePage.id);
+    }else{
+      loadDates();
     }
   }
 }

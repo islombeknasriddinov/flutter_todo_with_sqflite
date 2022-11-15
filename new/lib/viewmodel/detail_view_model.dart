@@ -6,6 +6,7 @@ import '../model/detail_model.dart';
 
 class DetailViewModel extends ChangeNotifier{
   bool isLoading = false;
+  bool isReloading = false;
   bool isConnected = false;
   bool _disposed = false;
   List<Data> data = [];
@@ -35,7 +36,7 @@ class DetailViewModel extends ChangeNotifier{
         data = Network.parseMedicineDetailList(response).data;
         notifyListeners();
       }else{
-        data = [];
+        print(response);
       }
     }catch(e){
       print("Exeption: ${e}");
@@ -59,16 +60,23 @@ class DetailViewModel extends ChangeNotifier{
   }
 
   void checkStatus(String query, String langCode, String type) async{
+    isReloading = true;
+    notifyListeners();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile
         || connectivityResult == ConnectivityResult.wifi) {
       loadList(query, langCode, type);
-      notifyListeners();
       isConnected = false;
+      notifyListeners();
+      isReloading = false;
       notifyListeners();
     } else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();
+      Timer(const Duration(milliseconds: 200), () {
+        isReloading = false;
+        notifyListeners();
+      });
     }
 
   }

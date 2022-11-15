@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
@@ -121,43 +122,57 @@ class _DetailPageState extends State<DetailPage> {
                   color: BColors.backgroundColor,
                   child: Center(
                     child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            Icon(Icons.warning_amber_rounded, color: Colors.white70, size: 100,),
-                            SizedBox(height: 10,),
-                            Text('dialog_title', style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,).tr(),
-                            SizedBox(height: 10,),
-                            Text('dialog_context', style: TextStyle(color: Colors.white70, fontSize: 16), textAlign: TextAlign.center,).tr(),
-                            SizedBox(height: 10,),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 100,
+                                child:  viewModel.isReloading
+                                    ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    CupertinoActivityIndicator(
+                                        radius: 15.0,
+                                        color: CupertinoColors.white
+                                    ),
+                                  ],
+                                )
+                                    : Icon(Icons.warning_amber_rounded, color: Colors.white70, size: 100,),
                               ),
-                              backgroundColor: Colors.white
+                              SizedBox(height: 10,),
+                              Text('dialog_title', style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,).tr(),
+                              SizedBox(height: 10,),
+                              Text('dialog_context', style: TextStyle(color: Colors.white70, fontSize: 16), textAlign: TextAlign.center,).tr(),
+                              SizedBox(height: 10,),
+                            ],
                           ),
-                          onPressed: () {
-                            reloadDates();
-                          },
-                          child: Text(
-                            'dialog_again',
-                            style: TextStyle(color: Colors.black54, fontSize: 16),
-                          ).tr(),
                         ),
-                      )
-                    ],
-                  ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 15),
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                backgroundColor: Colors.white
+                            ),
+                            onPressed: () {
+                              loadDates();
+                            },
+                            child: Text(
+                              'dialog_again',
+                              style: TextStyle(color: Colors.black54, fontSize: 16),
+                            ).tr(),
+                          ),
+                        )
+                      ],
+                    ),
                   )
               )
                   : Container(),
