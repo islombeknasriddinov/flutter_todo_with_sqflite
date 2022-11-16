@@ -6,6 +6,7 @@ import '../model/detail_model.dart';
 
 class DetailViewModel extends ChangeNotifier{
   bool isLoading = false;
+  bool isReloading = false;
   bool isConnected = false;
   bool _disposed = false;
   List<Data> data = [];
@@ -29,14 +30,13 @@ class DetailViewModel extends ChangeNotifier{
     isLoading = true;
     notifyListeners();
 
-
     try{
       var response = await Network.getDetailList(Network.API_DETAIL, Network.paramsGetDetails(query, langCode, type));
       if(response != null){
         data = Network.parseMedicineDetailList(response).data;
         notifyListeners();
       }else{
-        data = [];
+        print(response);
       }
     }catch(e){
       print("Exeption: ${e}");
@@ -48,7 +48,8 @@ class DetailViewModel extends ChangeNotifier{
 
   checkInternetConnection(String query, String langCode, String type){
     subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-        if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi){
+        if(result == ConnectivityResult.mobile
+            || result == ConnectivityResult.wifi){
           checkStatus(query, langCode, type);
         }
     });
@@ -59,20 +60,23 @@ class DetailViewModel extends ChangeNotifier{
   }
 
   void checkStatus(String query, String langCode, String type) async{
+    isReloading = true;
+    notifyListeners();
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult == ConnectivityResult.mobile
+        || connectivityResult == ConnectivityResult.wifi) {
       loadList(query, langCode, type);
-      notifyListeners();
       isConnected = false;
       notifyListeners();
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      loadList(query, langCode, type);
+      isReloading = false;
       notifyListeners();
-      isConnected = false;
-      notifyListeners();
-    }else if(connectivityResult == ConnectivityResult.none){
+    } else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();
+      Timer(const Duration(milliseconds: 200), () {
+        isReloading = false;
+        notifyListeners();
+      });
     }
 
   }

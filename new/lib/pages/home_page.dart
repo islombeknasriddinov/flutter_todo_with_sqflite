@@ -9,6 +9,7 @@ import 'package:uzphariminfo/utils/prefs.dart';
 class HomePage extends StatefulWidget {
   static final String id = "home_page";
 
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -73,7 +74,8 @@ class _HomePageState extends State<HomePage> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/images/bg_splash.jpg"),
-                  fit: BoxFit.cover)),
+                  fit: BoxFit.cover)
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -97,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: TextButton(
                   onPressed: () {
-                    pushNamed(newPage: SearchPage.id, context: context);
+                    slideUpWidget(newPage: SearchPage(), context: context);
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
@@ -132,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                         topRight: Radius.circular(10))),
                 child: TextButton(
                   onPressed: () {
-                    slideRightWidget(newPage: AboutPage(), context: context);
+                    Navigator.pushNamed(context, AboutPage.id);
                   },
                   child: Container(
                     padding: EdgeInsets.only(right: 15, left: 20),

@@ -1,23 +1,17 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:uzphariminfo/utils/prefs.dart';
 import '../networking/networking.dart';
-import '../pages/home_page.dart';
 
 class SplashViewModel extends ChangeNotifier {
   bool hasData = false;
   bool _disposed = false;
   bool isConnected = false;
+  bool isLoading = false;
   late StreamSubscription subscription;
 
-  @override
-  dispose() {
-    _disposed = true;
-    super.dispose();
-  }
 
   @override
   void notifyListeners() {
@@ -27,6 +21,7 @@ class SplashViewModel extends ChangeNotifier {
   }
 
   Future<bool?> apiMedicineList() async {
+
     try{
       var response = await Network.getList(Network.API_SYNC);
       if (response != null){
@@ -34,52 +29,61 @@ class SplashViewModel extends ChangeNotifier {
         hasData = true;
         notifyListeners();
         return hasData;
+      }else{
+        return hasData;
       }
     }catch(e){
       print("Exeption:${e}");
     }
 
-
   }
 
-  checkInternetConnection(){
+  void checkInternetConnection(){
     subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       checkStatus();
     });
   }
 
-  checkInternetConnectionCansel(){
+  void checkInternetConnectionCansel(){
     subscription.cancel();
   }
 
   void checkStatus() async{
+    isLoading = true;
+    notifyListeners();
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
-      await apiMedicineList().then((value) =>
-          hasData = value!
-      );
-      print(hasData);
+    if (connectivityResult == ConnectivityResult.mobile
+        || connectivityResult == ConnectivityResult.wifi) {
+      apiMedicineList();
       isConnected = false;
       notifyListeners();
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      await apiMedicineList();
-      isConnected = false;
+      isLoading = false;
       notifyListeners();
-    }else if(connectivityResult == ConnectivityResult.none){
+    } else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();
+      Timer(const Duration(milliseconds: 200), () {
+        isLoading = false;
+        notifyListeners();
+      });
     }
-
   }
 
-  saveLanguage(BuildContext context){
+  void saveLanguage(BuildContext context){
     if (context.locale == Locale('ru', 'RU')) {
-      Prefs.remove("languageCode");
+      Prefs.remove(Prefs.KEY_LANGUAGECODE);
       Prefs.saveToPrefs("ru", Prefs.KEY_LANGUAGECODE);
     } else {
-      Prefs.remove("languageCode");
+      Prefs.remove(Prefs.KEY_LANGUAGECODE);
       Prefs.saveToPrefs("uz", Prefs.KEY_LANGUAGECODE);
     }
   }
 
+
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
 }

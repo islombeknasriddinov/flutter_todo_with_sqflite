@@ -23,8 +23,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
-    super.initState();
     viewModel.loadLists();
+    super.initState();
   }
 
   @override
@@ -51,6 +51,7 @@ class _SearchPageState extends State<SearchPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         color: BColors.whiteColor),
                     child: TextField(
+                      autofocus: true,
                       controller: searchController,
                       textInputAction: TextInputAction.none,
                       onChanged: (value) {
@@ -128,7 +129,8 @@ class _SearchPageState extends State<SearchPage> {
                     //Search History
                     Visibility(
                       visible: viewModel.isGone,
-                      child: Column(
+                      child: viewModel.history.isNotEmpty
+                          ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -156,6 +158,11 @@ class _SearchPageState extends State<SearchPage> {
                                 }),
                           )
                         ],
+                      )
+                          : Container(
+                        color: BColors.whiteColor,
+                        height: MediaQuery.of(context).size.height,
+                        width:  MediaQuery.of(context).size.width,
                       ),
                     )
                   ],
@@ -204,7 +211,8 @@ class _SearchPageState extends State<SearchPage> {
                   nameUz: item.medicineName!.nameUz,
                   nameRu: item.medicineName!.nameRu,
                   query: item.medicineName!.nameEn,
-                  type: "M"
+                  type: "M",
+                  counter: 1
               )
           );
           Navigator.push(
@@ -283,7 +291,8 @@ class _SearchPageState extends State<SearchPage> {
                   nameUz: item.medicineMarkInn!.innEn,
                   nameRu: item.medicineMarkInn!.innRu,
                   query: item.medicineMarkInn!.innIds,
-                  type: "I"
+                  type: "I",
+                  counter: 1
               )
           );
           Navigator.push(

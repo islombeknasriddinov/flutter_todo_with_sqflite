@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:route_transitions/route_transitions.dart';
@@ -48,107 +49,121 @@ class _PreparationPageState extends State<PreparationPage> {
     return MaterialApp(
         home: DefaultTabController(
       length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          titleSpacing: 0,
-          elevation: 0,
-          backgroundColor: BColors.backgroundColor,
-          leading: Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.0),
-                  color: BColors.backIconColor),
-              child: Center(
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    pop(context);
-                  },
-                ),
-              )),
-        ),
-        body: ChangeNotifierProvider(
-          create: (context) => viewModel,
-          child: Consumer<PreparationViewModel>(
-              builder: (ctx, model, index) => Stack(
+      child: ChangeNotifierProvider(
+        create: (context) => viewModel,
+        child: Consumer<PreparationViewModel>(
+            builder: (ctx, model, index) => Scaffold(
+              appBar: viewModel.isConnected != true ?  AppBar(
+                titleSpacing: 0,
+                elevation: 0,
+                backgroundColor: BColors.backgroundColor,
+                leading: Container(
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: BColors.backIconColor),
+                    child: Center(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          pop(context);
+                        },
+                      ),
+                    )),
+              ) : null,
+              body: Stack(
+                children: [
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          veiwOfPreparation(viewModel.preparation),
-                          Expanded(
-                              child: Container(
+                      viewOfPreparation(viewModel.preparation)!,
+                      Expanded(
+                          child: Container(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: _buildCarousel(context),
                           ))
-                        ],
-                      ),
-                      viewModel.isLoading
-                          ? Container(
-                              color: Colors.white,
-                              height: MediaQuery.of(context).size.height,
+                    ],
+                  ),
+                  viewModel.isLoading
+                      ? Container(
+                    color: Colors.white,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                      : const SizedBox.shrink(),
+
+                  viewModel.isConnected
+                      ? Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      width: MediaQuery.of(context).size.width,
+                      height:  MediaQuery.of(context).size.height,
+                      color: BColors.backgroundColor,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 100,
+                                    width: 100,
+                                    child:  viewModel.isReloading
+                                        ? Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const [
+                                        CupertinoActivityIndicator(
+                                            radius: 15.0,
+                                            color: CupertinoColors.white
+                                        ),
+                                      ],
+                                    )
+                                        : Icon(Icons.warning_amber_rounded, color: Colors.white70, size: 100,),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Text('dialog_title', style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,).tr(),
+                                  SizedBox(height: 10,),
+                                  Text('dialog_context', style: TextStyle(color: Colors.white70, fontSize: 16), textAlign: TextAlign.center,).tr(),
+                                  SizedBox(height: 10,),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20, right: 20, top: 15),
                               width: MediaQuery.of(context).size.width,
-                              child: Center(
-                                child: CircularProgressIndicator(),
+                              height: 50,
+                              child: ElevatedButton(
+                                style: TextButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    backgroundColor: Colors.white
+                                ),
+                                onPressed: () {
+                                  loadDates();
+                                },
+                                child: Text(
+                                  'dialog_again',
+                                  style: TextStyle(color: Colors.black54, fontSize: 16),
+                                ).tr(),
                               ),
                             )
-                          : const SizedBox.shrink(),
-
-                      viewModel.isConnected
-                          ? Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          width: MediaQuery.of(context).size.width,
-                          height:  MediaQuery.of(context).size.height,
-                          color: BColors.backgroundColor,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: Column(
-                                    children: [
-                                      Icon(Icons.warning_amber_rounded, color: Colors.white70, size: 100,),
-                                      SizedBox(height: 10,),
-                                      Text('dialog_title', style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,).tr(),
-                                      SizedBox(height: 10,),
-                                      Text('dialog_context', style: TextStyle(color: Colors.white70, fontSize: 16), textAlign: TextAlign.center,).tr(),
-                                      SizedBox(height: 10,),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20, right: 20, top: 15),
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 50,
-                                  child: ElevatedButton(
-                                    style: TextButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),
-                                        backgroundColor: Colors.white
-                                    ),
-                                    onPressed: () {
-                                      reloadDates();
-                                    },
-                                    child: Text(
-                                      'dialog_again',
-                                      style: TextStyle(color: Colors.black54, fontSize: 16),
-                                    ).tr(),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
+                          ],
+                        ),
                       )
-                          : Container(),
-                    ],
                   )
-            ),
-          ),
+                      : Container(),
+                ],
+              ),
+            )
         ),
+      ),
       )
     );
   }

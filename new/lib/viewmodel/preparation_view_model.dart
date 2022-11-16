@@ -10,6 +10,7 @@ class PreparationViewModel extends ChangeNotifier{
   bool isLoading = false;
   bool _disposed = false;
   bool isConnected = false;
+  bool isReloading = false;
   late StreamSubscription subscription;
 
   @override
@@ -31,12 +32,13 @@ class PreparationViewModel extends ChangeNotifier{
 
     try{
       var response = await Network.getPreparationList(Network.API_PREPARATION, Network.paramsPreparation(boxGroupId, lang));
-      print(response);
       if(response != null){
         preparation = Network.parsePreparationList(response);
         notifyListeners();
         item = preparation.similarBoxGroups!;
         notifyListeners();
+      }else{
+        print(response);
       }
     }catch(e){
       print("Exeption: ${e}");
@@ -59,20 +61,23 @@ class PreparationViewModel extends ChangeNotifier{
   }
 
   void checkStatus(String boxGroupId, String langCode) async{
+    isReloading = true;
+    notifyListeners();
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult == ConnectivityResult.mobile
+        || connectivityResult == ConnectivityResult.wifi) {
       loadList(boxGroupId, langCode);
-      notifyListeners();
       isConnected = false;
       notifyListeners();
-    } else if (connectivityResult == ConnectivityResult.wifi) {
-      loadList(boxGroupId, langCode);
+      isReloading = false;
       notifyListeners();
-      isConnected = false;
-      notifyListeners();
-    }else if(connectivityResult == ConnectivityResult.none){
+    } else if(connectivityResult == ConnectivityResult.none){
       isConnected = true;
       notifyListeners();
+      Timer(const Duration(milliseconds: 200), () {
+        isReloading = false;
+        notifyListeners();
+      });
     }
 
   }
