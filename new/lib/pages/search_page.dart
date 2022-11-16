@@ -6,7 +6,7 @@ import 'package:uzphariminfo/model/history_model.dart';
 import 'package:uzphariminfo/model/item_search_list_model.dart';
 import 'package:uzphariminfo/utils/colors.dart';
 import 'package:uzphariminfo/viewmodel/search_view_model.dart';
-import '../views/item_search_history.dart';
+import 'package:uzphariminfo/views/item_search_history.dart';
 import 'detail_page.dart';
 
 class SearchPage extends StatefulWidget {
@@ -43,6 +43,7 @@ class _SearchPageState extends State<SearchPage> {
                   elevation: 0,
                   leadingWidth: 1,
                   titleSpacing: 0,
+                  leading: Container(),
                   backgroundColor: BColors.appBarColor,
                   title: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -50,10 +51,10 @@ class _SearchPageState extends State<SearchPage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         color: BColors.whiteColor),
-                    child: TextField(
-                      autofocus: true,
+                    child: TextFormField(
                       controller: searchController,
-                      textInputAction: TextInputAction.none,
+                      autofocus: true,
+                      textInputAction: TextInputAction.search,
                       onChanged: (value) {
                         viewModel.visiblity(value, context);
                       },
@@ -408,8 +409,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }
