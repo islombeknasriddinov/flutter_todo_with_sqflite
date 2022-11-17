@@ -53,7 +53,8 @@ class _PreparationPageState extends State<PreparationPage> {
         create: (context) => viewModel,
         child: Consumer<PreparationViewModel>(
             builder: (ctx, model, index) => Scaffold(
-              appBar: viewModel.isConnected != true ?  AppBar(
+              appBar: viewModel.isConnected != true
+                  ?  AppBar(
                 titleSpacing: 0,
                 elevation: 0,
                 backgroundColor: BColors.backgroundColor,
@@ -73,7 +74,8 @@ class _PreparationPageState extends State<PreparationPage> {
                         },
                       ),
                     )),
-              ) : null,
+              )
+                  : null,
               body: Stack(
                 children: [
                   Column(

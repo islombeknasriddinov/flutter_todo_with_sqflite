@@ -26,7 +26,7 @@ class DetailViewModel extends ChangeNotifier{
   }
 
 
-  Future<String?> loadList(String query, String langCode, String type) async{
+  void loadList(String query, String langCode, String type) async{
     isLoading = true;
     notifyListeners();
 

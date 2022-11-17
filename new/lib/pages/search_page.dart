@@ -80,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
                                         searchController.clear();
                                         viewModel.visiblity(
                                             searchController.text, context);
-                                      } else {}
+                                      }
                                     },
                                     child: Icon(
                                       Icons.clear,

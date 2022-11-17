@@ -11,6 +11,7 @@ class SplashViewModel extends ChangeNotifier {
   bool isConnected = false;
   bool isLoading = false;
   late StreamSubscription subscription;
+  var connectivityResult;
 
 
   @override
@@ -20,22 +21,18 @@ class SplashViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool?> apiMedicineList() async {
-
+  Future<void> apiMedicineList() async {
     try{
       var response = await Network.getList(Network.API_SYNC);
       if (response != null){
-        Prefs.saveToPrefs(response, Prefs.KEY_LIST);
-        hasData = true;
-        notifyListeners();
-        return hasData;
-      }else{
-        return hasData;
+        await Prefs.saveToPrefs(response, Prefs.KEY_LIST).then((value){
+          hasData = value;
+          notifyListeners();
+        });
       }
     }catch(e){
       print("Exeption:${e}");
     }
-
   }
 
   void checkInternetConnection(){
@@ -51,7 +48,7 @@ class SplashViewModel extends ChangeNotifier {
   void checkStatus() async{
     isLoading = true;
     notifyListeners();
-    var connectivityResult = await (Connectivity().checkConnectivity());
+    connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile
         || connectivityResult == ConnectivityResult.wifi) {
       apiMedicineList();

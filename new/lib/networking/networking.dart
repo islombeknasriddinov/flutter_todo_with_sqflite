@@ -14,33 +14,34 @@ class Network {
   static String API_INSTRUCTION = "/b/darmon/dsph/r:get_box_group_instructions";
 
   /*https request*/
-  static Future<String?> getList(String api) async {
+  static Future<String> getList(String api) async {
     var uri = Uri.https(BASE, api);
     var response = await get(uri);
     if (response.statusCode == 200) {
       return response.body;
+    }else{
+      return response.body;
     }
-    return null;
+
   }
 
-  static Future<String?> getDetailList(String api, Map<String, dynamic> params) async{
+  static Future<String> getDetailList(String api, Map<String, dynamic> params) async{
     var uri = Uri.https(BASE, api);
     var response = await post(uri, body: jsonEncode(params) );
     if(response.statusCode == 200){
       return response.body;
     }
-
-    return null;
+    return response.body;
   }
 
-  static Future<String?> getPreparationList(String api, Map<String, dynamic> params) async{
+  static Future<String> getPreparationList(String api, Map<String, dynamic> params) async{
     var uri = Uri.https(BASE, api);
     var response = await post(uri, body: jsonEncode(params));
     if(response.statusCode == 200){
       return response.body;
     }
 
-    return null;
+    return response.body;
   }
 
   /*https params*/

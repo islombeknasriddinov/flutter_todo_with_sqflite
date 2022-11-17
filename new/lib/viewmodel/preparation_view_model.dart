@@ -26,7 +26,7 @@ class PreparationViewModel extends ChangeNotifier{
     }
   }
 
-  Future<String?> loadList(String boxGroupId, String lang) async{
+  void loadList(String boxGroupId, String lang) async{
     isLoading = true;
     notifyListeners();
 

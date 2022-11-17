@@ -11,7 +11,6 @@ Widget? viewOfPreparation(Preparation preparation) {
     String item_price = 'item_price'.tr();
     String item_som = 'item_som'.tr();
     String price = preparation.retailPriceBase.toString();
-    print("Price: $price");
     if(price != "" && price != "null"){
       price = preparation.retailPriceBase.toString().toMoneyFormat();
     }else{
