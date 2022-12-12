@@ -80,7 +80,7 @@ class _AllStatusPageState extends State<AllStatusPage> {
                         border: Border(
                             bottom: BorderSide(
                                 width: 1,
-                                color: Color(statusList[index].color!)))),
+                                color: Color(statusList[index].color ?? 00000)))),
                     margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

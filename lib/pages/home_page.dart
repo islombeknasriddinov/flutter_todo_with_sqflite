@@ -9,6 +9,7 @@ import 'package:flutter_sqflite_revison/pages/all_status_page.dart';
 import 'package:flutter_sqflite_revison/pages/drawer_navigation_page.dart';
 import 'package:flutter_sqflite_revison/service/status_service.dart';
 import 'package:flutter_sqflite_revison/service/todo_servie.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -27,8 +28,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     getAllTodos();
-    super.initState();
     getAllStatus();
+    super.initState();
+    requestMultiplePermission();
   }
 
   Future<void> getAllStatus() async {
@@ -103,6 +105,7 @@ class _HomePageState extends State<HomePage> {
                         backgroundColor: const Color(0xFFFE4A49),
                         foregroundColor: Colors.white,
                         icon: Icons.delete,
+                        label: "Delete",
                         flex: 1,
                       ),
                     ],
@@ -218,5 +221,14 @@ class _HomePageState extends State<HomePage> {
       getAllStatus();
       getAllTodos();
     });
+  }
+
+  void requestMultiplePermission() async {
+    Map<Permission, PermissionStatus> status = await [
+      Permission.storage,
+      Permission.microphone,
+    ].request();
+    print(
+        "local permission: ${status[Permission.location]}, microphone: ${Permission.microphone}, storage: ${Permission.storage}");
   }
 }

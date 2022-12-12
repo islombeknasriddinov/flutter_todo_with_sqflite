@@ -21,6 +21,10 @@ dependencies:
   intl: ^0.17.0
   flutter_colorpicker: ^1.0.3
   flutter_slidable: ^2.0.0
+  watcher: ^1.0.2
+  screen_recoder_7: ^1.10.2
+  uuid: ^3.0.7
+  permission_handler: ^10.2.0
 
 
 dev_dependencies:

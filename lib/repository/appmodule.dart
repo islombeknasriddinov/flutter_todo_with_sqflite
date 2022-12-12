@@ -31,7 +31,7 @@ class AppModule {
 
   Future<List<Map<String, Object?>>> readData(String table) async {
     var connection = await database;
-    return await connection.query(table);
+    return await connection.rawQuery("SELECT * FROM $table ORDER BY id DESC");
   }
 
   Future<List<Map<String, Object?>>> readDataById(table, int itemId) async {
@@ -53,7 +53,6 @@ class AppModule {
   Future<List<Map<String, Object?>>> readDataByStatusName(
       String table, String statusName, int value) async {
     var connection = await database;
-    return connection
-        .query(table, where: "$statusName=?", whereArgs: [value]);
+    return connection.rawQuery("SELECT * FROM $table WHERE $statusName LIKE $value ORDER BY id");
   }
 }
