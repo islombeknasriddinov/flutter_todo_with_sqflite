@@ -35,7 +35,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
       try {
         var startResponse = await screenRecorder?.startRecordScreen(
             directory: "screen_recorder_7",
-            fileName: "VID",
+            fileName: fileName,
             dirPathToSave: tempPath,
             audioEnable: true,
             wasHDSelected: true,
@@ -61,13 +61,13 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             : null;
       }
     } else if (await Permission.storage.status.isDenied) {
-      if(await Permission.storage.request().isPermanentlyDenied){
-        openAppSettings();
-      }else{
-        await Permission.storage.request();
-      }
-    }
+      await Permission.storage.request().then((value){
+        if(value == PermissionStatus.permanentlyDenied){
+          openAppSettings();
+        }
+      });
 
+    }
     setState(() {});
   }
 
@@ -161,7 +161,6 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             title: const Text("Start Recorder"),
             onTap: () {
               startRecord(fileName: "VID");
-              //Navigator.of(context).pop();
             },
           ),
           ListTile(
@@ -169,7 +168,6 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             title: const Text("Stop Recorder"),
             onTap: () {
               stopRecord();
-              //Navigator.of(context).pop();
             },
           ),
           const Divider(),
